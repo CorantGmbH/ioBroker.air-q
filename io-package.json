@@ -1,0 +1,91 @@
+{
+	"common": {
+		"name": "air-q",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "air-Q",
+		"titleLang": {
+			"en": "air-Q",
+			"de": "Luft-Q",
+			"ru": "воздух-Q",
+			"pt": "ar-Q",
+			"nl": "lucht-Q",
+			"fr": "air-Q",
+			"it": "aria-Q",
+			"es": "aire-Q",
+			"pl": "powietrze-Q",
+			"uk": "повітря-Q",
+			"zh-cn": "空气Q"
+		},
+		"desc": {
+			"en": "Adapter for air-Q devices",
+			"de": "Adapter für Air-Q-Geräte",
+			"ru": "Адаптер для устройств air-Q",
+			"pt": "Adaptador para dispositivos air-Q",
+			"nl": "Adapter voor air-Q-apparaten",
+			"fr": "Adaptateur pour appareils air-Q",
+			"it": "Adattatore per dispositivi air-Q",
+			"es": "Adaptador para dispositivos air-Q",
+			"pl": "Adapter do urządzeń air-Q",
+			"uk": "Адаптер для пристроїв air-Q",
+			"zh-cn": "Air-Q 设备适配器"
+		},
+		"authors": [
+			"Katharina K. <katharina.kraus@student.hs-anhalt.de>"
+		],
+		"keywords": [
+			"air-q",
+			"airq",
+			"air quality",
+			"iobroker-adapter",
+			"adapter"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "air-q.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/pr0crstntr/ioBroker.air-q/main/admin/air-q.png",
+		"readme": "https://github.com/pr0crstntr/ioBroker.air-q/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "weather",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "materialize"
+		},
+		"eraseOnUpload": true,
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}

@@ -1,0 +1,45 @@
+{
+	"cli": true,
+	"target": "directory",
+	"adapterName": "air-q",
+	"title": "air-Q",
+	"description": "Adapter for air-Q devices",
+	"keywords": [
+		"air-q",
+		"airq",
+		"air quality",
+		"iobroker-adapter",
+		"adapter"
+	],
+	"expert": "no",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "weather",
+	"startMode": "daemon",
+	"connectionType": "local",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"language": "TypeScript",
+	"nodeVersion": "16",
+	"adminUi": "react",
+	"tools": [
+		"ESLint"
+	],
+	"releaseScript": "yes",
+	"devServer": "yes",
+	"devServerPort": 8081,
+	"indentation": "Tab",
+	"quotes": "single",
+	"es6class": "yes",
+	"authorName": "Katharina K.",
+	"authorGithub": "pr0crstntr",
+	"authorEmail": "katharina.kraus@student.hs-anhalt.de",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": "no",
+	"defaultBranch": "main",
+	"license": "MIT License",
+	"dependabot": "yes",
+	"creatorVersion": "2.5.0"
+}

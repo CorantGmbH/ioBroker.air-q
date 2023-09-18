@@ -1,0 +1,97 @@
+{
+  "name": "iobroker.air-q",
+  "version": "0.0.1",
+  "description": "Adapter for air-Q devices",
+  "author": {
+    "name": "Katharina K.",
+    "email": "katharina.kraus@student.hs-anhalt.de"
+  },
+  "homepage": "https://github.com/pr0crstntr/ioBroker.air-q",
+  "license": "MIT",
+  "keywords": [
+    "air-q",
+    "airq",
+    "air quality",
+    "iobroker-adapter",
+    "adapter"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pr0crstntr/ioBroker.air-q.git"
+  },
+  "engines": {
+    "node": ">= 16"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.0.3"
+  },
+  "devDependencies": {
+    "@alcalzone/release-script": "^3.6.0",
+    "@alcalzone/release-script-plugin-iobroker": "^3.6.0",
+    "@alcalzone/release-script-plugin-license": "^3.5.9",
+    "@alcalzone/release-script-plugin-manual-review": "^3.5.9",
+    "@iobroker/adapter-dev": "^1.2.0",
+    "@iobroker/adapter-react": "2.0.22",
+    "@iobroker/testing": "^4.1.0",
+    "@material-ui/core": "^4.12.4",
+    "@tsconfig/node16": "^16.1.1",
+    "@types/chai": "^4.3.6",
+    "@types/chai-as-promised": "^7.1.6",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^16.18.52",
+    "@types/proxyquire": "^1.3.28",
+    "@types/react-dom": "^17.0.20",
+    "@types/react": "^17.0.65",
+    "@types/sinon": "^10.0.16",
+    "@types/sinon-chai": "^3.2.9",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "chai": "^4.3.8",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2",
+    "mocha": "^10.2.0",
+    "proxyquire": "^2.1.3",
+    "react-dom": "^17.0.2",
+    "react": "^17.0.2",
+    "rimraf": "^5.0.1",
+    "sinon": "^16.0.0",
+    "sinon-chai": "^3.7.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.0.4"
+  },
+  "main": "build/main.js",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "admin/build/",
+    "build/",
+    "www/",
+    "io-package.json",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prebuild": "rimraf build admin/build",
+    "build": "build-adapter all",
+    "watch": "build-adapter all --watch",
+    "prebuild:ts": "rimraf build",
+    "build:ts": "build-adapter ts",
+    "watch:ts": "build-adapter ts --watch",
+    "prebuild:react": "rimraf admin/build",
+    "build:react": "build-adapter react",
+    "watch:react": "build-adapter react --watch",
+    "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha test/integration --exit",
+    "test": "npm run test:ts && npm run test:package",
+    "check": "tsc --noEmit && tsc --noEmit -p admin/tsconfig.json",
+    "lint": "eslint --ext .ts,.tsx src/ admin/src/",
+    "translate": "translate-adapter",
+    "release": "release-script"
+  },
+  "bugs": {
+    "url": "https://github.com/pr0crstntr/ioBroker.air-q/issues"
+  },
+  "readmeFilename": "README.md"
+}
