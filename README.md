@@ -1,0 +1,1 @@
+# ioBroker.air-q
