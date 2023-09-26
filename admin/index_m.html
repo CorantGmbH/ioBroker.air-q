@@ -14,7 +14,52 @@
 <body>
 
 	<!-- this is where the React components are loaded into -->
-	<div class="m adapter-container" id="root"></div>
+	<div class="m adapter-container" id="root">
+		<div class="row">
+			<div class="row" style="padding: 4px">
+				<h6 class="title" style="background-color: #174475; font-size: 1.2rem; border-radius: 4px">
+					<div for="access_data" class="translate">access_data_txt</div>
+				</h6>
+				<div class="input-field col s6 m6">
+					<input type="text" class="value" id="shortId" maxlength="5" />
+					<label for="shortId" class="translate">shortId_txt</label>
+				</div>
+
+				<div class="col s6 input-field">
+					<input type="password" class="value" id="password" />
+					<label for="password" class="translate">password_txt</label>
+				</div>
+			</div>
+			<div class="row" style="padding: 4px">
+				<h6 class="title" style="background-color: #174475; font-size: 1.2rem; border-radius: 4px">
+					<div for="access_data" class="translate">retrieval_txt</div>
+				</h6>
+			</div>
+			<div class="row" style="padding: 4px">
+				<div class="input-field col s12 m6 l3">
+					<label for="retrievalRate" class="translate">retrieval_rate_txt</label>
+					<input
+						type="number"
+						class="value"
+						id="retrievalRate"
+						min="2"
+						max="500"
+						step="1"
+						placeholder="10"
+					/>
+				</div>
+			</div>
+			<div class="row" style="padding: 4px">
+				<div class="input-field col s12 m6 l3">
+					<select id="retrievalType" class="value">
+						<option value="data" class="translate">retrieval_type_data_txt</option>
+						<option value="average" class="translate">retrieval_type_average_txt</option>
+					</select>
+					<label for="retrievalType" class="translate">retrieval_type_txt</label>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- load compiled React scripts -->
 	<script type="text/javascript" src="build/index.js"></script>
