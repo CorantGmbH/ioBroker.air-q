@@ -11,9 +11,13 @@
 		"allowJs": true,
 		"checkJs": true,
 
+		"skipLibCheck": true, 
 		"noEmitOnError": true,
 		"outDir": "./build/",
 		"removeComments": false,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
 
 		// This is necessary for the automatic typing of the adapter config
 		"resolveJsonModule": true,
@@ -34,8 +38,7 @@
 		"inlineSourceMap": false
 	},
 	"include": [
-		"src/**/*.ts"
-, "build/decryptAES256.ts"	],
+		"src/**/*.ts"],
 	"exclude": [
 		"build/**",
 		"node_modules/**",

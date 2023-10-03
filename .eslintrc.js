@@ -4,7 +4,7 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
 		sourceType: 'module', // Allows for the use of imports
-		project: ['./tsconfig.json', './admin/tsconfig.json'],
+		project: ['./tsconfig.json'],
 		ecmaFeatures: {
 			jsx: true,
 		},
@@ -13,12 +13,7 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
 		'plugin:react/recommended', // Supports React JSX
 	],
-	plugins: ['react'],
-	settings: {
-		react: {
-			version: 'detect',
-		},
-	},
+	plugins: [],
 	rules: {
 		'indent': 'off',
 		'@typescript-eslint/indent': [
@@ -69,7 +64,7 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: ['*.test.ts', '*.tsx'],
+			files: ['*.test.ts'],
 			rules: {
 				'@typescript-eslint/explicit-function-return-type': 'off',
 			},
