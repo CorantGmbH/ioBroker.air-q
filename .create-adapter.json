@@ -23,10 +23,12 @@
 	"connectionIndicator": "no",
 	"language": "TypeScript",
 	"nodeVersion": "16",
-	"adminUi": "react",
+	"adminReact": "no",
+	"tabReact": "no",
 	"tools": [
 		"ESLint"
 	],
+	"i18n": "JSON",
 	"releaseScript": "yes",
 	"devServer": "yes",
 	"devServerPort": 8081,
@@ -37,7 +39,7 @@
 	"authorGithub": "pr0crstntr",
 	"authorEmail": "katharina.kraus@student.hs-anhalt.de",
 	"gitRemoteProtocol": "HTTPS",
-	"gitCommit": "no",
+	"gitCommit": "yes",
 	"defaultBranch": "main",
 	"license": "MIT License",
 	"dependabot": "yes",
