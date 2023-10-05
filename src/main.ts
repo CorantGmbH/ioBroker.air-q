@@ -15,18 +15,24 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async onReady(): Promise<void> {
-		try{
-			await this.setObjectNotExistsAsync('Sensors', {
-				type: 'device',
-				common: {
-					name: this.config.shortId.concat('_air-Q'),
-				},
-				native: {},
-			});
-		}catch(error){
-			this.log.error(error);
+
+		if(!this.config.shortId){
+			this.log.error('ShortId is missing');
+			this.config.shortId = 'airq';
+			return;
+		}else if(!this.config.password){
+			this.log.error('Password is missing');
+			this.config.password = 'password';
+			return;
 		}
 
+		await this.setObjectNotExistsAsync('Sensors', {
+			type: 'device',
+			common: {
+				name: this.config.shortId.concat('_air-Q'),
+			},
+			native: {},
+		});
 		await this.setObjectNotExistsAsync(`Sensors.Health`, {
 			type: 'state',
 			common: {
