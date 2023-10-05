@@ -2,18 +2,62 @@
 
 <head>
 
-	<!-- Load ioBroker scripts and styles-->
-	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
-	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<!-- Load ioBroker scripts and styles-->
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
-	<!-- Load our own files -->
-	<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+<!-- Load our own files -->
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript" src="words.js"></script>
+	
+	<script type="text/javascript">
+		// This will be called by the admin adapter when the settings page loads
+			function load(settings, onChange) {
+				if (!settings.nameId) settings.retrievalType = "average";
+				if (!settings.nameId) settings.retrievalRate = 10;
+
+				if (!settings) return;
+				$(".value").each(function () {
+					var $key = $(this);
+					var id = $key.attr("id");
+					if ($key.attr("type") === "checkbox") {
+						$key.prop("checked", settings[id]).on("change", () => onChange());
+					} else {
+						$key.val(settings[id])
+							.on("change", () => onChange())
+							.on("keyup", () => onChange());
+					}
+				});
+				onChange(false);
+				if (M) M.updateTextFields();
+			}
+
+			function save(callback) {
+				var obj = {};
+				$(".value").each(function () {
+					var $this = $(this);
+					if ($this.attr("type") === "checkbox") {
+						obj[$this.attr("id")] = $this.prop("checked");
+					} else if ($this.attr("type") === "number") {
+						obj[$this.attr("id")] = parseFloat($this.val());
+					} else {
+						obj[$this.attr("id")] = $this.val();
+					}
+				});
+				callback(obj);
+			}
+		</script>
 
 </head>
 
 <body>
-
-	<!-- this is where the React components are loaded into -->
 	<div class="m adapter-container" id="root">
 		<div class="row">
 			<div class="row" style="padding: 4px">
@@ -60,9 +104,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- load compiled React scripts -->
-	<script type="text/javascript" src="build/index.js"></script>
 
 </body>
 

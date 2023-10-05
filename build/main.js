@@ -31,15 +31,18 @@ class AirQ extends utils.Adapter {
     this.on("stateChange", this.onStateChange.bind(this));
   }
   async onReady() {
-    this.setState("info.connection", { val: false, ack: true });
-    await this.setObjectNotExistsAsync("Sensors", {
-      type: "device",
-      common: {
-        name: this.config.shortId.concat("_air-Q")
-      },
-      native: {}
-    });
-    this.setObjectNotExistsAsync(`Sensors.Health`, {
+    try {
+      await this.setObjectNotExistsAsync("Sensors", {
+        type: "device",
+        common: {
+          name: this.config.shortId.concat("_air-Q")
+        },
+        native: {}
+      });
+    } catch (error) {
+      this.log.error(error);
+    }
+    await this.setObjectNotExistsAsync(`Sensors.Health`, {
       type: "state",
       common: {
         name: "Health",
@@ -50,7 +53,7 @@ class AirQ extends utils.Adapter {
       },
       native: {}
     });
-    this.setObjectNotExistsAsync(`Sensors.Performance`, {
+    await this.setObjectNotExistsAsync(`Sensors.Performance`, {
       type: "state",
       common: {
         name: "Performance",
@@ -65,7 +68,7 @@ class AirQ extends utils.Adapter {
     const ip = await this.getIp(service.name);
     const sensorArray = await this.getSensorsInDevice(ip, this.config.password);
     for (const element of sensorArray) {
-      this.setObjectNotExistsAsync(`Sensors.${element}`, {
+      await this.setObjectNotExistsAsync(`Sensors.${element}`, {
         type: "state",
         common: {
           name: element,
@@ -89,7 +92,6 @@ class AirQ extends utils.Adapter {
       const findAirQ = instance.find(config, (service) => {
         if (service.name === airQName) {
           findAirQ.stop();
-          this.setState("info.connection", { val: true, ack: true });
           resolve(service);
         }
       });
