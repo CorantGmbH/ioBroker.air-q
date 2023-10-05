@@ -20,8 +20,10 @@
 	<script type="text/javascript">
 		// This will be called by the admin adapter when the settings page loads
 			function load(settings, onChange) {
-				if (!settings.nameId) settings.retrievalType = "average";
-				if (!settings.nameId) settings.retrievalRate = 10;
+				if (!settings.retrievalType) settings.retrievalType = "average";
+				if (!settings.retrievalRate) settings.retrievalRate = 10;
+				if (!settings.shortId) settings.shortId = "";
+				if (!settings.password) settings.password = "";
 
 				if (!settings) return;
 				$(".value").each(function () {
