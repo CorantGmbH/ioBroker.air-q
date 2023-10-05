@@ -50,7 +50,13 @@ class AirQ extends utils.Adapter {
 			native: {},
 		});
 
-		const service = await this.findAirQInNetwork(this.config.shortId.concat('_air-q'));
+		let service;
+
+		try{
+			service = await this.findAirQInNetwork(this.config.shortId.concat('_air-q'));
+		}catch(error){
+			this.log.error(error);
+		}
 		const ip = await this.getIp(service.name);
 		const sensorArray = await this.getSensorsInDevice(ip, this.config.password);
 
