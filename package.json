@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pr0crstntr/ioBroker.air-q.git"
+    "url": "https://github.com/CorantGmbH/ioBroker.air-q"
   },
   "engines": {
     "node": ">= 16"
@@ -84,7 +84,7 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/pr0crstntr/ioBroker.air-q/issues"
+    "url": "https://github.com/CorantGmbH/ioBroker.air-q/issues"
   },
   "readmeFilename": "README.md"
 }
