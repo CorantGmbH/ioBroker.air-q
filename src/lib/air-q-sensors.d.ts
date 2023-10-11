@@ -4,16 +4,19 @@ declare global {
 		performance: number;
 		temperature: number;
 		humidity: number;
-		humidityabs: number;
+		humidity_abs: number;
 		dewpt: number;
 		co: number;
 		co2: number;
 		no2: number;
 		o3: number;
+		oxygen: number;
 		so2: number;
-		pm: number;
+		pm1: number;
+		pm2_5: number;
+		pm10: number;
 		h2s: number;
-		voc: number;
+		tvoc: number;
 		ch2o: number;
 		ch4: number;
 		nh3: number;
@@ -22,8 +25,9 @@ declare global {
 		c3h8: number;
 		n2o: number;
 		pressure: number;
-		pressureRel: number;
-		noise: number;
+		pressure_rel: number;
+		sound: number;
+		sound_max: number;
 	}
 }
 export {};

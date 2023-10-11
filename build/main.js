@@ -31,21 +31,22 @@ class AirQ extends utils.Adapter {
     this.on("stateChange", this.onStateChange.bind(this));
   }
   async onReady() {
-    try {
-      await this.setObjectNotExistsAsync("Sensors", {
-        type: "device",
-        common: {
-          name: this.config.shortId.concat("_air-Q")
-        },
-        native: {}
-      });
-    } catch (error) {
-      this.log.error(error);
+    if (!this.config.shortId) {
+      this.log.error("ShortId is missing");
+    } else if (!this.config.password) {
+      this.log.error("Password is missing");
     }
-    await this.setObjectNotExistsAsync(`Sensors.Health`, {
+    await this.setObjectNotExistsAsync("Sensors", {
+      type: "device",
+      common: {
+        name: this.config.shortId.concat("_air-Q")
+      },
+      native: {}
+    });
+    await this.setObjectNotExistsAsync(`Sensors.health`, {
       type: "state",
       common: {
-        name: "Health",
+        name: "health",
         type: "number",
         role: "value",
         read: true,
@@ -53,10 +54,10 @@ class AirQ extends utils.Adapter {
       },
       native: {}
     });
-    await this.setObjectNotExistsAsync(`Sensors.Performance`, {
+    await this.setObjectNotExistsAsync(`Sensors.performance`, {
       type: "state",
       common: {
-        name: "Performance",
+        name: "performance",
         type: "number",
         role: "value",
         read: true,
@@ -65,30 +66,33 @@ class AirQ extends utils.Adapter {
       native: {}
     });
     let service;
+    let ip;
+    let sensorArray;
     try {
       service = await this.findAirQInNetwork(this.config.shortId.concat("_air-q"));
+      ip = await this.getIp(service.name);
+      sensorArray = await this.getSensorsInDevice(ip, this.config.password);
+      for (const element of sensorArray) {
+        await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+          type: "state",
+          common: {
+            name: element,
+            type: "number",
+            role: "value",
+            read: true,
+            write: true
+          },
+          native: {}
+        });
+        this.subscribeStates(`Sensors.${element}`);
+      }
+      this.setInterval(async () => {
+        await this.setStates(ip, sensorArray);
+      }, this.config.retrievalRate * 1e3);
     } catch (error) {
       this.log.error(error);
+      this.common.enabled = false;
     }
-    const ip = await this.getIp(service.name);
-    const sensorArray = await this.getSensorsInDevice(ip, this.config.password);
-    for (const element of sensorArray) {
-      await this.setObjectNotExistsAsync(`Sensors.${element}`, {
-        type: "state",
-        common: {
-          name: element,
-          type: "number",
-          role: "value",
-          read: true,
-          write: true
-        },
-        native: {}
-      });
-      this.subscribeStates(`Sensors.${element}`);
-    }
-    this.setInterval(async () => {
-      await this.setStates(ip, sensorArray);
-    }, this.config.retrievalRate * 1e3);
   }
   async findAirQInNetwork(airQName) {
     return new Promise((resolve, reject) => {
@@ -103,7 +107,8 @@ class AirQ extends utils.Adapter {
       setTimeout(() => {
         findAirQ.stop();
         reject(new Error("AirQ not found in network"));
-      }, 3e4);
+        this.common.enabled = false;
+      }, 5e4);
     });
   }
   async getIp(service) {
@@ -128,8 +133,8 @@ class AirQ extends utils.Adapter {
       } else {
         throw new Error("DecryptedData is undefined or not an object");
       }
-    } catch (error) {
-      throw error;
+    } catch {
+      this.log.error("Error while getting data from AirQ");
     }
   }
   async getAverageDataFromAirQ(ip, password) {
@@ -154,13 +159,24 @@ class AirQ extends utils.Adapter {
       const decryptedData = (0, import_decryptAES256.decrypt)(data, password);
       if (decryptedData && typeof decryptedData === "object") {
         const sensorsData = decryptedData;
-        const sensors = sensorsData.sensors;
+        const sensors = this.checkParticulates(sensorsData.sensors);
         return sensors;
       } else {
         throw new Error("DecryptedData is undefined or not an object");
       }
     } catch (error) {
       throw error;
+    }
+  }
+  checkParticulates(data) {
+    if (data.includes("particulates")) {
+      const pm = ["pm1", "pm2_5", "pm10"];
+      const index = data.indexOf("particulates");
+      data.splice(index, 1);
+      data.splice(index, 0, ...pm);
+      return data;
+    } else {
+      return data;
     }
   }
   getRetrievalType() {
@@ -175,29 +191,41 @@ class AirQ extends utils.Adapter {
     }
   }
   async setStates(ip, sensorArray) {
-    this.getRetrievalType() === "data" ? this.setSensorData(ip, sensorArray) : this.setSensorAverageData(ip, sensorArray);
-    this.onStateChange("Sensors.Health", await this.getStateAsync("Sensors.Health"));
-    this.onStateChange("Sensors.Performance", await this.getStateAsync("Sensors.Performance"));
-    for (const element of sensorArray) {
-      const state = await this.getStateAsync(`Sensors.${element}`);
-      this.onStateChange(`Sensors.${element}`, state);
+    try {
+      this.getRetrievalType() === "data" ? this.setSensorData(ip, sensorArray) : this.setSensorAverageData(ip, sensorArray);
+      this.onStateChange("Sensors.health", await this.getStateAsync("Sensors.health"));
+      this.onStateChange("Sensors.performance", await this.getStateAsync("Sensors.performance"));
+      for (const element of sensorArray) {
+        const state = await this.getStateAsync(`Sensors.${element}`);
+        this.onStateChange(`Sensors.${element}`, state);
+      }
+    } catch {
+      this.log.error("Error while setting states");
     }
   }
   async setSensorData(ip, sensorArray) {
-    const data = await this.getDataFromAirQ(ip, this.config.password);
-    for (const element of sensorArray) {
-      this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+    try {
+      const data = await this.getDataFromAirQ(ip, this.config.password);
+      for (const element of sensorArray) {
+        this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+      }
+      this.setStateAsync("Sensors.health", { val: data.health / 10, ack: true });
+      this.setStateAsync("Sensors.performance", { val: data.performance / 10, ack: true });
+    } catch {
+      this.log.error("Error while setting data from AirQ");
     }
-    this.setStateAsync("Sensors.Health", { val: data.health / 10, ack: true });
-    this.setStateAsync("Sensors.Performance", { val: data.performance / 10, ack: true });
   }
   async setSensorAverageData(ip, sensorArray) {
-    const data = await this.getAverageDataFromAirQ(ip, this.config.password);
-    for (const element of sensorArray) {
-      this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+    try {
+      const data = await this.getAverageDataFromAirQ(ip, this.config.password);
+      for (const element of sensorArray) {
+        this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+      }
+      this.setStateAsync("Sensors.health", { val: data.health / 10, ack: true });
+      this.setStateAsync("Sensors.performance", { val: data.performance / 10, ack: true });
+    } catch {
+      this.log.error("Error while setting average data from AirQ");
     }
-    this.setStateAsync("Sensors.Health", { val: data.health / 10, ack: true });
-    this.setStateAsync("Sensors.Performance", { val: data.performance / 10, ack: true });
   }
 }
 if (require.main !== module) {
