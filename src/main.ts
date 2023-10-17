@@ -26,8 +26,8 @@ class AirQ extends utils.Adapter {
 		try{
 			this.id = this.config.shortId;
 			this.password = this.config.password;
-		}catch{
-			this.log.error('Check your id and password');
+		}catch(error){
+			this.log.error(error);
 		}
 
 		await this.setObjectNotExistsAsync('Sensors', {
