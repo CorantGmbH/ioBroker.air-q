@@ -5,6 +5,13 @@ import * as dns from 'dns';
 import { decrypt } from './decryptAES256';
 
 class AirQ extends utils.Adapter {
+
+	private _service: any;
+	private _ip: string;
+	private _sensorArray:string[];
+	private _id: string;
+	private _password: string;
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -16,16 +23,17 @@ class AirQ extends utils.Adapter {
 
 	private async onReady(): Promise<void> {
 
-		if(!this.config.shortId){
-			this.log.error('ShortId is missing');
-		}else if(!this.config.password){
-			this.log.error('Password is missing');
+		try{
+			this.id = this.config.shortId;
+			this.password = this.config.password;
+		}catch{
+			this.log.error('Check your id and password');
 		}
 
 		await this.setObjectNotExistsAsync('Sensors', {
 			type: 'device',
 			common: {
-				name: this.config.shortId.concat('_air-Q'),
+				name: this.id.concat('_air-Q'),
 			},
 			native: {},
 		});
@@ -52,16 +60,12 @@ class AirQ extends utils.Adapter {
 			native: {},
 		});
 
-		let service: any;
-		let ip: string;
-		let sensorArray:string[];
-
 		try{
-			service = await this.findAirQInNetwork(this.config.shortId.concat('_air-q'));
-			ip = await this.getIp(service.name);
-			sensorArray = await this.getSensorsInDevice(ip, this.config.password);
+			this.service = await this.findAirQInNetwork(this.id.concat('_air-q'));
+			this.ip = await this.getIp(this.service.name);
+			this.sensorArray = await this.getSensorsInDevice();
 
-			for (const element of sensorArray) {
+			for (const element of this.sensorArray) {
 				await this.setObjectNotExistsAsync(`Sensors.${element}`, {
 					type: 'state',
 					common: {
@@ -78,7 +82,7 @@ class AirQ extends utils.Adapter {
 			}
 
 			this.setInterval(async () => {
-				await this.setStates(ip, sensorArray);
+				await this.setStates();
 			}, this.config.retrievalRate * 1000);
 		}catch(error){
 			this.log.error(error);
@@ -118,11 +122,11 @@ class AirQ extends utils.Adapter {
 		});
 	}
 
-	private async getDataFromAirQ(ip: string, password: string): Promise<any> {
+	private async getDataFromAirQ(): Promise<any> {
 		try {
-			const response = await axios.get(`http://${ip}/data`, { responseType: 'json' });
+			const response = await axios.get(`http://${this.ip}/data`, { responseType: 'json' });
 			const data = response.data.content;
-			const decryptedData = decrypt(data, password) as unknown;
+			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as Sensors;
 				return sensorsData;
@@ -134,11 +138,11 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private async getAverageDataFromAirQ(ip: string, password: string): Promise<any> {
+	private async getAverageDataFromAirQ(): Promise<any> {
 		try {
-			const response = await axios.get(`http://${ip}/average`, { responseType: 'json' });
+			const response = await axios.get(`http://${this.ip}/average`, { responseType: 'json' });
 			const data = response.data.content;
-			const decryptedData = decrypt(data, password) as unknown;
+			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as Sensors;
 				return sensorsData;
@@ -150,11 +154,11 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private async getSensorsInDevice(ip: string, password: string): Promise<string[]> {
+	private async getSensorsInDevice(): Promise<string[]> {
 		try {
-			const response = await axios.get(`http://${ip}/config`, { responseType: 'json' });
+			const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
 			const data = response.data.content;
-			const decryptedData = decrypt(data, password) as unknown;
+			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as DataConfig;
 				const sensors = this.checkParticulates(sensorsData.sensors);
@@ -192,14 +196,14 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private async setStates(ip: string, sensorArray: string[]): Promise<void> {
+	private async setStates(): Promise<void> {
 		try{
 			this.getRetrievalType() === 'data'
-				? this.setSensorData(ip, sensorArray)
-				: this.setSensorAverageData(ip, sensorArray);
+				? this.setSensorData(this.ip, this.sensorArray)
+				: this.setSensorAverageData(this.ip, this.sensorArray);
 			this.onStateChange('Sensors.health', await this.getStateAsync('Sensors.health'));
 			this.onStateChange('Sensors.performance', await this.getStateAsync('Sensors.performance'));
-			for (const element of sensorArray) {
+			for (const element of this.sensorArray) {
 				const state = await this.getStateAsync(`Sensors.${element}`);
 				this.onStateChange(`Sensors.${element}`, state);
 			}
@@ -210,7 +214,7 @@ class AirQ extends utils.Adapter {
 
 	private async setSensorData(ip: string, sensorArray: string[]): Promise<void> {
 		try{
-			const data = await this.getDataFromAirQ(ip, this.config.password);
+			const data = await this.getDataFromAirQ();
 			for (const element of sensorArray) {
 				this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
 			}
@@ -223,7 +227,7 @@ class AirQ extends utils.Adapter {
 
 	private async setSensorAverageData(ip: string, sensorArray: string[]): Promise<void> {
 		try{
-			const data = await this.getAverageDataFromAirQ(ip, this.config.password);
+			const data = await this.getAverageDataFromAirQ();
 			for (const element of sensorArray) {
 				this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
 			}
@@ -232,6 +236,65 @@ class AirQ extends utils.Adapter {
 		}catch{
 			this.log.error('Error while setting average data from AirQ');
 		}
+	}
+	set service(value: any) {
+		try{
+			this._service = value;
+		}catch{
+			this.log.error('Error while setting service');
+		}
+	}
+
+	get service(): any {
+		return this._service;
+	}
+
+	set ip(value: string) {
+		try{
+			this._ip = value;
+		}catch{
+			this.log.error('Error while setting ip');
+		}
+	}
+
+	get ip(): string {
+		return this._ip;
+	}
+
+	set sensorArray(value: string[]) {
+		try{
+			this._sensorArray = value;
+		}catch{
+			this.log.error('Error while setting sensorArray');
+		}
+	}
+
+	get sensorArray(): string[] {
+		return this._sensorArray;
+	}
+
+	set id(value: string) {
+		try{
+			this._id = value;
+		}catch{
+			this.log.error('Error while setting id. Check your instance settings.');
+		}
+	}
+
+	get id(): string {
+		return this._id;
+	}
+
+	set password(value: string) {
+		try{
+			this._password = value;
+		}catch{
+			this.log.error('Error while setting password. Check your instance settings.');
+		}
+	}
+
+	get password(): string {
+		return this._password;
 	}
 }
 
