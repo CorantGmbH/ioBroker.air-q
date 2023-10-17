@@ -36,7 +36,7 @@ class AirQ extends utils.Adapter {
       common: {
         name: "connection",
         type: "boolean",
-        role: "indicator.connected",
+        role: "indicator.reachable",
         read: true,
         write: false
       },
