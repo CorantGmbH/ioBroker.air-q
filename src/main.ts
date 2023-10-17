@@ -22,10 +22,11 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async onReady(): Promise<void> {
-
+		let deviceName = '';
 		try{
 			this.id = this.config.shortId;
 			this.password = this.config.password;
+			deviceName = this.id.concat('_air-Q');
 		}catch(error){
 			this.log.error(error);
 		}
@@ -33,7 +34,7 @@ class AirQ extends utils.Adapter {
 		await this.setObjectNotExistsAsync('Sensors', {
 			type: 'device',
 			common: {
-				name: this.id.concat('_air-Q'),
+				name: deviceName,
 			},
 			native: {},
 		});

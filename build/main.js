@@ -31,16 +31,18 @@ class AirQ extends utils.Adapter {
     this.on("stateChange", this.onStateChange.bind(this));
   }
   async onReady() {
+    let deviceName = "";
     try {
       this.id = this.config.shortId;
       this.password = this.config.password;
+      deviceName = this.id.concat("_air-Q");
     } catch (error) {
       this.log.error(error);
     }
     await this.setObjectNotExistsAsync("Sensors", {
       type: "device",
       common: {
-        name: this.id.concat("_air-Q")
+        name: deviceName
       },
       native: {}
     });
