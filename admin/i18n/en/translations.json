@@ -2,8 +2,9 @@
 	"air-q adapter settings": "Adapter settings for air-q",
 	"option1": "option1",
 	"option2": "option2",
-	"raw_data_txt": "raw data",
+	"raw_data_txt": "Clip negative values",
 	"poll_warning_txt": "Warning: Setting a very low polling frequency might slow down the air-Q smartphone app.",
-	"search_device_ip_txt": "Search device via IP",
-	"ip_txt": "Device-IP"
+	"search_device_ip_txt": "Connect with IP",
+	"ip_txt": "Device-IP",
+	"connect_ip_hint_txt": "(In case MDNS does not work in your network)"
 }

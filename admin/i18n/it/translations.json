@@ -5,5 +5,6 @@
     "raw_data_txt": "dati grezzi",
     "poll_warning_txt": "Avvertenza: l'impostazione di una frequenza di polling molto bassa potrebbe rallentare l'app per smartphone air-Q.",
     "search_device_ip_txt": "Cerca dispositivo tramite IP",
-    "ip_txt": "IP del dispositivo"
+    "ip_txt": "IP del dispositivo",
+    "connect_ip_hint_txt": "(Nel caso in cui MDNS non funzioni nella tua rete)"
 }

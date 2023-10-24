@@ -5,5 +5,6 @@
     "raw_data_txt": "datos sin procesar",
     "poll_warning_txt": "Advertencia: Establecer una frecuencia de sondeo muy baja puede ralentizar la aplicación del teléfono inteligente air-Q.",
     "search_device_ip_txt": "Buscar dispositivo vía IP",
-    "ip_txt": "IP del dispositivo"
+    "ip_txt": "IP del dispositivo",
+    "connect_ip_hint_txt": "(En caso de que MDNS no funcione en su red)"
 }

@@ -5,5 +5,6 @@
     "raw_data_txt": "ruwe data",
     "poll_warning_txt": "Waarschuwing: het instellen van een zeer lage pollingfrequentie kan de air-Q smartphone-app vertragen.",
     "search_device_ip_txt": "Zoek apparaat via IP",
-    "ip_txt": "Apparaat-IP"
+    "ip_txt": "Apparaat-IP",
+    "connect_ip_hint_txt": "(In het geval dat MDNS niet werkt in uw netwerk)"
 }

@@ -2,8 +2,9 @@
     "air-q adapter settings": "Adaptereinstellungen für air-q",
     "option1": "Option 1",
     "option2": "Option 2",
-    "raw_data_txt": "Rohdaten",
+    "raw_data_txt": "Negative Werte abschneiden",
     "poll_warning_txt": "Warnung: Eine sehr niedrige Abfragefrequenz könnte die air-Q Smartphone App verlangsamen.",
-    "search_device_ip_txt": "Suche Gerät via IP",
-    "ip_txt": "Geräte-IP"
+    "search_device_ip_txt": "Mit IP verbinden",
+    "ip_txt": "Geräte-IP",
+    "connect_ip_hint_txt": "(Falls MDNS bei Ihnen im Netzwerk nicht funktioniert)"
 }

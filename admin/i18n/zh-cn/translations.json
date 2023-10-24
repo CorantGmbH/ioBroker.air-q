@@ -5,5 +5,6 @@
     "raw_data_txt": "原始数据",
     "poll_warning_txt": "警告：设置非常低的轮询频率可能会减慢air-Q 智能手机应用程序的速度。",
     "search_device_ip_txt": "通过IP搜索设备",
-    "ip_txt": "设备IP"
+    "ip_txt": "设备IP",
+    "connect_ip_hint_txt": "（如果 MDNS 在您的网络中不起作用）"
 }

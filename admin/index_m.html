@@ -34,7 +34,7 @@
 						$key.prop("checked", settings[id]).on("change", () => onChange());
 				});
 
-				$("#searchViaIP").on("change", () => {
+				$("#connectViaIP").on("change", () => {
 					disableIPInput();
 					onChange();
 				});
@@ -44,7 +44,7 @@
 			}
 
 			function disableIPInput() {
-				if($("#searchViaIP").prop("checked")) {
+				if($("#connectViaIP").prop("checked")) {
 					console.log("checked");
 					$("#searchOptionIp").removeClass("disabled");
 					$("#searchOptionId").addClass("disabled", true);
@@ -69,7 +69,7 @@
 					}
 				});
 
-				obj.searchViaIP = $("#searchViaIP").prop("checked");
+				obj.connectViaIP = $("#connectViaIP").prop("checked");
 				callback(obj);
 			}
 		</script>
@@ -94,11 +94,11 @@
 					<input 
 					type="checkbox" 
 					class="value"
-					id="searchViaIP" 
-					name="searchViaIP"
+					id="connectViaIP" 
+					name="connectViaIP"
 					/>
-					<span for="searchViaIP" class="translate">search_device_ip_txt</span></br>
-					<span class="translate">(Setting this option can result in a faster search and causes less issues than MDNS search)</span>
+					<span for="connectViaIP" class="translate">search_device_ip_txt</span></br>
+					<span class="translate">connect_ip_hint_txt</span>
 				</div>
 				<div class="input-field col s6 m6" id="searchOptionIp" >
 					<input type="text" class="value" id="deviceIP" maxlength="15"/>

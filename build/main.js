@@ -43,14 +43,14 @@ class AirQ extends utils.Adapter {
       native: {}
     });
     this.setState("connection", { val: false, ack: true });
-    this.checkSearchOption();
     try {
-      this.id = this.config.shortId;
       this.password = this.config.password;
+      await this.checkConnectIP() ? this.id = await this.getShortId() : this.id = this.config.shortId;
       this.deviceName = this.id.concat("_air-q");
     } catch (error) {
       this.log.error(error);
     }
+    this.log.debug("ID: " + this.id);
     await this.setObjectNotExistsAsync("Sensors", {
       type: "device",
       common: {
@@ -99,13 +99,21 @@ class AirQ extends utils.Adapter {
       await this.setStates();
     }, this.config.retrievalRate * 1e3);
   }
-  async checkSearchOption() {
-    if (this.config.searchViaIP) {
-      this.service = "";
-      this.ip = this.deviceIP;
-    } else {
-      this.service = await this.findAirQInNetwork();
-      this.ip = await this.getIp();
+  async checkConnectIP() {
+    try {
+      if (this.config.connectViaIP) {
+        this.log.debug("Connecting via IP");
+        this.service = "";
+        this.ip = this.deviceIP;
+        return true;
+      } else {
+        this.service = await this.findAirQInNetwork();
+        this.ip = await this.getIp();
+        this.id = this.config.shortId;
+        return false;
+      }
+    } catch (error) {
+      throw error;
     }
   }
   async findAirQInNetwork() {
@@ -124,6 +132,23 @@ class AirQ extends utils.Adapter {
         reject(new Error("AirQ not found in network"));
       }, 5e4);
     });
+  }
+  async getShortId() {
+    this.log.debug("Getting short ID");
+    const response = await import_axios.default.get(`http://${this.ip}/config`, { responseType: "json" });
+    this.log.debug("Get response for short ID");
+    const data = response.data.content;
+    const decryptedData = (0, import_decryptAES256.decrypt)(data, this.password);
+    this.log.debug("Decrypt short ID");
+    if (decryptedData && typeof decryptedData === "object") {
+      const sensorsData = decryptedData;
+      const serial = sensorsData.SN;
+      const shortID = serial.slice(0, 5);
+      this.log.debug("Got short ID");
+      return shortID;
+    } else {
+      throw new Error("DecryptedData is undefined or not an object");
+    }
   }
   async getIp() {
     return new Promise((resolve, reject) => {

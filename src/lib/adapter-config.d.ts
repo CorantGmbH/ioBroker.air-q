@@ -9,7 +9,7 @@ declare global {
 			retrievalRate: number;
 			retrievalType: string;
 			rawData: boolean;
-			searchViaIP:boolean;
+			connectViaIP:boolean;
 			deviceIP: string;
 		}
 	}
