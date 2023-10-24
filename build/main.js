@@ -50,7 +50,6 @@ class AirQ extends utils.Adapter {
     } catch (error) {
       this.log.error(error);
     }
-    this.log.debug("ID: " + this.id);
     await this.setObjectNotExistsAsync("Sensors", {
       type: "device",
       common: {
@@ -102,7 +101,6 @@ class AirQ extends utils.Adapter {
   async checkConnectIP() {
     try {
       if (this.config.connectViaIP) {
-        this.log.debug("Connecting via IP");
         this.service = "";
         this.ip = this.deviceIP;
         return true;
@@ -134,17 +132,13 @@ class AirQ extends utils.Adapter {
     });
   }
   async getShortId() {
-    this.log.debug("Getting short ID");
     const response = await import_axios.default.get(`http://${this.ip}/config`, { responseType: "json" });
-    this.log.debug("Get response for short ID");
     const data = response.data.content;
     const decryptedData = (0, import_decryptAES256.decrypt)(data, this.password);
-    this.log.debug("Decrypt short ID");
     if (decryptedData && typeof decryptedData === "object") {
       const sensorsData = decryptedData;
       const serial = sensorsData.SN;
       const shortID = serial.slice(0, 5);
-      this.log.debug("Got short ID");
       return shortID;
     } else {
       throw new Error("DecryptedData is undefined or not an object");

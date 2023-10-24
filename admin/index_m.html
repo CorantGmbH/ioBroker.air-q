@@ -45,12 +45,10 @@
 
 			function disableIPInput() {
 				if($("#connectViaIP").prop("checked")) {
-					console.log("checked");
 					$("#searchOptionIp").removeClass("disabled");
 					$("#searchOptionId").addClass("disabled", true);
 
 				} else {
-					console.log("not checked");
 					$("#searchOptionIp").addClass("disabled", true);
 					$("#searchOptionId").removeClass("disabled");
 				}
