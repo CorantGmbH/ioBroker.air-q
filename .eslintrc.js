@@ -60,7 +60,8 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: ['*.test.ts'],
+			files: ['*.test.ts','*.html', '*.ts'],
+
 			rules: {
 				'@typescript-eslint/explicit-function-return-type': 'off',
 			},

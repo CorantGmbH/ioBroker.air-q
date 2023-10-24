@@ -1,5 +1,9 @@
 {
     "air-q adapter settings": "Paramètres d'adaptateur pour air-q",
     "option1": "Option 1",
-    "option2": "Option 2"
+    "option2": "Option 2",
+    "raw_data_txt": "données brutes",
+    "poll_warning_txt": "Avertissement : définir une fréquence d'interrogation très faible peut ralentir l'application pour smartphone air-Q.",
+    "search_device_ip_txt": "Rechercher un appareil via IP",
+    "ip_txt": "IP de l'appareil"
 }

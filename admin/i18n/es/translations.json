@@ -1,5 +1,9 @@
 {
     "air-q adapter settings": "Ajustes del adaptador para air-q",
     "option1": "Opción 1",
-    "option2": "opcion 2"
+    "option2": "opcion 2",
+    "raw_data_txt": "datos sin procesar",
+    "poll_warning_txt": "Advertencia: Establecer una frecuencia de sondeo muy baja puede ralentizar la aplicación del teléfono inteligente air-Q.",
+    "search_device_ip_txt": "Buscar dispositivo vía IP",
+    "ip_txt": "IP del dispositivo"
 }

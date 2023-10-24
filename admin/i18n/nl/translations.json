@@ -1,5 +1,9 @@
 {
     "air-q adapter settings": "Adapterinstellingen voor air-q",
     "option1": "Optie 1",
-    "option2": "Optie 2"
+    "option2": "Optie 2",
+    "raw_data_txt": "ruwe data",
+    "poll_warning_txt": "Waarschuwing: het instellen van een zeer lage pollingfrequentie kan de air-Q smartphone-app vertragen.",
+    "search_device_ip_txt": "Zoek apparaat via IP",
+    "ip_txt": "Apparaat-IP"
 }

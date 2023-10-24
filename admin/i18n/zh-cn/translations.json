@@ -1,5 +1,9 @@
 {
     "air-q adapter settings": "air-q的适配器设置",
     "option1": "选项1",
-    "option2": "选项2"
+    "option2": "选项2",
+    "raw_data_txt": "原始数据",
+    "poll_warning_txt": "警告：设置非常低的轮询频率可能会减慢air-Q 智能手机应用程序的速度。",
+    "search_device_ip_txt": "通过IP搜索设备",
+    "ip_txt": "设备IP"
 }
