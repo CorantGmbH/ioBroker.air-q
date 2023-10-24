@@ -139,6 +139,7 @@ class AirQ extends utils.Adapter {
       const sensorsData = decryptedData;
       const serial = sensorsData.SN;
       const shortID = serial.slice(0, 5);
+      this.setState("connection", { val: true, ack: true });
       return shortID;
     } else {
       throw new Error("DecryptedData is undefined or not an object");
