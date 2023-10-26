@@ -100,19 +100,24 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async checkConnectIP(): Promise<void> {
-		try{
-			if(this.config.connectViaIP){
+
+		if(this.config.connectViaIP){
+			try{
 				this.service= '';
 				this.ip = this.deviceIP;
 				this.id = await this.getShortId()
-			}else{
+			}catch(error){
+				throw error;
+			}
+		}else{
+			try{
 				this.id = this.config.shortId;
 				this.deviceName = this.id.concat('_air-q');
 				this.service = await this.findAirQInNetwork();
 				this.ip= await this.getIp();
+			}catch(error){
+				throw error;
 			}
-		}catch(error){
-			throw error;
 		}
 	}
 
