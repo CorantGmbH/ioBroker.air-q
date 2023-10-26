@@ -27,6 +27,11 @@ class AirQ extends utils.Adapter {
       ...options,
       name: "air-q"
     });
+    this._ip = "";
+    this._sensorArray = [];
+    this._id = "";
+    this._password = "";
+    this._deviceName = "";
     this.on("ready", this.onReady.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
   }
@@ -43,47 +48,24 @@ class AirQ extends utils.Adapter {
       native: {}
     });
     this.setState("connection", { val: false, ack: true });
-    try {
-      this.password = this.config.password;
-      await this.checkConnectIP();
-    } catch (error) {
-      this.log.error(error);
-    }
-    await this.setObjectNotExistsAsync("Sensors", {
-      type: "device",
-      common: {
-        name: this.deviceName
-      },
-      native: {}
-    });
-    await this.setObjectNotExistsAsync(`Sensors.health`, {
-      type: "state",
-      common: {
-        name: "health",
-        type: "number",
-        role: "value",
-        read: true,
-        write: true
-      },
-      native: {}
-    });
-    await this.setObjectNotExistsAsync(`Sensors.performance`, {
-      type: "state",
-      common: {
-        name: "performance",
-        type: "number",
-        role: "value",
-        read: true,
-        write: true
-      },
-      native: {}
-    });
-    this.sensorArray = await this.getSensorsInDevice();
-    for (const element of this.sensorArray) {
-      await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+    if (this.config.password) {
+      try {
+        this.password = this.config.password;
+        await this.checkConnectIP();
+      } catch (error) {
+        this.log.error(error);
+      }
+      await this.setObjectNotExistsAsync("Sensors", {
+        type: "device",
+        common: {
+          name: this.deviceName
+        },
+        native: {}
+      });
+      await this.setObjectNotExistsAsync(`Sensors.health`, {
         type: "state",
         common: {
-          name: element,
+          name: "health",
           type: "number",
           role: "value",
           read: true,
@@ -91,23 +73,58 @@ class AirQ extends utils.Adapter {
         },
         native: {}
       });
-      this.subscribeStates(`Sensors.${element}`);
+      await this.setObjectNotExistsAsync(`Sensors.performance`, {
+        type: "state",
+        common: {
+          name: "performance",
+          type: "number",
+          role: "value",
+          read: true,
+          write: true
+        },
+        native: {}
+      });
+      this.sensorArray = await this.getSensorsInDevice();
+      for (const element of this.sensorArray) {
+        await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+          type: "state",
+          common: {
+            name: element,
+            type: "number",
+            role: "value",
+            read: true,
+            write: true
+          },
+          native: {}
+        });
+        this.subscribeStates(`Sensors.${element}`);
+      }
+      this.setInterval(async () => {
+        await this.setStates();
+      }, this.config.retrievalRate * 1e3);
     }
-    this.setInterval(async () => {
-      await this.setStates();
-    }, this.config.retrievalRate * 1e3);
   }
   async checkConnectIP() {
     try {
       if (this.config.connectViaIP) {
         this.service = "";
-        this.ip = this.deviceIP;
+        this.isValidIP(this.config.deviceIP);
         this.id = await this.getShortId();
       } else {
         this.id = this.config.shortId;
         this.deviceName = this.id.concat("_air-q");
         this.service = await this.findAirQInNetwork();
         this.ip = await this.getIp();
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  isValidIP(ip) {
+    const ip4Address = /^(\d{1,3}\.){3}\d{1,3}$/;
+    try {
+      if (ip4Address.test(ip)) {
+        this.ip = this.config.deviceIP;
       }
     } catch (error) {
       throw error;
@@ -131,30 +148,37 @@ class AirQ extends utils.Adapter {
     });
   }
   async getShortId() {
-    this.log.debug(`Getting shortId from AirQ ${this.deviceName}`);
-    const response = await import_axios.default.get(`http://${this.ip}/config`, { responseType: "json" });
-    const data = response.data.content;
-    const decryptedData = (0, import_decryptAES256.decrypt)(data, this.password);
-    if (decryptedData && typeof decryptedData === "object") {
-      const sensorsData = decryptedData;
-      const serial = sensorsData.SN;
-      const shortID = serial.slice(0, 5);
-      this.setState("connection", { val: true, ack: true });
-      return shortID;
-    } else {
-      throw new Error("DecryptedData is undefined or not an object");
+    try {
+      const response = await import_axios.default.get(`http://${this.ip}/config`, { responseType: "json" });
+      const data = response.data.content;
+      const decryptedData = (0, import_decryptAES256.decrypt)(data, this.password);
+      if (decryptedData && typeof decryptedData === "object") {
+        const sensorsData = decryptedData;
+        const serial = sensorsData.SN;
+        const shortID = serial.slice(0, 5);
+        this.setState("connection", { val: true, ack: true });
+        return shortID;
+      } else {
+        throw new Error("DecryptedData is undefined or not an object");
+      }
+    } catch (error) {
+      throw error;
     }
   }
   async getIp() {
-    return new Promise((resolve, reject) => {
-      dns.lookup(this.service.name, 4, (err, address) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(address);
-        }
+    try {
+      return new Promise((resolve, reject) => {
+        dns.lookup(this.service.name, 4, (err, address) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(address);
+          }
+        });
       });
-    });
+    } catch (error) {
+      throw error;
+    }
   }
   async getDataFromAirQ() {
     try {
@@ -183,7 +207,7 @@ class AirQ extends utils.Adapter {
         throw new Error("DecryptedData is undefined or not an object");
       }
     } catch (error) {
-      throw error;
+      this.log.error("Error while getting average data from AirQ");
     }
   }
   async getSensorsInDevice() {
@@ -199,7 +223,7 @@ class AirQ extends utils.Adapter {
         throw new Error("DecryptedData is undefined or not an object");
       }
     } catch (error) {
-      throw error;
+      this.log.error("Error while getting sensors from device");
     }
   }
   checkParticulates(data) {
@@ -277,67 +301,40 @@ class AirQ extends utils.Adapter {
     }
   }
   set service(value) {
-    try {
-      this._service = value;
-    } catch {
-      this.log.error("Error while setting service");
-    }
+    this._service = value;
   }
   get service() {
     return this._service;
   }
   set ip(value) {
-    try {
-      this._ip = value;
-    } catch {
-      this.log.error("Error while setting ip");
-    }
+    this._ip = value;
   }
   get ip() {
     return this._ip;
   }
   set sensorArray(value) {
-    try {
-      this._sensorArray = value;
-    } catch {
-      this.log.error("Error while setting sensorArray");
-    }
+    this._sensorArray = value;
   }
   get sensorArray() {
     return this._sensorArray;
   }
   set id(value) {
-    try {
-      this._id = value;
-    } catch {
-      this.log.error("Error while setting id. Check your instance settings.");
-    }
+    this._id = value;
   }
   get id() {
     return this._id;
   }
   set password(value) {
-    try {
-      this._password = value;
-    } catch {
-      this.log.error("Error while setting password. Check your instance settings.");
-    }
+    this._password = value;
   }
   get password() {
     return this._password;
   }
   set deviceName(value) {
-    try {
-      this._deviceName = value;
-    } catch {
-      this.log.error("Error while setting deviceName");
-    }
+    this._deviceName = value;
   }
   get deviceName() {
     return this._deviceName;
-  }
-  get deviceIP() {
-    return this.config.deviceIP;
   }
 }
 if (require.main !== module) {

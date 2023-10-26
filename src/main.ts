@@ -7,11 +7,11 @@ import { decrypt } from './decryptAES256';
 class AirQ extends utils.Adapter {
 
 	private _service: any;
-	private _ip: string;
-	private _sensorArray:string[];
-	private _id: string;
-	private _password: string;
-	private _deviceName: string;
+	private _ip: string = '';
+	private _sensorArray:string[]= [];
+	private _id: string= '';
+	private _password: string= '';
+	private _deviceName: string = '';
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -23,7 +23,6 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async onReady(): Promise<void> {
-
 
 		await this.setObjectNotExistsAsync('connection', {
 			type: 'state',
@@ -38,51 +37,37 @@ class AirQ extends utils.Adapter {
 		});
 
 		this.setState('connection', { val: false, ack: true });
+		if(this.config.password){
+			try{
+				this.password = this.config.password;
+				await this.checkConnectIP();
 
-		try{
-			this.password = this.config.password;
-			await this.checkConnectIP();
+			}catch(error){
+				this.log.error(error);
+			}
 
-		}catch(error){
-			this.log.error(error);
-		}
-
-		await this.setObjectNotExistsAsync('Sensors', {
-			type: 'device',
-			common: {
-				name: this.deviceName,
-			},
-			native: {},
-		});
-		await this.setObjectNotExistsAsync(`Sensors.health`, {
-			type: 'state',
-			common: {
-				name: 'health',
-				type: 'number',
-				role: 'value',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-		await this.setObjectNotExistsAsync(`Sensors.performance`, {
-			type: 'state',
-			common: {
-				name: 'performance',
-				type: 'number',
-				role: 'value',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-
-		this.sensorArray = await this.getSensorsInDevice();
-		for (const element of this.sensorArray) {
-			await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+			await this.setObjectNotExistsAsync('Sensors', {
+				type: 'device',
+				common: {
+					name: this.deviceName,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync(`Sensors.health`, {
 				type: 'state',
 				common: {
-					name: element,
+					name: 'health',
+					type: 'number',
+					role: 'value',
+					read: true,
+					write: true,
+				},
+				native: {},
+			});
+			await this.setObjectNotExistsAsync(`Sensors.performance`, {
+				type: 'state',
+				common: {
+					name: 'performance',
 					type: 'number',
 					role: 'value',
 					read: true,
@@ -91,12 +76,27 @@ class AirQ extends utils.Adapter {
 				native: {},
 			});
 
-				 this.subscribeStates(`Sensors.${element}`);
-		}
+			this.sensorArray = await this.getSensorsInDevice();
+			for (const element of this.sensorArray) {
+				await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+					type: 'state',
+					common: {
+						name: element,
+						type: 'number',
+						role: 'value',
+						read: true,
+						write: true,
+					},
+					native: {},
+				});
 
-		this.setInterval(async () => {
-			await this.setStates();
-		}, this.config.retrievalRate * 1000);
+				 this.subscribeStates(`Sensors.${element}`);
+			}
+
+			this.setInterval(async () => {
+				await this.setStates();
+			}, this.config.retrievalRate * 1000);
+		}
 	}
 
 	private async checkConnectIP(): Promise<void> {
@@ -211,7 +211,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
 		} catch (error) {
-			throw error;
+			this.log.error('Error while getting average data from AirQ');
 		}
 	}
 
@@ -228,7 +228,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
 		} catch (error) {
-			throw error;
+			this.log.error('Error while getting sensors from device');
 		}
 	}
 
