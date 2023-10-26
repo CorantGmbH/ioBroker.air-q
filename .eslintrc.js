@@ -5,6 +5,7 @@ module.exports = {
 		ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
 		sourceType: 'module', // Allows for the use of imports
 		project: ['./tsconfig.json'],
+		extraFileExtensions: ['.html'],
 	},
 	extends: [
 		'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
@@ -60,7 +61,7 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: ['*.test.ts','*.html', '*.ts'],
+			files: ['*.test.ts', '*.ts'],
 
 			rules: {
 				'@typescript-eslint/explicit-function-return-type': 'off',

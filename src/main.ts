@@ -41,8 +41,7 @@ class AirQ extends utils.Adapter {
 
 		try{
 			this.password = this.config.password;
-			await this.checkConnectIP() ? this.id = await this.getShortId() : this.id = this.config.shortId;
-			this.deviceName = this.id.concat('_air-q');
+			await this.checkConnectIP();
 
 		}catch(error){
 			this.log.error(error);
@@ -100,17 +99,17 @@ class AirQ extends utils.Adapter {
 		}, this.config.retrievalRate * 1000);
 	}
 
-	private async checkConnectIP(): Promise<boolean> {
+	private async checkConnectIP(): Promise<void> {
 		try{
 			if(this.config.connectViaIP){
 				this.service= '';
 				this.ip = this.deviceIP;
-				return true;
+				this.id = await this.getShortId()
 			}else{
+				this.id = this.config.shortId;
+				this.deviceName = this.id.concat('_air-q');
 				this.service = await this.findAirQInNetwork();
 				this.ip= await this.getIp();
-				this.id = this.config.shortId;
-				return false;
 			}
 		}catch(error){
 			throw error;
@@ -138,6 +137,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async getShortId(): Promise<string> {
+		this.log.debug(`Getting shortId from AirQ ${this.deviceName}`);
 		const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
 		const data = response.data.content;
 		const decryptedData = decrypt(data, this.password) as unknown;
@@ -241,8 +241,8 @@ class AirQ extends utils.Adapter {
 	private async setStates(): Promise<void> {
 		try{
 			this.getRetrievalType() === 'data'
-				? this.setSensorData()
-				: this.setSensorAverageData();
+				? await this.setSensorData()
+				: await this.setSensorAverageData();
 			this.onStateChange('Sensors.health', await this.getStateAsync('Sensors.health'));
 			this.onStateChange('Sensors.performance', await this.getStateAsync('Sensors.performance'));
 			for (const element of this.sensorArray) {
@@ -259,9 +259,9 @@ class AirQ extends utils.Adapter {
 			const data = await this.getDataFromAirQ();
 			for (const element of this.sensorArray) {
 				if(this.config.rawData){
-					this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+					this.checkNegativeValues(data, element) ? await this.setStateAsync(`Sensors.${element}`, { val: 0, ack: true }) : await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
 				}else{
-					this.checkNegativeValues(data, element)? this.setStateAsync(`Sensors.${element}`, { val: 0, ack: true }) : this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+					await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
 				}
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
@@ -275,15 +275,16 @@ class AirQ extends utils.Adapter {
 		try{
 			const data = await this.getAverageDataFromAirQ();
 			for (const element of this.sensorArray) {
-				if(!this.config.rawData){
-					this.checkNegativeValues(data, element) ? this.setStateAsync(`Sensors.${element}`, { val: 0, ack: true }) : this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+				if(this.config.rawData){
+					this.checkNegativeValues(data, element) ? await this.setStateAsync(`Sensors.${element}`, { val: 0, ack: true }) : await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
 				}else{
-					this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });}
+					await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+				}
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('Sensors.performance', { val: data.performance / 10, ack: true });
 		}catch{
-			this.log.error('Error while setting average data from AirQ');
+			this.log.error('Error while setting average data from AirQ ');
 		}
 	}
 
