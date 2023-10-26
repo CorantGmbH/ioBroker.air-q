@@ -100,24 +100,19 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async checkConnectIP(): Promise<void> {
-
-		if(this.config.connectViaIP){
-			try{
+		try{
+			if(this.config.connectViaIP){
 				this.service= '';
 				this.ip = this.deviceIP;
 				this.id = await this.getShortId()
-			}catch(error){
-				throw error;
-			}
-		}else{
-			try{
+			}else{
 				this.id = this.config.shortId;
 				this.deviceName = this.id.concat('_air-q');
 				this.service = await this.findAirQInNetwork();
 				this.ip= await this.getIp();
-			}catch(error){
-				throw error;
 			}
+		}catch(error){
+			throw error;
 		}
 	}
 
@@ -142,18 +137,22 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async getShortId(): Promise<string> {
-		this.log.debug(`Getting shortId from AirQ ${this.deviceName}`);
-		const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
-		const data = response.data.content;
-		const decryptedData = decrypt(data, this.password) as unknown;
-		if (decryptedData && typeof decryptedData === 'object') {
-			const sensorsData = decryptedData as DataConfig;
-			const serial = sensorsData.SN;
-			const shortID = serial.slice(0,5);
-			this.setState('connection', { val: true, ack: true });
-			return shortID;
-		} else {
-			throw new Error('DecryptedData is undefined or not an object');
+		try{
+			const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
+			const data = response.data.content;
+			const decryptedData = decrypt(data, this.password) as unknown;
+			if (decryptedData && typeof decryptedData === 'object') {
+				const sensorsData = decryptedData as DataConfig;
+				const serial = sensorsData.SN;
+				const shortID = serial.slice(0,5);
+				this.setState('connection', { val: true, ack: true });
+				return shortID;
+			} else {
+				throw new Error('DecryptedData is undefined or not an object');
+			}
+		}
+		catch(error){
+			throw error;
 		}
 	}
 
