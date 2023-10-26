@@ -157,15 +157,19 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async getIp(): Promise<string> {
-		return new Promise<string>((resolve, reject) => {
-			dns.lookup(this.service.name, 4, (err, address) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(address);
-				}
+		try{
+			return new Promise<string>((resolve, reject) => {
+				dns.lookup(this.service.name, 4, (err, address) => {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(address);
+					}
+				});
 			});
-		});
+		}catch(error){
+			throw error;
+		}
 	}
 
 	private async getDataFromAirQ(): Promise<any> {
@@ -301,11 +305,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	set service(value: any) {
-		try{
-			this._service = value;
-		}catch{
-			this.log.error('Error while setting service');
-		}
+		this._service = value;
 	}
 
 	get service(): any {
@@ -313,11 +313,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	set ip(value: string) {
-		try{
-			this._ip = value;
-		}catch{
-			this.log.error('Error while setting ip');
-		}
+		this._ip = value;
 	}
 
 	get ip(): string {
@@ -325,11 +321,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	set sensorArray(value: string[]) {
-		try{
-			this._sensorArray = value;
-		}catch{
-			this.log.error('Error while setting sensorArray');
-		}
+		this._sensorArray = value;
 	}
 
 	get sensorArray(): string[] {
@@ -337,11 +329,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	set id(value: string) {
-		try{
-			this._id = value;
-		}catch{
-			this.log.error('Error while setting id. Check your instance settings.');
-		}
+		this._id = value;
 	}
 
 	get id(): string {
@@ -349,11 +337,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	set password(value: string) {
-		try{
-			this._password = value;
-		}catch{
-			this.log.error('Error while setting password. Check your instance settings.');
-		}
+		this._password = value;
 	}
 
 	get password(): string {
@@ -361,11 +345,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	set deviceName(value: string) {
-		try{
-			this._deviceName = value;
-		}catch{
-			this.log.error('Error while setting deviceName');
-		}
+		this._deviceName = value;
 	}
 
 	get deviceName(): string {
