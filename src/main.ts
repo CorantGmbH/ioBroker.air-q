@@ -103,11 +103,7 @@ class AirQ extends utils.Adapter {
 		try{
 			if(this.config.connectViaIP){
 				this.service= '';
-				if(!this.isValidIP(this.config.deviceIP)){
-					throw new Error('IP is not valid');
-				}else{
-					this.ip = this.config.deviceIP;
-				}
+				this.isValidIP(this.config.deviceIP);
 				this.id = await this.getShortId()
 			}else{
 				this.id = this.config.shortId;
@@ -120,9 +116,15 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private isValidIP(ip: string): boolean {
+	private isValidIP(ip: string): void {
 		const ip4Address = /^(\d{1,3}\.){3}\d{1,3}$/;
-		return ip4Address.test(ip);
+		try{
+			if(ip4Address.test(ip)){
+				this.ip = this.config.deviceIP;
+			}
+		}catch(error){
+			throw error;
+		}
 	}
 
 	private async findAirQInNetwork(): Promise<any> {
