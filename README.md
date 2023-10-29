@@ -8,7 +8,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.air-q.png?downloads=true)](https://nodei.co/npm/iobroker.air-q/)
 
-**Tests:** ![Test and Release](https://github.com/pr0crstntr/ioBroker.air-q/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/CorantGmbH/ioBroker.air-q/workflows/Test%20and%20Release/badge.svg)
 
 ## air-q adapter for ioBroker
 
@@ -34,14 +34,14 @@ You are almost done, only a few steps left:
 	```
 1. Link your local repository with the one on GitHub:  
 	```bash
-	git remote add origin https://github.com/pr0crstntr/ioBroker.air-q
+	git remote add origin https://github.com/CorantGmbH/ioBroker.air-q
 	```
 
 1. Push all files to the GitHub repo:  
 	```bash
 	git push origin main
 	```
-1. Add a new secret under https://github.com/pr0crstntr/ioBroker.air-q/settings/secrets. It must be named `AUTO_MERGE_TOKEN` and contain a personal access token with push access to the repository, e.g. yours. You can create a new token under https://github.com/settings/tokens.
+1. Add a new secret under https://github.com/CorantGmbH/ioBroker.air-q/settings/secrets. It must be named `AUTO_MERGE_TOKEN` and contain a personal access token with push access to the repository, e.g. yours. You can create a new token under https://github.com/settings/tokens.
 
 1. Head over to [src/main.ts](src/main.ts) and start programming!
 
@@ -123,7 +123,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 ## License
 MIT License
 
-Copyright (c) 2023 Katharina K. <katharina.kraus@student.hs-anhalt.de>
+Copyright (c) 2023 Corant GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
