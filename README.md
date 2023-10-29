@@ -34,7 +34,7 @@ You are almost done, only a few steps left:
 	```
 1. Link your local repository with the one on GitHub:  
 	```bash
-	git remote add origin https://github.com//ioBroker.air-q
+	git remote add origin https://github.com/CorantGmbH/ioBroker.air-q
 	```
 
 1. Push all files to the GitHub repo:  
@@ -123,7 +123,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 ## License
 MIT License
 
-Copyright (c) 2023 Katharina K. <katharina.kraus@student.hs-anhalt.de>
+Copyright (c) 2023 Corant GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

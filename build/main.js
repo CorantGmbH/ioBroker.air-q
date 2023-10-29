@@ -266,7 +266,9 @@ class AirQ extends utils.Adapter {
       const data = await this.getDataFromAirQ();
       for (const element of this.sensorArray) {
         if (this.config.rawData) {
-          this.checkNegativeValues(data, element) ? await this.setStateAsync(`Sensors.${element}`, { val: 0, ack: true }) : await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+          const isNegative = this.checkNegativeValues(data, element);
+          const cappedValue = isNegative ? 0 : data[element][0];
+          await this.setStateAsync(`Sensors.${element}`, { val: cappedValue, ack: true });
         } else {
           await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
         }
@@ -282,7 +284,9 @@ class AirQ extends utils.Adapter {
       const data = await this.getAverageDataFromAirQ();
       for (const element of this.sensorArray) {
         if (this.config.rawData) {
-          this.checkNegativeValues(data, element) ? await this.setStateAsync(`Sensors.${element}`, { val: 0, ack: true }) : await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+          const isNegative = this.checkNegativeValues(data, element);
+          const cappedValue = isNegative ? 0 : data[element][0];
+          await this.setStateAsync(`Sensors.${element}`, { val: cappedValue, ack: true });
         } else {
           await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
         }

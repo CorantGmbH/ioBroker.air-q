@@ -20,12 +20,12 @@
 	<script type="text/javascript">
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
-
-			if (!settings.retrievalType) settings.retrievalType = "average";
-			if (!settings.retrievalRate) settings.retrievalRate = 10;
 			if (!settings) return;
+			if (!settings.retrievalType) { settings.retrievalType = "average"; }
+			if (!settings.retrievalRate) { settings.retrievalRate = 10; } 
+			
 
-			$(".value").each(function () {
+			$(".value").each(() => {
 				var $key = $(this);
 				var id = $key.attr("id");
 				$key.val(settings[id])
@@ -56,7 +56,7 @@
 
 		function save(callback) {
 			var obj = {};
-			$(".value").each(function () {
+			$(".value").each(() => {
 				var $this = $(this);
 				if ($this.attr("type") === "checkbox") {
 					obj[$this.attr("id")] = $this.prop("checked");
