@@ -12,6 +12,7 @@ class AirQ extends utils.Adapter {
 	private _id: string= '';
 	private _password: string= '';
 	private _deviceName: string = '';
+	private _stateInterval: any;
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -20,6 +21,12 @@ class AirQ extends utils.Adapter {
 		});
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
+		this.on('unload', this.onUnload.bind(this));
+	}
+
+	private onUnload(): void {
+		this.log.info('AirQ adapter stopped...');
+		this.clearInterval(this._stateInterval);
 	}
 
 	private async onReady(): Promise<void> {
@@ -93,7 +100,7 @@ class AirQ extends utils.Adapter {
 				 this.subscribeStates(`Sensors.${element}`);
 			}
 
-			this.setInterval(async () => {
+			this._stateInterval = this.setInterval(async () => {
 				await this.setStates();
 			}, this.config.retrievalRate * 1000);
 		}
@@ -190,6 +197,7 @@ class AirQ extends utils.Adapter {
 			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as Sensors;
+				this.log.debug('Realtime data from AirQ: ' + JSON.stringify(sensorsData));
 				return sensorsData;
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
@@ -206,6 +214,7 @@ class AirQ extends utils.Adapter {
 			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as Sensors;
+				this.log.debug('Average data from AirQ: ' + JSON.stringify(sensorsData));
 				return sensorsData;
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
