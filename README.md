@@ -1,5 +1,5 @@
-![Logo](admin/air-q.png)
 # ioBroker.air-q
+![Logo](admin/air-q.png)
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.air-q.svg)](https://www.npmjs.com/package/iobroker.air-q)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.air-q.svg)](https://www.npmjs.com/package/iobroker.air-q)
