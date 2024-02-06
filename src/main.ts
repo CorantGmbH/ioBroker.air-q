@@ -197,7 +197,6 @@ class AirQ extends utils.Adapter {
 			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as Sensors;
-				this.log.debug('Realtime data from AirQ: ' + JSON.stringify(sensorsData));
 				return sensorsData;
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
@@ -214,7 +213,6 @@ class AirQ extends utils.Adapter {
 			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
 				const sensorsData = decryptedData as Sensors;
-				this.log.debug('Average data from AirQ: ' + JSON.stringify(sensorsData));
 				return sensorsData;
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
