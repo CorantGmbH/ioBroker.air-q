@@ -39,6 +39,7 @@ class AirQ extends utils.Adapter {
   onUnload() {
     this.log.info("AirQ adapter stopped...");
     this.clearInterval(this._stateInterval);
+    this.clearTimeout(this._timeout);
   }
   async onReady() {
     await this.setObjectNotExistsAsync("connection", {
@@ -91,6 +92,20 @@ class AirQ extends utils.Adapter {
       });
       this.sensorArray = await this.getSensorsInDevice();
       for (const element of this.sensorArray) {
+        if (element === "temperature") {
+          await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+            type: "state",
+            common: {
+              name: element,
+              type: "number",
+              role: "value.temperature",
+              unit: "\xB0C",
+              read: true,
+              write: true
+            },
+            native: {}
+          });
+        }
         await this.setObjectNotExistsAsync(`Sensors.${element}`, {
           type: "state",
           common: {
@@ -146,7 +161,7 @@ class AirQ extends utils.Adapter {
           resolve(service);
         }
       });
-      setTimeout(() => {
+      this._timeout = setTimeout(() => {
         findAirQ.stop();
         reject(new Error("AirQ not found in network"));
       }, 5e4);

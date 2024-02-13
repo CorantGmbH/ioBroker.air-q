@@ -27,7 +27,6 @@
     "pressure_rel_txt": "Относительное давление",
     "pressure_txt": "Давление",
     "radon_txt": "Радон",
-    "raw_data": "",
     "raw_data_txt": "необработанные данные",
     "retrieval_rate_txt": "Получать данные каждые x секунд",
     "retrieval_txt": "Получение данных",

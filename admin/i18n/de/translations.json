@@ -27,7 +27,6 @@
     "pressure_rel_txt": "Relativer Luftdruck",
     "pressure_txt": "Luftdruck",
     "radon_txt": "Radon",
-    "raw_data": "Rohdaten",
     "raw_data_txt": "Negative Werte abschneiden",
     "retrieval_rate_txt": "Daten alle x Sekunden abrufen",
     "retrieval_txt": "Datenabruf",
