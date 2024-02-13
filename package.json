@@ -1,6 +1,6 @@
 {
   "name": "iobroker.air-q",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Adapter for air-Q devices",
   "author": {
     "name": "Katharina K.",
