@@ -9,36 +9,62 @@
 [![NPM](https://nodei.co/npm/iobroker.air-q.png?downloads=true)](https://nodei.co/npm/iobroker.air-q/)
 
 **Tests:** ![Test and Release](https://github.com/CorantGmbH/ioBroker.air-q/workflows/Test%20and%20Release/badge.svg)
-## About
+
+## Contents
+- [About](#about)
+- [Installation manual](#install)
+	- [Prerequisites](#prereq)
+ 	- [Getting started](#start)
+	- [Test the adapter manually with dev-server](#testing)
+ - [Changelog](#change)
+ - [License](#license)
+
+## <a id="about"></a>About
 This ioBroker Adapter is used in connection with our air-Q device. It polls the values from our sensors and displays them for you in the ioBroker environment. 
 </br>
 </br>
 
-## Installation manual
+## <a id="install"></a>Installation manual
 
-### Prerequisites
+### <a id="prereq"></a>Prerequisites
 
 Please make sure to install the newest version of npm. 
 To install and update necessary dependencies please run 
 ```
 npm i
 ```
- to ensure the adapter is running properly. 
+ to ensure the adapter is running properly.
 For development it is recommended to use dev-server, which you can install with:
 ```
 npm install dev-server
 ```
 
-### Getting started
+### <a id="start"></a>Getting started
 
-Now you can install our adapter by using npm directly: 
+Head to your root directory for your ioBroker system. Now you can install our adapter by using npm directly: 
 ```
-npm install ioBroker.air-q
+npm install iobroker.air-q
 ```
 
-Or by using the discovery adapter provided by ioBroker. [PIC]
+Once this is done, you should be able to find the adapter through the interface. To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
 
-### Test the adapter manually with dev-server
+![Screenshot 2024-02-13 103001](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/ec878783-af56-490d-af66-43c53c27df20)
+
+Please make sure you enter the correct IP/ID and password. 
+Then you can also choose how the data should be retrieved. You can clip negative values if you don't need them, with the exception of temperature, of course. You can set up how often the data should be polled by typing in the number in seconds. And lastly you can choose between realtime data or average data. 
+
+![Screenshot 2024-02-13 104813](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/429c57ab-933f-4930-a02b-30da7b5df180)
+
+Now you should be all set up and good to go!
+
+The data will be retrieved and shown in the objects-tab according to your configuration, when the device is found. Of course, depending on the device you own, there might be more sensors shown. 
+
+![Screenshot 2024-02-13 110655](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/5639fdcb-3acf-4223-b1fa-fb69016c9d7b)
+
+***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
+
+
+### <a id="testing"></a>Test the adapter manually with dev-server
 
 If you'd like to debug the adapter yourself you can use dev-server. 
 Once you installed it, run `dev-server setup`. 
@@ -49,11 +75,11 @@ You may start `dev-server` by calling from your dev directory:
 dev-server watch
 ```
 
-The ioBroker.admin interface will then be available at http://localhost:8081/
+The ioBroker.admin interface will then be available at http://127.0.0.1:8081/
 
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
-## Changelog
+## <a id="change"></a>Changelog
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
@@ -62,7 +88,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 ### **WORK IN PROGRESS**
 * (Katharina K.) initial release
 
-## License
+## <a id="license"></a>License
 MIT License
 
 Copyright (c) 2023 Corant GmbH
