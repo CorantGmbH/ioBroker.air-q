@@ -18,17 +18,18 @@
 	- [Test the adapter manually with dev-server](#testing)
  - [Changelog](#change)
  - [License](#license)
- <a id="about"></a>
-## About
+
+
+## About <a id="about"/>
 This ioBroker Adapter is used in connection with our [air-Q device](https://www.air-q.com). It polls the values from our sensors and displays them for you in the ioBroker environment. 
 </br>
 </br>
 
 ![air-Q_frontal + Seitlich_full](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/5c38d737-9641-463f-bd07-ac62ce5f1973)
-<a id="install"></a>
-## Installation manual
-<a id="prereq"></a>
-### Prerequisites
+
+## Installation manual <a id="install" />
+
+### Prerequisites <a id="prereq" />
 
 Please make sure to install the newest version of npm. 
 To install and update necessary dependencies please run 
@@ -40,8 +41,8 @@ For development it is recommended to use dev-server, which you can install with:
 ```
 npm install dev-server
 ```
-<a id="start"></a>
-### Getting started
+
+### Getting started <a id="start" />
 
 Head to your root directory for your ioBroker system. Now you can install our adapter by using npm directly: 
 ```
@@ -65,8 +66,8 @@ The data will be retrieved and shown in the objects-tab according to your config
 
 ***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
 
-<a id="testing"></a>
-### Test the adapter manually with dev-server
+
+### Test the adapter manually with dev-server <a id="testing" />
 
 If you'd like to debug the adapter yourself you can use dev-server. 
 Once you installed it, run `dev-server setup`. 
@@ -80,8 +81,8 @@ dev-server watch
 The ioBroker.admin interface will then be available at http://127.0.0.1:8081/
 
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
-<a id="change"></a>
-## Changelog
+
+## Changelog <a id="change" />
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
@@ -89,8 +90,9 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ### **WORK IN PROGRESS**
 * (Katharina K.) initial release
-<a id="license"></a>
-## License
+
+## License <a id="license"/>
+
 MIT License
 
 Copyright (c) 2023 Corant GmbH
