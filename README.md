@@ -20,9 +20,11 @@
  - [License](#license)
 
 ## <a id="about"></a>About
-This ioBroker Adapter is used in connection with our air-Q device. It polls the values from our sensors and displays them for you in the ioBroker environment. 
+This ioBroker Adapter is used in connection with our [air-Q device](https://www.air-q.com). It polls the values from our sensors and displays them for you in the ioBroker environment. 
 </br>
 </br>
+
+![air-Q_frontal + Seitlich_full](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/5c38d737-9641-463f-bd07-ac62ce5f1973)
 
 ## <a id="install"></a>Installation manual
 
