@@ -13,6 +13,7 @@ class AirQ extends utils.Adapter {
 	private _password: string= '';
 	private _deviceName: string = '';
 	private _stateInterval: any;
+	private _timeout: any;
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -27,6 +28,7 @@ class AirQ extends utils.Adapter {
 	private onUnload(): void {
 		this.log.info('AirQ adapter stopped...');
 		this.clearInterval(this._stateInterval);
+		this.clearTimeout(this._timeout);
 	}
 
 	private async onReady(): Promise<void> {
@@ -162,7 +164,7 @@ class AirQ extends utils.Adapter {
 				}
 			});
 
-			setTimeout(() => {
+			this._timeout= setTimeout(() => {
 				findAirQ.stop();
 				reject(new Error('AirQ not found in network'));
 			}, 50000);

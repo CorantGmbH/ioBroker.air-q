@@ -39,6 +39,7 @@ class AirQ extends utils.Adapter {
   onUnload() {
     this.log.info("AirQ adapter stopped...");
     this.clearInterval(this._stateInterval);
+    this.clearTimeout(this._timeout);
   }
   async onReady() {
     await this.setObjectNotExistsAsync("connection", {
@@ -160,7 +161,7 @@ class AirQ extends utils.Adapter {
           resolve(service);
         }
       });
-      setTimeout(() => {
+      this._timeout = setTimeout(() => {
         findAirQ.stop();
         reject(new Error("AirQ not found in network"));
       }, 5e4);

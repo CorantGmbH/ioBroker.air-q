@@ -27,7 +27,6 @@
     "pressure_rel_txt": "Relative pressure",
     "pressure_txt": "Pressure",
     "radon_txt": "Radon",
-    "raw_data": "",
     "raw_data_txt": "Clip negative values",
     "retrieval_rate_txt": "Poll data every x seconds",
     "retrieval_txt": "Data retrieval",
