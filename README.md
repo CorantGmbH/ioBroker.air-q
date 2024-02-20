@@ -15,12 +15,13 @@
 - [Installation manual](#install)
 	- [Prerequisites](#prereq)
  	- [Getting started](#start)
-	- [Test the adapter manually with dev-server](#testing)
  - [Changelog](#change)
  - [License](#license)
 
 
 ## About <a id="about"/>
+
+Version: 1.0.0
 This ioBroker Adapter is used in connection with our [air-Q device](https://www.air-q.com). It polls the values from our sensors and displays them for you in the ioBroker environment. 
 </br>
 </br>
@@ -37,10 +38,6 @@ To install and update necessary dependencies please run
 npm i
 ```
  to ensure the adapter is running properly.
-For development it is recommended to use dev-server, which you can install with:
-```
-npm install dev-server
-```
 
 ### Getting started <a id="start" />
 
@@ -65,22 +62,6 @@ The data will be retrieved and shown in the objects-tab according to your config
 ![Screenshot 2024-02-13 110655](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/5639fdcb-3acf-4223-b1fa-fb69016c9d7b)
 
 ***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
-
-
-### Test the adapter manually with dev-server <a id="testing" />
-
-If you'd like to debug the adapter yourself you can use dev-server. 
-Once you installed it, run `dev-server setup`. 
-You can use it to run, test and debug your adapter.
-
-You may start `dev-server` by calling from your dev directory:
-```
-dev-server watch
-```
-
-The ioBroker.admin interface will then be available at http://127.0.0.1:8081/
-
-Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog <a id="change" />
 <!--
