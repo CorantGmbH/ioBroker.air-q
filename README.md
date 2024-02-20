@@ -21,7 +21,6 @@
 
 ## About <a id="about"/>
 
-Version: 1.0.0
 This ioBroker Adapter is used in connection with our [air-Q device](https://www.air-q.com). It polls the values from our sensors and displays them for you in the ioBroker environment. 
 </br>
 </br>
@@ -64,13 +63,24 @@ The data will be retrieved and shown in the objects-tab according to your config
 ***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
 
 ## Changelog <a id="change" />
-<!--
-	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
--->
 
-### **WORK IN PROGRESS**
+### 1.0.0
+
+* Include typescript files by @pr0crstntr in #6
+* Created air-Q class by @pr0crstntr in #4
+* Fix restart bug by @pr0crstntr in #7
+* Update data poll by @pr0crstntr in #8
+* Updated io-package by @pr0crstntr in #9
+* Fixed save option for configuration by @pr0crstntr in #16
+* Added clear intervals on unload by @pr0crstntr in #26
+* Update README by @pr0crstntr in #37
+* Changed role for temperature and added unit by @pr0crstntr in #38
+
+### 0.0.1
+
 * (Katharina K.) initial release
+
+
 
 ## License <a id="license"/>
 
