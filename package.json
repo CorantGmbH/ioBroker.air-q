@@ -4,7 +4,7 @@
   "description": "Adapter for air-Q devices",
   "author": {
     "name": "Katharina K.",
-    "email": "katharina.kraus@student.hs-anhalt.de"
+    "email": "katharina.kraus@air-q.com"
   },
   "homepage": "https://github.com/CorantGmbH/ioBroker.air-q",
   "license": "MIT",
