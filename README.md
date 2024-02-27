@@ -27,11 +27,19 @@ This ioBroker Adapter is used in connection with our [air-Q device](https://www.
 
 ## Getting started <a id="start" />
 
-You should be able to find the adapter through the admin interface. Otherwise you're welcome to use the ioBroker command line interface through the console. Simply add the adapter via
+You should be able to find the adapter through the admin interface.
+
+Otherwise you're welcome to use the ioBroker command line interface through the console. Simply direct to your ioBroker root folder and add the adapter via
 ```
 iobroker add air-q
 ```
-This installs the adapter, if you haven't already and starts an instance. 
+This installs the adapter (if it isn't installed already) and starts an instance. 
+In case you only want to install the adapter without creating an instance yet, use the following command:
+
+```
+iobroker install air-q
+```
+
 For more information visit the ioBroker CLI documentation under https://github.com/ioBroker/ioBroker/wiki/Console-commands. 
 
 To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
