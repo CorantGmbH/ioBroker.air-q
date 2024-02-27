@@ -305,9 +305,9 @@ class AirQ extends utils.Adapter {
 				if(this.config.rawData){
 					const isNegative = this.checkNegativeValues(data, element);
 					const cappedValue= isNegative? 0 : data[element][0];
-					await this.setStateAsync(`Sensors.${element}`, { val: cappedValue, ack: true});
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: cappedValue, ack: true});
 				}else{
-					await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: data[element][0], ack: true });
 				}
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
@@ -324,9 +324,9 @@ class AirQ extends utils.Adapter {
 				if(this.config.rawData){
 					const isNegative = this.checkNegativeValues(data, element);
 					const cappedValue= isNegative? 0 : data[element][0];
-					await this.setStateAsync(`Sensors.${element}`, { val: cappedValue, ack: true});
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: cappedValue, ack: true});
 				}else{
-					await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: data[element][0], ack: true });
 				}
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
@@ -393,7 +393,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	get deviceName(): string {
-		return this.replaceInvalidChars(this._deviceName);
+		return this._deviceName;
 	}
 
 	get retrievalRate(): number {
