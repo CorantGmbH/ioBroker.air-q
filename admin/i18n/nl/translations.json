@@ -38,5 +38,6 @@
     "shortId_txt": "Kort ID (de eerste 5 cijfers van het serienummer)",
     "so2_txt": "Zwavelgolf (SO<sub>2</sub>)",
     "temperature_txt": "Temperatuur",
-    "voc_txt": "Vervuilde organisch materiaal (VOC)"
+    "voc_txt": "Vervuilde organisch materiaal (VOC)",
+    "polling_hint_txt": "Tip: Overweeg een pollingfrequentie van 5 seconden of meer te gebruiken; de standaardwaarde is 10 seconden."
 }

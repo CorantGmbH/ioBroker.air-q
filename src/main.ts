@@ -15,13 +15,14 @@ class AirQ extends utils.Adapter {
 	private _stateInterval: any;
 	private _timeout: any;
 
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
 			name: 'air-q',
 		});
+		axios.defaults.timeout = 4000;
 		this.on('ready', this.onReady.bind(this));
-		this.on('stateChange', this.onStateChange.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}
 
@@ -32,13 +33,12 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async onReady(): Promise<void> {
-
 		await this.setObjectNotExistsAsync('connection', {
 			type: 'state',
 			common: {
 				name: 'connection',
 				type: 'boolean',
-				role: 'indicator.reachable',
+				role: 'info.connection',
 				read: true,
 				write: false,
 			},
@@ -69,7 +69,7 @@ class AirQ extends utils.Adapter {
 					type: 'number',
 					role: 'value',
 					read: true,
-					write: true,
+					write: false,
 				},
 				native: {},
 			});
@@ -80,7 +80,7 @@ class AirQ extends utils.Adapter {
 					type: 'number',
 					role: 'value',
 					read: true,
-					write: true,
+					write: false,
 				},
 				native: {},
 			});
@@ -88,38 +88,54 @@ class AirQ extends utils.Adapter {
 			this.sensorArray = await this.getSensorsInDevice();
 			for (const element of this.sensorArray) {
 				if(element === 'temperature'){
-					await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+					await this.setObjectNotExistsAsync(this.replaceInvalidChars(`Sensors.${element}`), {
 						type: 'state',
 						common: {
 							name: element,
 							type: 'number',
-							role: 'value.temperature',
+							role: this.setRole(element),
 							unit: '°C',
 							read: true,
-							write: true,
+							write: false,
 						},
 						native: {},
 					});
 
 				}
-				await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+				await this.setObjectNotExistsAsync(this.replaceInvalidChars(`Sensors.${element}`), {
 					type: 'state',
 					common: {
 						name: element,
 						type: 'number',
-						role: 'value',
+						role: this.setRole(element),
 						read: true,
-						write: true,
+						write: false,
 					},
 					native: {},
 				});
 
-				 this.subscribeStates(`Sensors.${element}`);
 			}
 
 			this._stateInterval = this.setInterval(async () => {
 				await this.setStates();
-			}, this.config.retrievalRate * 1000);
+			}, this.retrievalRate * 1000);
+		}
+	}
+
+	private setRole(element: string): string {
+		switch (element) {
+			case 'temperature':
+				return 'value.temperature';
+			case 'dewpt':
+				return 'value.temperature';
+			case 'humidity':
+				return 'value.humidity';
+			case 'pressure':
+				return 'level.pressure';
+			case 'co2':
+				return 'value.co2';
+			default:
+				return 'value';
 		}
 	}
 
@@ -164,7 +180,7 @@ class AirQ extends utils.Adapter {
 				}
 			});
 
-			this._timeout= setTimeout(() => {
+			this._timeout= this.setTimeout(() => {
 				findAirQ.stop();
 				reject(new Error('AirQ not found in network'));
 			}, 50000);
@@ -218,8 +234,8 @@ class AirQ extends utils.Adapter {
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
-		} catch{
-			this.log.error('Error while getting data from AirQ');
+		} catch(error){
+			this.log.error('Error while getting data from AirQ: ' + error);
 		}
 	}
 
@@ -235,7 +251,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
 		} catch (error) {
-			this.log.error('Error while getting average data from AirQ');
+			this.log.error('Error while getting average data from AirQ: ' + error);
 		}
 	}
 
@@ -252,7 +268,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
 		} catch (error) {
-			this.log.error('Error while getting sensors from device');
+			this.log.error('Error while getting sensors from device: ' + error);
 		}
 	}
 
@@ -272,28 +288,13 @@ class AirQ extends utils.Adapter {
 		return this.config.retrievalType;
 	}
 
-	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-		const value = state?.val;
-		if (state) {
-			this.getStateAsync(id, { val: value, ack: true });
-		} else {
-			this.log.info(`State ${id} deleted`);
-		}
-	}
-
 	private async setStates(): Promise<void> {
 		try{
 			this.getRetrievalType() === 'data'
 				? await this.setSensorData()
 				: await this.setSensorAverageData();
-			this.onStateChange('Sensors.health', await this.getStateAsync('Sensors.health'));
-			this.onStateChange('Sensors.performance', await this.getStateAsync('Sensors.performance'));
-			for (const element of this.sensorArray) {
-				const state = await this.getStateAsync(`Sensors.${element}`);
-				this.onStateChange(`Sensors.${element}`, state);
-			}
-		}catch{
-			this.log.error('Error while setting states');
+		}catch(error){
+			this.log.error('Error while setting states: ' + error);
 		}
 	}
 
@@ -304,15 +305,15 @@ class AirQ extends utils.Adapter {
 				if(this.config.rawData){
 					const isNegative = this.checkNegativeValues(data, element);
 					const cappedValue= isNegative? 0 : data[element][0];
-					await this.setStateAsync(`Sensors.${element}`, { val: cappedValue, ack: true});
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: cappedValue, ack: true});
 				}else{
-					await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: data[element][0], ack: true });
 				}
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('Sensors.performance', { val: data.performance / 10, ack: true });
-		}catch{
-			this.log.error('Error while setting data from AirQ');
+		}catch(error){
+			this.log.error('Error while setting data from AirQ: ' + error);
 		}
 	}
 
@@ -323,15 +324,15 @@ class AirQ extends utils.Adapter {
 				if(this.config.rawData){
 					const isNegative = this.checkNegativeValues(data, element);
 					const cappedValue= isNegative? 0 : data[element][0];
-					await this.setStateAsync(`Sensors.${element}`, { val: cappedValue, ack: true});
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: cappedValue, ack: true});
 				}else{
-					await this.setStateAsync(`Sensors.${element}`, { val: data[element][0], ack: true });
+					await this.setStateAsync(this.replaceInvalidChars(`Sensors.${element}`), { val: data[element][0], ack: true });
 				}
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('Sensors.performance', { val: data.performance / 10, ack: true });
-		}catch{
-			this.log.error('Error while setting average data from AirQ ');
+		}catch(error){
+			this.log.error('Error while setting average data from AirQ: ' + error);
 		}
 	}
 
@@ -341,6 +342,10 @@ class AirQ extends utils.Adapter {
 		}else{
 			return false;
 		}
+	}
+
+	private replaceInvalidChars(name: string): string {
+		return name.replace(this.FORBIDDEN_CHARS, '_');
 	}
 
 	set service(value: any) {
@@ -389,6 +394,17 @@ class AirQ extends utils.Adapter {
 
 	get deviceName(): string {
 		return this._deviceName;
+	}
+
+	get retrievalRate(): number {
+
+		if(this.config.retrievalRate > 3600){
+			return 3600;
+		}else if(this.config.retrievalRate < 2){
+			return 2;
+		}else{
+			return this.config.retrievalRate;
+		}
 	}
 }
 

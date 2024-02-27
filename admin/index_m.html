@@ -38,6 +38,10 @@
 				disableIPInput();
 				onChange();
 			});
+			$("#retrievalRate").on("change", () => {
+				limitRetrievalRate($("#retrievalRate").val());
+				onChange();
+			});
 			disableIPInput();
 			onChange(false);
 			if (M) M.updateTextFields();
@@ -70,6 +74,15 @@
 			obj.connectViaIP = $("#connectViaIP").prop("checked");
 			callback(obj);
 		}
+
+		function limitRetrievalRate(rate) {
+				if (rate < 2) {
+					return $("#retrievalRate").val(2);
+				} else if (rate > 3600) {
+					return $("#retrievalRate").val(3600);
+    			}
+		}
+
 	</script>
 
 	<style>
@@ -126,7 +139,7 @@
 			<div class="row" style="padding: 4px">
 				<div class="input-field col s12 m6 l3">
 					<label for="retrievalRate" class="translate">retrieval_rate_txt</label>
-					<input type="number" class="value" id="retrievalRate" min="2" max="500" step="1" placeholder="10" />
+					<input type="number" class="value" id="retrievalRate" min="2" max="3600" step="1" placeholder="10" />
 				</div>
 				<div class="input-field col s12 m6 l3">
 					<select id="retrievalType" class="value">
@@ -141,6 +154,11 @@
 				<span for="access_data" class="translate"
 					style="font-size: 1rem; border-radius: 4px; margin-left: 0.5em"
 					class="translate">poll_warning_txt</span>
+			</div>
+			<div class="row" style="padding: 4px">
+				<span for="access_data" class="translate"
+					style="font-size: 1rem; border-radius: 4px; margin-left: 0.5em"
+					class="translate">polling_hint_txt</span>
 			</div>
 		</div>
 

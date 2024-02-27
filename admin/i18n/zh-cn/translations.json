@@ -38,5 +38,6 @@
     "shortId_txt": "短ID（序列号的前5位）",
     "so2_txt": "硫化氢（SO<sub>2</sub>）",
     "temperature_txt": "温度",
-    "voc_txt": "挥发性有机物（VOC）"
+    "voc_txt": "挥发性有机物（VOC）",
+    "polling_hint_txt": "提示：考虑使用 5 秒或更长的轮询频率，默认值为 10 秒。"
 }

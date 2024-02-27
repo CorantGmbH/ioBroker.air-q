@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "0.0.1",
+        "version": "1.0.0",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -15,6 +15,19 @@
                 "pl": "Pierwsze wydanie",
                 "uk": "Початкова версія",
                 "zh-cn": "首次出版"
+            },
+            "1.0.0": {
+                "en": "Include typescript files by @pr0crstntr in #6\nCreated air-Q class by @pr0crstntr in #4\nFix restart bug by @pr0crstntr in #7\nUpdate data poll by @pr0crstntr in #8\nUpdated io-package by @pr0crstntr in #9\nFixed save option for configuration by @pr0crstntr in #16\nAdded clear intervals on unload by @pr0crstntr in #26\nUpdate README by @pr0crstntr in #37\nChanged role for temperature and added unit by @pr0crstntr in #38",
+                "de": "Fügen Sie Typoskriptdateien von @pr0crstntr in #6 ein\nAir-Q-Klasse von @pr0crstntr in #4 erstellt\nNeustartfehler von @pr0crstntr in #7 behoben\nAktualisieren Sie die Datenumfrage von @pr0crstntr in #8\nAktualisiertes io-Paket von @pr0crstntr in #9\nDie Speicheroption für die Konfiguration durch @pr0crstntr in #16 wurde korrigiert\nLöschintervalle beim Entladen von @pr0crstntr in #26 hinzugefügt\nAktualisieren Sie die README-Datei von @pr0crstntr in #37\nRolle für Temperatur geändert und Einheit hinzugefügt von @pr0crstntr in #38",
+                "ru": "Включите файлы машинописных текстов от @pr0crstntr в #6.\nСоздал класс air-Q @pr0crstntr в #4.\nИсправьте ошибку перезапуска, сделанную @pr0crstntr в #7.\nОбновить данные опроса @pr0crstntr в #8\nОбновлен io-пакет от @pr0crstntr в #9.\nИсправлена ​​опция сохранения конфигурации @pr0crstntr в #16.\nДобавлены четкие интервалы при выгрузке @pr0crstntr в #26.\nОбновите README от @pr0crstntr в #37.\nИзменена роль температуры и добавлена ​​единица измерения @pr0crstntr в #38.",
+                "pt": "Incluir arquivos TypeScript de @pr0crstntr no nº 6\nClasse air-Q criada por @pr0crstntr em #4\nCorrija o bug de reinicialização por @pr0crstntr no item 7\nAtualizar pesquisa de dados por @pr0crstntr no item 8\nPacote io atualizado por @pr0crstntr no nº 9\nOpção de salvamento corrigida para configuração por @pr0crstntr no item 16\nAdicionados intervalos claros ao descarregar por @pr0crstntr em #26\nAtualize o README de @pr0crstntr no nº 37\nFunção alterada para temperatura e unidade adicionada por @pr0crstntr no #38",
+                "nl": "Voeg typoscriptbestanden van @pr0crstntr toe in #6\nAir-Q-klasse gemaakt door @pr0crstntr in #4\nHerstartbug van @pr0crstntr in #7 opgelost\nUpdate gegevenspeiling door @pr0crstntr in #8\nio-pakket bijgewerkt door @pr0crstntr in #9\nVaste opslagoptie voor configuratie door @pr0crstntr in #16\nDuidelijke intervallen toegevoegd bij het lossen door @pr0crstntr in #26\nUpdate README door @pr0crstntr in #37\nRol voor temperatuur gewijzigd en eenheid toegevoegd door @pr0crstntr in #38",
+                "fr": "Inclure les fichiers dactylographiés par @pr0crstntr dans #6\nClasse air-Q créée par @pr0crstntr dans #4\nCorrection d'un bug de redémarrage par @pr0crstntr dans #7\nMise à jour du sondage de données par @pr0crstntr dans #8\nio-package mis à jour par @pr0crstntr dans #9\nCorrection de l'option de sauvegarde pour la configuration par @pr0crstntr dans #16\nAjout d'intervalles clairs lors du déchargement par @pr0crstntr dans #26\nMettre à jour README par @pr0crstntr dans #37\nRôle modifié pour la température et unité ajoutée par @pr0crstntr dans #38",
+                "it": "Includi i file dattiloscritti di @pr0crstntr nel punto 6\nClasse air-Q creata da @pr0crstntr nel #4\nRisolto il bug di riavvio di @pr0crstntr nel punto 7\nAggiorna il sondaggio sui dati di @pr0crstntr al punto 8\nPacchetto io aggiornato da @pr0crstntr nel n. 9\nRisolta l'opzione di salvataggio per la configurazione di @pr0crstntr nel punto 16\nAggiunti intervalli di cancellazione allo scaricamento da @pr0crstntr in #26\nAggiorna README di @pr0crstntr nel #37\nRuolo modificato per la temperatura e unità aggiunta da @pr0crstntr nel #38",
+                "es": "Incluya archivos mecanografiados de @pr0crstntr en el n.° 6\nClase air-Q creada por @pr0crstntr en el n.° 4\nSe corrigió el error de reinicio de @pr0crstntr en el n.° 7\nActualizar encuesta de datos realizada por @pr0crstntr en el n.° 8\nPaquete io actualizado por @pr0crstntr en el n.° 9\nSe corrigió la opción de guardar para la configuración de @pr0crstntr en el n.° 16\nSe agregaron intervalos claros en la descarga por @pr0crstntr en el n.° 26\nActualización README de @pr0crstntr en el n.° 37\nSe cambió el rol de la temperatura y se agregó unidad por @pr0crstntr en el n.° 38",
+                "pl": "Dołącz pliki maszynopisu autorstwa @pr0crstntr w #6\nUtworzono klasę air-Q przez @pr0crstntr w #4\nNapraw błąd ponownego uruchomienia autorstwa @pr0crstntr w #7\nZaktualizuj ankietę danych przez @pr0crstntr w #8\nZaktualizowano pakiet io przez @pr0crstntr w #9\nNaprawiono opcję zapisu konfiguracji przez @pr0crstntr w #16\nDodano wyraźne interwały przy rozładunku autorstwa @pr0crstntr w #26\nZaktualizuj README przez @pr0crstntr w #37\nZmieniono rolę temperatury i dodano jednostkę przez @pr0crstntr w #38",
+                "uk": "Включіть файли typescript від @pr0crstntr у #6\nСтворив клас air-Q @pr0crstntr у №4\nВиправте помилку перезапуску @pr0crstntr у №7\nОновити дані опитування @pr0crstntr у #8\nОновлено io-пакет @pr0crstntr у №9\nВиправлено параметр збереження конфігурації @pr0crstntr у #16\nДодано чіткі інтервали під час вивантаження @pr0crstntr у #26\nОновіть README @pr0crstntr у #37\nЗмінено роль для температури та додано одиницю від @pr0crstntr у #38",
+                "zh-cn": "在 #6 中包含 @pr0crstntr 的打字稿文件\n由@pr0crstntr 在#4 创建了air-Q 类\n修复 #7 中 @pr0crstntr 的重启错误\n在 #8 中通过 @pr0crstntr 更新数据轮询\n由 @pr0crstntr 在 #9 中更新了 io-package\n修复了 #16 中 @pr0crstntr 配置的保存选项\n在 #26 中由 @pr0crstntr 添加了卸载时的明确间隔\n通过 @pr0crstntr 在 #37 中更新自述文件\n在 #38 中由 @pr0crstntr 更改了温度的角色并添加了单位"
             }
         },
         "title": "air-Q",
@@ -45,7 +58,7 @@
             "zh-cn": "Air-Q 设备适配器"
         },
         "authors": [
-            "Katharina K. <katharina.kraus@student.hs-anhalt.de>"
+            "Katharina K. <katharina.kraus@air-q.com>"
         ],
         "keywords": [
             "air-q",
@@ -82,7 +95,15 @@
             }
         ]
     },
-    "native": {},
+    "encryptedNative": [
+        "password"
+    ],
+    "protectedNative": [
+        "password"
+    ],
+    "native": {
+        "password": ""
+    },
     "objects": [],
     "instanceObjects": []
 }

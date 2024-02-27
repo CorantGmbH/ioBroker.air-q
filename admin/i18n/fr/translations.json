@@ -38,5 +38,6 @@
     "shortId_txt": "ID court (les 5 premiers chiffres du numéro de série)",
     "so2_txt": "Dioxyde de soufre (SO<sub>2</sub>)",
     "temperature_txt": "Température",
-    "voc_txt": "Composés organiques volatils (VOC)"
+    "voc_txt": "Composés organiques volatils (VOC)",
+    "polling_hint_txt": "Astuce : envisagez d'utiliser une fréquence d'interrogation de 5 secondes ou plus, la valeur par défaut étant de 10 secondes."
 }

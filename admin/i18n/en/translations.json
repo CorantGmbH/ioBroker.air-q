@@ -24,6 +24,7 @@
     "performance_txt": "Performance index",
     "pm_txt": "Particulate matter (PM1, PM2.5, PM10)",
     "poll_warning_txt": "Warning: Setting a very high polling frequency (less than 2 seconds) might slow down the air-Q smartphone app.",
+    "polling_hint_txt": "Hint: Consider using a polling frequency of 5 seconds or more, the default is at 10 seconds.",
     "pressure_rel_txt": "Relative pressure",
     "pressure_txt": "Pressure",
     "radon_txt": "Radon",

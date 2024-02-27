@@ -12,44 +12,37 @@
 
 ## Contents
 - [About](#about)
-- [Installation manual](#install)
-	- [Prerequisites](#prereq)
- 	- [Getting started](#start)
-	- [Test the adapter manually with dev-server](#testing)
- - [Changelog](#change)
- - [License](#license)
+- [Getting started](#start)
+- [Changelog](#change)
+- [License](#license)
 
 
 ## About <a id="about"/>
+
 This ioBroker Adapter is used in connection with our [air-Q device](https://www.air-q.com). It polls the values from our sensors and displays them for you in the ioBroker environment. 
 </br>
 </br>
 
 ![air-Q_frontal + Seitlich_full](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/5c38d737-9641-463f-bd07-ac62ce5f1973)
 
-## Installation manual <a id="install" />
+## Getting started <a id="start" />
 
-### Prerequisites <a id="prereq" />
+You should be able to find the adapter through the admin interface.
 
-Please make sure to install the newest version of npm. 
-To install and update necessary dependencies please run 
+Otherwise you're welcome to use the ioBroker command line interface through the console. Simply direct to your ioBroker root folder and add the adapter via
 ```
-npm i
+iobroker add air-q
 ```
- to ensure the adapter is running properly.
-For development it is recommended to use dev-server, which you can install with:
-```
-npm install dev-server
-```
+This installs the adapter (if it isn't installed already) and starts an instance. 
+In case you only want to install the adapter without creating an instance yet, use the following command:
 
-### Getting started <a id="start" />
-
-Head to your root directory for your ioBroker system. Now you can install our adapter by using npm directly: 
 ```
-npm install iobroker.air-q
+iobroker install air-q
 ```
 
-Once this is done, you should be able to find the adapter through the interface. To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
+For more information visit the ioBroker CLI documentation under https://github.com/ioBroker/ioBroker/wiki/Console-commands. 
+
+To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
 
 ![Screenshot 2024-02-13 103001](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/ec878783-af56-490d-af66-43c53c27df20)
 
@@ -66,30 +59,25 @@ The data will be retrieved and shown in the objects-tab according to your config
 
 ***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
 
-
-### Test the adapter manually with dev-server <a id="testing" />
-
-If you'd like to debug the adapter yourself you can use dev-server. 
-Once you installed it, run `dev-server setup`. 
-You can use it to run, test and debug your adapter.
-
-You may start `dev-server` by calling from your dev directory:
-```
-dev-server watch
-```
-
-The ioBroker.admin interface will then be available at http://127.0.0.1:8081/
-
-Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
-
 ## Changelog <a id="change" />
-<!--
-	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
--->
 
-### **WORK IN PROGRESS**
+### 1.0.0
+
+* Include typescript files by @pr0crstntr in #6
+* Created air-Q class by @pr0crstntr in #4
+* Fix restart bug by @pr0crstntr in #7
+* Update data poll by @pr0crstntr in #8
+* Updated io-package by @pr0crstntr in #9
+* Fixed save option for configuration by @pr0crstntr in #16
+* Added clear intervals on unload by @pr0crstntr in #26
+* Update README by @pr0crstntr in #37
+* Changed role for temperature and added unit by @pr0crstntr in #38
+
+### 0.0.1
+
 * (Katharina K.) initial release
+
+
 
 ## License <a id="license"/>
 
@@ -114,6 +102,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-Copyright (c) 2024 Corant GmbH
