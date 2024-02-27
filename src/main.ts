@@ -21,7 +21,6 @@ class AirQ extends utils.Adapter {
 			name: 'air-q',
 		});
 		this.on('ready', this.onReady.bind(this));
-		this.on('stateChange', this.onStateChange.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}
 
@@ -38,7 +37,7 @@ class AirQ extends utils.Adapter {
 			common: {
 				name: 'connection',
 				type: 'boolean',
-				role: 'indicator.reachable',
+				role: 'info.connection',
 				read: true,
 				write: false,
 			},
@@ -69,7 +68,7 @@ class AirQ extends utils.Adapter {
 					type: 'number',
 					role: 'value',
 					read: true,
-					write: true,
+					write: false,
 				},
 				native: {},
 			});
@@ -80,7 +79,7 @@ class AirQ extends utils.Adapter {
 					type: 'number',
 					role: 'value',
 					read: true,
-					write: true,
+					write: false,
 				},
 				native: {},
 			});
@@ -88,38 +87,54 @@ class AirQ extends utils.Adapter {
 			this.sensorArray = await this.getSensorsInDevice();
 			for (const element of this.sensorArray) {
 				if(element === 'temperature'){
-					await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+					await this.setObjectNotExistsAsync(this.replaceInvalidChars(`Sensors.${element}`), {
 						type: 'state',
 						common: {
 							name: element,
 							type: 'number',
-							role: 'value.temperature',
+							role: this.setRole(element),
 							unit: '°C',
 							read: true,
-							write: true,
+							write: false,
 						},
 						native: {},
 					});
 
 				}
-				await this.setObjectNotExistsAsync(`Sensors.${element}`, {
+				await this.setObjectNotExistsAsync(this.replaceInvalidChars(`Sensors.${element}`), {
 					type: 'state',
 					common: {
 						name: element,
 						type: 'number',
-						role: 'value',
+						role: this.setRole(element),
 						read: true,
-						write: true,
+						write: false,
 					},
 					native: {},
 				});
 
-				 this.subscribeStates(`Sensors.${element}`);
 			}
 
 			this._stateInterval = this.setInterval(async () => {
 				await this.setStates();
 			}, this.config.retrievalRate * 1000);
+		}
+	}
+
+	private setRole(element: string): string {
+		switch (element) {
+			case 'temperature':
+				return 'value.temperature';
+			case 'dewpt':
+				return 'value.temperature';
+			case 'humidity':
+				return 'value.humidity';
+			case 'pressure':
+				return 'level.pressure';
+			case 'co2':
+				return 'value.co2';
+			default:
+				return 'value';
 		}
 	}
 
@@ -164,7 +179,7 @@ class AirQ extends utils.Adapter {
 				}
 			});
 
-			this._timeout= setTimeout(() => {
+			this._timeout= this.setTimeout(() => {
 				findAirQ.stop();
 				reject(new Error('AirQ not found in network'));
 			}, 50000);
@@ -272,26 +287,11 @@ class AirQ extends utils.Adapter {
 		return this.config.retrievalType;
 	}
 
-	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-		const value = state?.val;
-		if (state) {
-			this.getStateAsync(id, { val: value, ack: true });
-		} else {
-			this.log.info(`State ${id} deleted`);
-		}
-	}
-
 	private async setStates(): Promise<void> {
 		try{
 			this.getRetrievalType() === 'data'
 				? await this.setSensorData()
 				: await this.setSensorAverageData();
-			this.onStateChange('Sensors.health', await this.getStateAsync('Sensors.health'));
-			this.onStateChange('Sensors.performance', await this.getStateAsync('Sensors.performance'));
-			for (const element of this.sensorArray) {
-				const state = await this.getStateAsync(`Sensors.${element}`);
-				this.onStateChange(`Sensors.${element}`, state);
-			}
 		}catch(error){
 			this.log.error('Error while setting states: ' + error);
 		}
@@ -343,6 +343,10 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
+	private replaceInvalidChars(name: string): string {
+		return name.replace(this.FORBIDDEN_CHARS, '_');
+	}
+
 	set service(value: any) {
 		this._service = value;
 	}
@@ -388,7 +392,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	get deviceName(): string {
-		return this._deviceName;
+		return this.replaceInvalidChars(this._deviceName);
 	}
 }
 
