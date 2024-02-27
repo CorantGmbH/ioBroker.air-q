@@ -97,10 +97,10 @@
     },
     "encryptedNative": [
         "password"
-      ],
-      "protectedNative": [
+    ],
+    "protectedNative": [
         "password"
-      ],
+    ],
     "native": {
         "password": ""
     },

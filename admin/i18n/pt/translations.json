@@ -38,5 +38,6 @@
     "shortId_txt": "ID curto (os 5 primeiros dígitos do número de série)",
     "so2_txt": "Dióxido de enxofre (SO<sub>2</sub>)",
     "temperature_txt": "Temperatura",
-    "voc_txt": "Compostos orgânicos voláteis (VOC)"
+    "voc_txt": "Compostos orgânicos voláteis (VOC)",
+    "polling_hint_txt": "Dica: Considere usar uma frequência de pesquisa de 5 segundos ou mais, o padrão é 10 segundos."
 }

@@ -32,7 +32,7 @@ class AirQ extends utils.Adapter {
     this._id = "";
     this._password = "";
     this._deviceName = "";
-    import_axios.default.defaults.timeout = 2e3;
+    import_axios.default.defaults.timeout = 4e3;
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }

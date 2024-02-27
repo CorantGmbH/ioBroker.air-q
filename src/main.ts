@@ -21,7 +21,7 @@ class AirQ extends utils.Adapter {
 			...options,
 			name: 'air-q',
 		});
-		axios.defaults.timeout = 2000;
+		axios.defaults.timeout = 4000;
 		this.on('ready', this.onReady.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}

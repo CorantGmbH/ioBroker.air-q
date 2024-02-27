@@ -38,5 +38,6 @@
     "shortId_txt": "ID breve (i primi 5 cifre del numero di serie)",
     "so2_txt": "Solfidio (SO<sub>2</sub>)",
     "temperature_txt": "Temperatura",
-    "voc_txt": "Composti organici volatili (VOC)"
+    "voc_txt": "Composti organici volatili (VOC)",
+    "polling_hint_txt": "Suggerimento: considerare l'utilizzo di una frequenza di polling di 5 secondi o più, il valore predefinito è 10 secondi."
 }
