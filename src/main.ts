@@ -218,8 +218,8 @@ class AirQ extends utils.Adapter {
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
-		} catch{
-			this.log.error('Error while getting data from AirQ');
+		} catch(error){
+			this.log.error('Error while getting data from AirQ: ' + error);
 		}
 	}
 
@@ -235,7 +235,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
 		} catch (error) {
-			this.log.error('Error while getting average data from AirQ');
+			this.log.error('Error while getting average data from AirQ: ' + error);
 		}
 	}
 
@@ -252,7 +252,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('DecryptedData is undefined or not an object');
 			}
 		} catch (error) {
-			this.log.error('Error while getting sensors from device');
+			this.log.error('Error while getting sensors from device: ' + error);
 		}
 	}
 
@@ -292,8 +292,8 @@ class AirQ extends utils.Adapter {
 				const state = await this.getStateAsync(`Sensors.${element}`);
 				this.onStateChange(`Sensors.${element}`, state);
 			}
-		}catch{
-			this.log.error('Error while setting states');
+		}catch(error){
+			this.log.error('Error while setting states: ' + error);
 		}
 	}
 
@@ -311,8 +311,8 @@ class AirQ extends utils.Adapter {
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('Sensors.performance', { val: data.performance / 10, ack: true });
-		}catch{
-			this.log.error('Error while setting data from AirQ');
+		}catch(error){
+			this.log.error('Error while setting data from AirQ: ' + error);
 		}
 	}
 
@@ -330,8 +330,8 @@ class AirQ extends utils.Adapter {
 			}
 			this.setStateAsync('Sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('Sensors.performance', { val: data.performance / 10, ack: true });
-		}catch{
-			this.log.error('Error while setting average data from AirQ ');
+		}catch(error){
+			this.log.error('Error while setting average data from AirQ: ' + error);
 		}
 	}
 

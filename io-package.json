@@ -95,7 +95,15 @@
             }
         ]
     },
-    "native": {},
+    "encryptedNative": [
+        "password"
+      ],
+      "protectedNative": [
+        "password"
+      ],
+    "native": {
+        "password": ""
+    },
     "objects": [],
     "instanceObjects": []
 }
