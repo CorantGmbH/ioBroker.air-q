@@ -12,11 +12,9 @@
 
 ## Contents
 - [About](#about)
-- [Installation manual](#install)
-	- [Prerequisites](#prereq)
- 	- [Getting started](#start)
- - [Changelog](#change)
- - [License](#license)
+- [Getting started](#start)
+- [Changelog](#change)
+- [License](#license)
 
 
 ## About <a id="about"/>
@@ -27,25 +25,16 @@ This ioBroker Adapter is used in connection with our [air-Q device](https://www.
 
 ![air-Q_frontal + Seitlich_full](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/5c38d737-9641-463f-bd07-ac62ce5f1973)
 
-## Installation manual <a id="install" />
+## Getting started <a id="start" />
 
-### Prerequisites <a id="prereq" />
-
-Please make sure to install the newest version of npm. 
-To install and update necessary dependencies please run 
+You should be able to find the adapter through the admin interface. Otherwise you're welcome to use the ioBroker command line interface through the console. Simply add the adapter via
 ```
-npm i
+iobroker add air-q
 ```
- to ensure the adapter is running properly.
+This installs the adapter, if you haven't already and starts an instance. 
+For more information visit the ioBroker CLI documentation under https://github.com/ioBroker/ioBroker/wiki/Console-commands. 
 
-### Getting started <a id="start" />
-
-Head to your root directory for your ioBroker system. Now you can install our adapter by using npm directly: 
-```
-npm install iobroker.air-q
-```
-
-Once this is done, you should be able to find the adapter through the interface. To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
+To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
 
 ![Screenshot 2024-02-13 103001](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/ec878783-af56-490d-af66-43c53c27df20)
 
@@ -105,6 +94,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-Copyright (c) 2024 Corant GmbH
