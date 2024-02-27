@@ -15,11 +15,13 @@ class AirQ extends utils.Adapter {
 	private _stateInterval: any;
 	private _timeout: any;
 
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
 			name: 'air-q',
 		});
+		axios.defaults.timeout = 2000;
 		this.on('ready', this.onReady.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}
@@ -31,7 +33,6 @@ class AirQ extends utils.Adapter {
 	}
 
 	private async onReady(): Promise<void> {
-
 		await this.setObjectNotExistsAsync('connection', {
 			type: 'state',
 			common: {
@@ -117,7 +118,7 @@ class AirQ extends utils.Adapter {
 
 			this._stateInterval = this.setInterval(async () => {
 				await this.setStates();
-			}, this.config.retrievalRate * 1000);
+			}, this.retrievalRate * 1000);
 		}
 	}
 
@@ -393,6 +394,17 @@ class AirQ extends utils.Adapter {
 
 	get deviceName(): string {
 		return this.replaceInvalidChars(this._deviceName);
+	}
+
+	get retrievalRate(): number {
+
+		if(this.config.retrievalRate > 3600){
+			return 3600;
+		}else if(this.config.retrievalRate < 2){
+			return 2;
+		}else{
+			return this.config.retrievalRate;
+		}
 	}
 }
 

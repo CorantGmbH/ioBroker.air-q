@@ -32,6 +32,7 @@ class AirQ extends utils.Adapter {
     this._id = "";
     this._password = "";
     this._deviceName = "";
+    import_axios.default.defaults.timeout = 2e3;
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
@@ -119,7 +120,7 @@ class AirQ extends utils.Adapter {
       }
       this._stateInterval = this.setInterval(async () => {
         await this.setStates();
-      }, this.config.retrievalRate * 1e3);
+      }, this.retrievalRate * 1e3);
     }
   }
   setRole(element) {
@@ -362,6 +363,15 @@ class AirQ extends utils.Adapter {
   }
   get deviceName() {
     return this.replaceInvalidChars(this._deviceName);
+  }
+  get retrievalRate() {
+    if (this.config.retrievalRate > 3600) {
+      return 3600;
+    } else if (this.config.retrievalRate < 2) {
+      return 2;
+    } else {
+      return this.config.retrievalRate;
+    }
   }
 }
 if (require.main !== module) {
