@@ -107,6 +107,14 @@
     "objects": [],
     "instanceObjects": [
         {
+            "_id": "sensors",
+            "type": "device",
+            "common": {
+              "name": ""
+            },
+            "native": {}
+        },
+        {
             "_id": "info",
             "type": "channel",
             "common": {
