@@ -105,5 +105,35 @@
         "password": ""
     },
     "objects": [],
-    "instanceObjects": []
+    "instanceObjects": [
+        {
+            "_id": "sensors",
+            "type": "device",
+            "common": {
+              "name": ""
+            },
+            "native": {}
+        },
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+              "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+              "role": "indicator.connected",
+              "name": "Device connected",
+              "type": "boolean",
+              "read": true,
+              "write": false,
+              "def": false
+            },
+            "native": {}
+          }
+    ]
 }
