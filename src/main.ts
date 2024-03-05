@@ -30,22 +30,10 @@ class AirQ extends utils.Adapter {
 		this.log.info('AirQ adapter stopped...');
 		this.clearInterval(this._stateInterval);
 		this.clearTimeout(this._timeout);
+		this.clearSensors();
 	}
 
 	private async onReady(): Promise<void> {
-		await this.setObjectNotExistsAsync('connection', {
-			type: 'state',
-			common: {
-				name: 'connection',
-				type: 'boolean',
-				role: 'info.connection',
-				read: true,
-				write: false,
-			},
-			native: {},
-		});
-
-		this.setState('connection', { val: false, ack: true });
 		if(this.config.password){
 			try{
 				this.password = this.config.password;
@@ -175,7 +163,7 @@ class AirQ extends utils.Adapter {
 			const findAirQ = instance.find(config, (service) => {
 				if (service.name === this.deviceName) {
 					findAirQ.stop();
-					this.setState('connection', { val: true, ack: true });
+					this.setState('info.connection', { val: true, ack: true });
 					resolve(service);
 				}
 			});
@@ -196,7 +184,7 @@ class AirQ extends utils.Adapter {
 				const sensorsData = decryptedData as DataConfig;
 				const serial = sensorsData.SN;
 				const shortID = serial.slice(0,5);
-				this.setState('connection', { val: true, ack: true });
+				this.setState('info.connection', { val: true, ack: true });
 				return shortID;
 			} else {
 				throw new Error('DecryptedData is undefined or not an object');
@@ -346,6 +334,18 @@ class AirQ extends utils.Adapter {
 
 	private replaceInvalidChars(name: string): string {
 		return name.replace(this.FORBIDDEN_CHARS, '_');
+	}
+
+	private clearSensors(): void {
+		this.getStatesOf('Sensors', async (err, states) => {
+			if (states) {
+				for (const state of states) {
+					this.delObject(state._id);
+				}
+			}else{
+				this.log.error('Error while clearing sensors: ' + err);
+			}
+		});
 	}
 
 	set service(value: any) {
