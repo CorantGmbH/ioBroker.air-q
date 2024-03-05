@@ -40,10 +40,10 @@ class AirQ extends utils.Adapter {
     this.log.info("AirQ adapter stopped...");
     this.clearInterval(this._stateInterval);
     this.clearTimeout(this._timeout);
-    this.clearSensors();
   }
   async onReady() {
     if (this.config.password) {
+      this.clearSensors();
       this.setState("info.connection", { val: false, ack: true });
       try {
         this.password = this.config.password;
