@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -28,6 +28,19 @@
                 "pl": "Dołącz pliki maszynopisu autorstwa @pr0crstntr w #6\nUtworzono klasę air-Q przez @pr0crstntr w #4\nNapraw błąd ponownego uruchomienia autorstwa @pr0crstntr w #7\nZaktualizuj ankietę danych przez @pr0crstntr w #8\nZaktualizowano pakiet io przez @pr0crstntr w #9\nNaprawiono opcję zapisu konfiguracji przez @pr0crstntr w #16\nDodano wyraźne interwały przy rozładunku autorstwa @pr0crstntr w #26\nZaktualizuj README przez @pr0crstntr w #37\nZmieniono rolę temperatury i dodano jednostkę przez @pr0crstntr w #38",
                 "uk": "Включіть файли typescript від @pr0crstntr у #6\nСтворив клас air-Q @pr0crstntr у №4\nВиправте помилку перезапуску @pr0crstntr у №7\nОновити дані опитування @pr0crstntr у #8\nОновлено io-пакет @pr0crstntr у №9\nВиправлено параметр збереження конфігурації @pr0crstntr у #16\nДодано чіткі інтервали під час вивантаження @pr0crstntr у #26\nОновіть README @pr0crstntr у #37\nЗмінено роль для температури та додано одиницю від @pr0crstntr у #38",
                 "zh-cn": "在 #6 中包含 @pr0crstntr 的打字稿文件\n由@pr0crstntr 在#4 创建了air-Q 类\n修复 #7 中 @pr0crstntr 的重启错误\n在 #8 中通过 @pr0crstntr 更新数据轮询\n由 @pr0crstntr 在 #9 中更新了 io-package\n修复了 #16 中 @pr0crstntr 配置的保存选项\n在 #26 中由 @pr0crstntr 添加了卸载时的明确间隔\n通过 @pr0crstntr 在 #37 中更新自述文件\n在 #38 中由 @pr0crstntr 更改了温度的角色并添加了单位"
+            },
+            "1.0.1": {
+                "en": "Added sensor list update when connecting to a different air-q in the same instance\nFixed name display and update of device",
+                "de": "Aktualisierung der Sensorliste hinzugefügt, wenn in derselben Instanz eine Verbindung zu einem anderen Air-Q hergestellt wird\nNamensanzeige und Aktualisierung des Geräts korrigiert",
+                "ru": "Добавлено обновление списка датчиков при подключении к другому Air-Q в том же экземпляре.\nИсправлено отображение имени и обновление устройства.",
+                "pt": "Adicionada atualização da lista de sensores ao conectar-se a um air-q diferente na mesma instância\nExibição de nome corrigida e atualização do dispositivo",
+                "nl": "Update van de sensorlijst toegevoegd bij verbinding met een andere air-q in dezelfde instantie\nVaste naamweergave en update van apparaat",
+                "fr": "Ajout d'une mise à jour de la liste des capteurs lors de la connexion à un autre air-q dans la même instance\nAffichage du nom fixe et mise à jour de l'appareil",
+                "it": "Aggiunto aggiornamento dell'elenco dei sensori quando ci si connette a un diverso air-q nella stessa istanza\nCorretta la visualizzazione del nome e l'aggiornamento del dispositivo",
+                "es": "Se agregó una actualización de la lista de sensores al conectarse a un air-q diferente en la misma instancia.\nSe corrigió la visualización del nombre y la actualización del dispositivo.",
+                "pl": "Dodano aktualizację listy czujników po podłączeniu do innego air-q w tej samej instancji\nNaprawiono wyświetlanie nazwy i aktualizację urządzenia",
+                "uk": "Додано оновлення списку датчиків під час підключення до іншого air-q в тому самому екземплярі\nВиправлено відображення імені та оновлення пристрою",
+                "zh-cn": "在同一实例中连接到不同的air-q时添加了传感器列表更新\n修复设备名称显示和更新"
             }
         },
         "title": "air-Q",
@@ -110,7 +123,7 @@
             "_id": "sensors",
             "type": "device",
             "common": {
-              "name": ""
+                "name": ""
             },
             "native": {}
         },
@@ -118,7 +131,7 @@
             "_id": "info",
             "type": "channel",
             "common": {
-              "name": "Information"
+                "name": "Information"
             },
             "native": {}
         },
@@ -126,14 +139,14 @@
             "_id": "info.connection",
             "type": "state",
             "common": {
-              "role": "indicator.connected",
-              "name": "Device connected",
-              "type": "boolean",
-              "read": true,
-              "write": false,
-              "def": false
+                "role": "indicator.connected",
+                "name": "Device connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
             },
             "native": {}
-          }
+        }
     ]
 }
