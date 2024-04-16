@@ -7,7 +7,10 @@
     "email": "katharina.kraus@air-q.com"
   },
   "homepage": "https://github.com/CorantGmbH/ioBroker.air-q",
-  "license": "MIT",
+  "licenseInformation": {
+    "type": "free",
+    "license": "MIT"
+  },
   "keywords": [
     "air-q",
     "airq",

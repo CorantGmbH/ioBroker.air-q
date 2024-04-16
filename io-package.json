@@ -2,6 +2,7 @@
     "common": {
         "name": "air-q",
         "version": "1.0.1",
+        "tier": 2,
         "news": {
             "0.0.1": {
                 "en": "initial release",
