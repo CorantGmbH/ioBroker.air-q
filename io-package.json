@@ -80,7 +80,10 @@
             "AirQ",
             "air-Q"
         ],
-        "license": "MIT",
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
         "icon": "air-q.png",
@@ -99,12 +102,12 @@
         "eraseOnUpload": true,
         "dependencies": [
             {
-                "js-controller": ">=3.3.22"
+                "js-controller": ">=4.0.0"
             }
         ],
         "globalDependencies": [
             {
-                "admin": ">=5.0.0"
+                "admin": ">=5.1.13"
             }
         ]
     },
