@@ -57,6 +57,7 @@ class AirQ extends utils.Adapter {
           name: "health",
           type: "number",
           role: "value",
+          unit: this.getUnit("health"),
           read: true,
           write: false
         },
@@ -68,6 +69,7 @@ class AirQ extends utils.Adapter {
           name: "performance",
           type: "number",
           role: "value",
+          unit: this.getUnit("performance"),
           read: true,
           write: false
         },
@@ -75,26 +77,13 @@ class AirQ extends utils.Adapter {
       });
       this.sensorArray = await this.getSensorsInDevice();
       for (const element of this.sensorArray) {
-        if (element === "temperature") {
-          await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
-            type: "state",
-            common: {
-              name: element,
-              type: "number",
-              role: this.setRole(element),
-              unit: "\xB0C",
-              read: true,
-              write: false
-            },
-            native: {}
-          });
-        }
         await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
           type: "state",
           common: {
             name: element,
             type: "number",
             role: this.setRole(element),
+            unit: this.getUnit(element),
             read: true,
             write: false
           },
@@ -147,7 +136,7 @@ class AirQ extends utils.Adapter {
         this.ip = this.config.deviceIP;
       }
     } catch (error) {
-      throw error;
+      throw "Invalid IP:" + error;
     }
   }
   async findAirQInNetwork() {
@@ -184,6 +173,50 @@ class AirQ extends utils.Adapter {
     } catch (error) {
       throw error;
     }
+  }
+  getUnit(sensorName) {
+    const sensorUnitMap = /* @__PURE__ */ new Map([
+      ["health", "%"],
+      ["performance", "%"],
+      ["virus", "%"],
+      ["co", "mg/m\xB3"],
+      ["co2", "ppm"],
+      ["no2", "\xB5g/m\xB3"],
+      ["so2", "\xB5g/m\xB3"],
+      ["o3", "\xB5g/m\xB3"],
+      ["temperature", "\xB0C"],
+      ["humidity", "%"],
+      ["humidity_abs", "g/m\xB3"],
+      ["dewpt", "\xB0C"],
+      ["pm1", "\xB5g/m\xB3"],
+      ["pm2_5", "\xB5g/m\xB3"],
+      ["pm10", "\xB5g/m\xB3"],
+      ["typps", "\xB5m"],
+      ["sound", "db(A)"],
+      ["sound_max", "db(A)"],
+      ["tvoc", "ppb"],
+      ["pressure", "hPa"],
+      ["h2s", "\xB5g/m\xB3"],
+      ["ch4_mipex", "\xB5g/m\xB3"],
+      ["c3h8_mipex", "\xB5g/m\xB3"],
+      ["tvoc_ionsc", "ppb"],
+      ["radon", "Bq/m\xB3"],
+      ["no2_insplorion", "\xB5g/m\xB3"],
+      ["ethanol", "\xB5g/m\xB3"],
+      ["iaq_spec", "ppb"],
+      ["resp_irr_spec", "ppb"],
+      ["nh3_mr100", "\xB5g/m\xB3"],
+      ["acid_m100", "\xB5g/m\xB3"],
+      ["h2_m1000", "\xB5g/m\xB3"],
+      ["no_m250", "\xB5g/m\xB3"],
+      ["cl2_m20", "\xB5g/m\xB3"],
+      ["ch2o_m10", "\xB5g/m\xB3"],
+      ["ch2o_winsen", "\xB5g/m\xB3"],
+      ["pm1_sps30", "\xB5g/m\xB3"],
+      ["pm2_5_sps30", "\xB5g/m\xB3"],
+      ["pm10_sps30", "\xB5g/m\xB3"]
+    ]);
+    return sensorUnitMap.get(sensorName);
   }
   async getIp() {
     try {
