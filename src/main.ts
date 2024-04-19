@@ -51,7 +51,7 @@ class AirQ extends utils.Adapter {
 					name: 'health',
 					type: 'number',
 					role: 'value',
-					unit: '%',
+					unit:  this.getUnit('health'),
 					read: true,
 					write: false,
 				},
@@ -63,7 +63,7 @@ class AirQ extends utils.Adapter {
 					name: 'performance',
 					type: 'number',
 					role: 'value',
-					unit: '%',
+					unit: this.getUnit('performance'),
 					read: true,
 					write: false,
 				},
@@ -72,14 +72,14 @@ class AirQ extends utils.Adapter {
 
 			this.sensorArray = await this.getSensorsInDevice();
 			for (const element of this.sensorArray) {
-				const unit = await this.getUnit(element);
+				this.log.debug('Element Unit: ' + element + ' ' + this.getUnit(element));
 				await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
 					type: 'state',
 					common: {
 						name: element,
 						type: 'number',
 						role: this.setRole(element),
-						unit: unit,
+						unit: this.getUnit(element),
 						read: true,
 						write: false,
 					},
@@ -181,45 +181,49 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private async getUnit(sensorName: string): Promise<Unit> {
-		try {
-			const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
-			const data = response.data.content;
-			const decryptedData = decrypt(data, this.password) as unknown;
-			if (decryptedData && typeof decryptedData === 'object') {
-				const sensorsData = decryptedData as DataConfig;
-				this.log.debug('SensorInfo: ' + JSON.stringify(sensorsData.SensorInfo[sensorName].Unit));
-				this.log.debug('SensorInfo All Data: ' + JSON.stringify(sensorsData.SensorInfo[sensorName]));
-				let unit: Unit;
-				switch (sensorName) {
-					case 'temperature': {
-						unit = '°C';
-						break;
-					}
-					case 'humidity': {
-						unit = '%';
-						break;
-					}
-					case 'humidity_abs': {
-						unit = 'g/m^3';
-						break;
-					}
-					case 'dewpt': {
-						unit = '°C';
-						break;
-					};
-					default:{
-						unit = sensorsData.SensorInfo[sensorName].Unit;
-					}
-				}
-				return unit;
-			} else {
-				throw new Error('DecryptedData is undefined or not an object');
-			}
-		} catch (error) {
-			this.log.error('Error while getting sensor units: ' + error);
-		}
-
+	private getUnit(sensorName: string): Unit {
+		const sensorUnitMap = new Map<string, string>([
+			['health',        '%'],
+			['performance',    '%'],
+			['virus',         '%'],
+			['co',             'mg/m³'],
+			['co2',            'ppm'],
+			['no2',            'µg/m³'],
+			['so2',            'µg/m³'],
+			['o3',             'µg/m³'],
+			['temperature',    '°C'],
+			['humidity',       '%'],
+			['humidity_abs',   'g/m³'],
+			['dewpt',          '°C'],
+			['pm1',            'µg/m³'],
+			['pm2_5',          'µg/m³'],
+			['pm10',           'µg/m³'],
+			['typps',          'µm'],
+			['sound',          'db(A)'],
+			['sound_max',      'db(A)'],
+			['tvoc',           'ppb'],
+			['pressure',       'hPa'],
+			['h2s',            'µg/m³'],
+			['ch4_mipex',      'µg/m³'],
+			['c3h8_mipex',     'µg/m³'],
+			['tvoc_ionsc',     'ppb'],
+			['radon',          'Bq/m³'],
+			['no2_insplorion', 'µg/m³'],
+			['ethanol',        'µg/m³'],
+			['iaq_spec',       'ppb'],
+			['resp_irr_spec',  'ppb'],
+			['nh3_mr100',      'µg/m³'],
+			['acid_m100',      'µg/m³'],
+			['h2_m1000',       'µg/m³'],
+			['no_m250',        'µg/m³'],
+			['cl2_m20',        'µg/m³'],
+			['ch2o_m10',       'µg/m³'],
+			['ch2o_winsen',    'µg/m³'],
+			['pm1_sps30',      'µg/m³'],
+			['pm2_5_sps30',    'µg/m³'],
+			['pm10_sps30',     'µg/m³'],
+		]);
+		return sensorUnitMap.get(sensorName) as Unit;
 	}
 
 	private async getIp(): Promise<string> {
@@ -288,7 +292,6 @@ class AirQ extends utils.Adapter {
 	}
 
 	private checkParticulates(data:string[]): string[]{
-		this.log.debug('Data in checkParticulates: ' + data);
 		if (data.includes('particulates')){
 			const pm=['pm1','pm2_5','pm10'];
 			const index = data.indexOf('particulates');
