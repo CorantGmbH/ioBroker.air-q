@@ -29,6 +29,6 @@ declare global {
 		sound: number;
 		sound_max: number;
 	}
-	type Unit = '°C' | 'ppm' | 'ppb' | 'mg/m3' | 'ug/m3' | 'mg/L' | 'ug/L' | 'mg/kg' | 'ug/kg' | 'mg' | 'ug' | 'mg/m2' | 'ug/m2' | '%' | 'g/m^3';
+	type Unit = '°C' | 'ppm' | 'ppb' | 'mg/m³' | 'µg/m³' | 'Bq/m³' | '%'| 'db(A)'| 'g/m³' | 'µm' | 'hPa';
 }
 export {};
