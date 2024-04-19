@@ -77,7 +77,6 @@ class AirQ extends utils.Adapter {
       });
       this.sensorArray = await this.getSensorsInDevice();
       for (const element of this.sensorArray) {
-        this.log.debug("Element Unit: " + element + " " + this.getUnit(element));
         await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
           type: "state",
           common: {
