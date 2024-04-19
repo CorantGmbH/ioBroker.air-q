@@ -81,10 +81,7 @@
             "AirQ",
             "air-Q"
         ],
-        "licenseInformation": {
-            "type": "free",
-            "license": "MIT"
-        },
+        "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "build/main.js",
         "icon": "air-q.png",
