@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -41,6 +41,19 @@
                 "pl": "Dodano aktualizację listy czujników po podłączeniu do innego air-q w tej samej instancji\nNaprawiono wyświetlanie nazwy i aktualizację urządzenia",
                 "uk": "Додано оновлення списку датчиків під час підключення до іншого air-q в тому самому екземплярі\nВиправлено відображення імені та оновлення пристрою",
                 "zh-cn": "在同一实例中连接到不同的air-q时添加了传感器列表更新\n修复设备名称显示和更新"
+            },
+            "1.0.2": {
+                "en": "Added units for each sensor value\nUpdates within config files",
+                "de": "Einheiten für jeden Sensorwert hinzugefügt\nAktualisierungen innerhalb von Konfigurationsdateien",
+                "ru": "Добавлены единицы измерения для каждого значения датчика.\nОбновления в файлах конфигурации",
+                "pt": "Unidades adicionadas para cada valor do sensor\nAtualizações nos arquivos de configuração",
+                "nl": "Toegevoegde eenheden voor elke sensorwaarde\nUpdates binnen configuratiebestanden",
+                "fr": "Unités ajoutées pour chaque valeur de capteur\nMises à jour dans les fichiers de configuration",
+                "it": "Unità aggiunte per ciascun valore del sensore\nAggiornamenti all'interno dei file di configurazione",
+                "es": "Unidades agregadas para cada valor del sensor\nActualizaciones dentro de los archivos de configuración",
+                "pl": "Dodano jednostki dla każdej wartości czujnika\nAktualizacje w plikach konfiguracyjnych",
+                "uk": "Додано одиниці для кожного значення датчика\nОновлення в конфігураційних файлах",
+                "zh-cn": "为每个传感器值添加单位\n配置文件内的更新"
             }
         },
         "title": "air-Q",
