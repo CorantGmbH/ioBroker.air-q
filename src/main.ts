@@ -8,7 +8,7 @@ class AirQ extends utils.Adapter {
 
 	private _service: any;
 	private _ip: string = '';
-	private _sensorArray:string[]= [];
+	private _sensorArray:string[] = [];
 	private _id: string= '';
 	private _password: string= '';
 	private _deviceName: string = '';
@@ -51,6 +51,7 @@ class AirQ extends utils.Adapter {
 					name: 'health',
 					type: 'number',
 					role: 'value',
+					unit:  this.getUnit('health'),
 					read: true,
 					write: false,
 				},
@@ -62,6 +63,7 @@ class AirQ extends utils.Adapter {
 					name: 'performance',
 					type: 'number',
 					role: 'value',
+					unit: this.getUnit('performance'),
 					read: true,
 					write: false,
 				},
@@ -70,27 +72,13 @@ class AirQ extends utils.Adapter {
 
 			this.sensorArray = await this.getSensorsInDevice();
 			for (const element of this.sensorArray) {
-				if(element === 'temperature'){
-					await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
-						type: 'state',
-						common: {
-							name: element,
-							type: 'number',
-							role: this.setRole(element),
-							unit: '°C',
-							read: true,
-							write: false,
-						},
-						native: {},
-					});
-
-				}
 				await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
 					type: 'state',
 					common: {
 						name: element,
 						type: 'number',
 						role: this.setRole(element),
+						unit: this.getUnit(element),
 						read: true,
 						write: false,
 					},
@@ -148,7 +136,7 @@ class AirQ extends utils.Adapter {
 				this.ip = this.config.deviceIP;
 			}
 		}catch(error){
-			throw error;
+			throw 'Invalid IP:' + error;
 		}
 	}
 
@@ -190,6 +178,51 @@ class AirQ extends utils.Adapter {
 		catch(error){
 			throw error;
 		}
+	}
+
+	private getUnit(sensorName: string): Unit {
+		const sensorUnitMap = new Map<string, string>([
+			['health',        '%'],
+			['performance',    '%'],
+			['virus',         '%'],
+			['co',             'mg/m³'],
+			['co2',            'ppm'],
+			['no2',            'µg/m³'],
+			['so2',            'µg/m³'],
+			['o3',             'µg/m³'],
+			['temperature',    '°C'],
+			['humidity',       '%'],
+			['humidity_abs',   'g/m³'],
+			['dewpt',          '°C'],
+			['pm1',            'µg/m³'],
+			['pm2_5',          'µg/m³'],
+			['pm10',           'µg/m³'],
+			['typps',          'µm'],
+			['sound',          'db(A)'],
+			['sound_max',      'db(A)'],
+			['tvoc',           'ppb'],
+			['pressure',       'hPa'],
+			['h2s',            'µg/m³'],
+			['ch4_mipex',      'µg/m³'],
+			['c3h8_mipex',     'µg/m³'],
+			['tvoc_ionsc',     'ppb'],
+			['radon',          'Bq/m³'],
+			['no2_insplorion', 'µg/m³'],
+			['ethanol',        'µg/m³'],
+			['iaq_spec',       'ppb'],
+			['resp_irr_spec',  'ppb'],
+			['nh3_mr100',      'µg/m³'],
+			['acid_m100',      'µg/m³'],
+			['h2_m1000',       'µg/m³'],
+			['no_m250',        'µg/m³'],
+			['cl2_m20',        'µg/m³'],
+			['ch2o_m10',       'µg/m³'],
+			['ch2o_winsen',    'µg/m³'],
+			['pm1_sps30',      'µg/m³'],
+			['pm2_5_sps30',    'µg/m³'],
+			['pm10_sps30',     'µg/m³'],
+		]);
+		return sensorUnitMap.get(sensorName) as Unit;
 	}
 
 	private async getIp(): Promise<string> {
@@ -305,7 +338,7 @@ class AirQ extends utils.Adapter {
 	private async setSensorAverageData(): Promise<void> {
 		try{
 			const data = await this.getAverageDataFromAirQ();
-			for (const element of this.sensorArray) {
+			for (const element of this.sensorArray){
 				if(this.config.rawData){
 					const isNegative = this.checkNegativeValues(data, element);
 					const cappedValue= isNegative? 0 : data[element][0];
