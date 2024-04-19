@@ -57,6 +57,7 @@ class AirQ extends utils.Adapter {
           name: "health",
           type: "number",
           role: "value",
+          unit: "%",
           read: true,
           write: false
         },
@@ -68,6 +69,7 @@ class AirQ extends utils.Adapter {
           name: "performance",
           type: "number",
           role: "value",
+          unit: "%",
           read: true,
           write: false
         },
@@ -75,26 +77,14 @@ class AirQ extends utils.Adapter {
       });
       this.sensorArray = await this.getSensorsInDevice();
       for (const element of this.sensorArray) {
-        if (element === "temperature") {
-          await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
-            type: "state",
-            common: {
-              name: element,
-              type: "number",
-              role: this.setRole(element),
-              unit: "\xB0C",
-              read: true,
-              write: false
-            },
-            native: {}
-          });
-        }
+        const unit = await this.getUnit(element);
         await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
           type: "state",
           common: {
             name: element,
             type: "number",
             role: this.setRole(element),
+            unit,
             read: true,
             write: false
           },
@@ -147,7 +137,7 @@ class AirQ extends utils.Adapter {
         this.ip = this.config.deviceIP;
       }
     } catch (error) {
-      throw error;
+      throw "Invalid IP:" + error;
     }
   }
   async findAirQInNetwork() {
@@ -183,6 +173,47 @@ class AirQ extends utils.Adapter {
       }
     } catch (error) {
       throw error;
+    }
+  }
+  async getUnit(sensorName) {
+    try {
+      const response = await import_axios.default.get(`http://${this.ip}/config`, { responseType: "json" });
+      const data = response.data.content;
+      const decryptedData = (0, import_decryptAES256.decrypt)(data, this.password);
+      if (decryptedData && typeof decryptedData === "object") {
+        const sensorsData = decryptedData;
+        this.log.debug("SensorInfo: " + JSON.stringify(sensorsData.SensorInfo[sensorName].Unit));
+        this.log.debug("SensorInfo All Data: " + JSON.stringify(sensorsData.SensorInfo[sensorName]));
+        let unit;
+        switch (sensorName) {
+          case "temperature": {
+            unit = "\xB0C";
+            break;
+          }
+          case "humidity": {
+            unit = "%";
+            break;
+          }
+          case "humidity_abs": {
+            unit = "g/m^3";
+            break;
+          }
+          case "dewpt":
+            {
+              unit = "\xB0C";
+              break;
+            }
+            ;
+          default: {
+            unit = sensorsData.SensorInfo[sensorName].Unit;
+          }
+        }
+        return unit;
+      } else {
+        throw new Error("DecryptedData is undefined or not an object");
+      }
+    } catch (error) {
+      this.log.error("Error while getting sensor units: " + error);
     }
   }
   async getIp() {
@@ -247,6 +278,7 @@ class AirQ extends utils.Adapter {
     }
   }
   checkParticulates(data) {
+    this.log.debug("Data in checkParticulates: " + data);
     if (data.includes("particulates")) {
       const pm = ["pm1", "pm2_5", "pm10"];
       const index = data.indexOf("particulates");

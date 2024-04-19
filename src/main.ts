@@ -8,7 +8,7 @@ class AirQ extends utils.Adapter {
 
 	private _service: any;
 	private _ip: string = '';
-	private _sensorArray:string[]= [];
+	private _sensorArray:string[] = [];
 	private _id: string= '';
 	private _password: string= '';
 	private _deviceName: string = '';
@@ -51,6 +51,7 @@ class AirQ extends utils.Adapter {
 					name: 'health',
 					type: 'number',
 					role: 'value',
+					unit: '%',
 					read: true,
 					write: false,
 				},
@@ -62,6 +63,7 @@ class AirQ extends utils.Adapter {
 					name: 'performance',
 					type: 'number',
 					role: 'value',
+					unit: '%',
 					read: true,
 					write: false,
 				},
@@ -70,27 +72,14 @@ class AirQ extends utils.Adapter {
 
 			this.sensorArray = await this.getSensorsInDevice();
 			for (const element of this.sensorArray) {
-				if(element === 'temperature'){
-					await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
-						type: 'state',
-						common: {
-							name: element,
-							type: 'number',
-							role: this.setRole(element),
-							unit: '°C',
-							read: true,
-							write: false,
-						},
-						native: {},
-					});
-
-				}
+				const unit = await this.getUnit(element);
 				await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
 					type: 'state',
 					common: {
 						name: element,
 						type: 'number',
 						role: this.setRole(element),
+						unit: unit,
 						read: true,
 						write: false,
 					},
@@ -148,7 +137,7 @@ class AirQ extends utils.Adapter {
 				this.ip = this.config.deviceIP;
 			}
 		}catch(error){
-			throw error;
+			throw 'Invalid IP:' + error;
 		}
 	}
 
@@ -190,6 +179,47 @@ class AirQ extends utils.Adapter {
 		catch(error){
 			throw error;
 		}
+	}
+
+	private async getUnit(sensorName: string): Promise<Unit> {
+		try {
+			const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
+			const data = response.data.content;
+			const decryptedData = decrypt(data, this.password) as unknown;
+			if (decryptedData && typeof decryptedData === 'object') {
+				const sensorsData = decryptedData as DataConfig;
+				this.log.debug('SensorInfo: ' + JSON.stringify(sensorsData.SensorInfo[sensorName].Unit));
+				this.log.debug('SensorInfo All Data: ' + JSON.stringify(sensorsData.SensorInfo[sensorName]));
+				let unit: Unit;
+				switch (sensorName) {
+					case 'temperature': {
+						unit = '°C';
+						break;
+					}
+					case 'humidity': {
+						unit = '%';
+						break;
+					}
+					case 'humidity_abs': {
+						unit = 'g/m^3';
+						break;
+					}
+					case 'dewpt': {
+						unit = '°C';
+						break;
+					};
+					default:{
+						unit = sensorsData.SensorInfo[sensorName].Unit;
+					}
+				}
+				return unit;
+			} else {
+				throw new Error('DecryptedData is undefined or not an object');
+			}
+		} catch (error) {
+			this.log.error('Error while getting sensor units: ' + error);
+		}
+
 	}
 
 	private async getIp(): Promise<string> {
@@ -258,6 +288,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	private checkParticulates(data:string[]): string[]{
+		this.log.debug('Data in checkParticulates: ' + data);
 		if (data.includes('particulates')){
 			const pm=['pm1','pm2_5','pm10'];
 			const index = data.indexOf('particulates');
@@ -305,7 +336,7 @@ class AirQ extends utils.Adapter {
 	private async setSensorAverageData(): Promise<void> {
 		try{
 			const data = await this.getAverageDataFromAirQ();
-			for (const element of this.sensorArray) {
+			for (const element of this.sensorArray){
 				if(this.config.rawData){
 					const isNegative = this.checkNegativeValues(data, element);
 					const cappedValue= isNegative? 0 : data[element][0];
