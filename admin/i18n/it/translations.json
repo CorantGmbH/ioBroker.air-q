@@ -39,5 +39,6 @@
     "so2_txt": "Solfidio (SO<sub>2</sub>)",
     "temperature_txt": "Temperatura",
     "voc_txt": "Composti organici volatili (VOC)",
-    "polling_hint_txt": "Suggerimento: considerare l'utilizzo di una frequenza di polling di 5 secondi o più, il valore predefinito è 10 secondi."
+    "polling_hint_txt": "Suggerimento: considerare l'utilizzo di una frequenza di polling di 5 secondi o più, il valore predefinito è 10 secondi.",
+    "password_show_txt": "mostra password"
 }

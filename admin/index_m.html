@@ -42,6 +42,10 @@
 				limitRetrievalRate($("#retrievalRate").val());
 				onChange();
 			});
+			$("#showPassword").on("change", () => {
+				togglePassword();
+				onChange();
+			});
 			disableIPInput();
 			onChange(false);
 			if (M) M.updateTextFields();
@@ -55,6 +59,14 @@
 			} else {
 				$("#searchOptionIp").addClass("disabled", true);
 				$("#searchOptionId").removeClass("disabled");
+			}
+		}
+
+		function togglePassword() {
+			if ($("#password").attr("type") === "password") {
+				$("#password").attr("type", "text");
+			} else {
+				$("#password").attr("type", "password");
 			}
 		}
 
@@ -122,6 +134,8 @@
 				<div class="col s6 input-field">
 					<input type="password" class="value" id="password" />
 					<label for="password" class="translate">password_txt</label>
+					<input type="checkbox" class="value" id="showPassword"/>
+					<label for="showPassword" class="translate">password_show_txt</label>
 				</div>
 			</div>
 			<div class="row" style="padding: 4px">

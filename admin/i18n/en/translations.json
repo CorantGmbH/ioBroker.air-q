@@ -39,5 +39,6 @@
     "shortId_txt": "Short ID (first 5 digits of the serial number)",
     "so2_txt": "Sulfur dioxide (SO<sub>2</sub>)",
     "temperature_txt": "Temperature",
-    "voc_txt": "Volatile organic compounds (VOC)"
+    "voc_txt": "Volatile organic compounds (VOC)",
+    "password_show_txt": "show password"
 }

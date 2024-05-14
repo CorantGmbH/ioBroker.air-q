@@ -39,5 +39,6 @@
     "so2_txt": "Dióxido de azufre (SO<sub>2</sub>)",
     "temperature_txt": "Temperatura",
     "voc_txt": "Compuestos orgánicos volátiles (VOC)",
-    "polling_hint_txt": "Sugerencia: considere utilizar una frecuencia de sondeo de 5 segundos o más; el valor predeterminado es 10 segundos."
+    "polling_hint_txt": "Sugerencia: considere utilizar una frecuencia de sondeo de 5 segundos o más; el valor predeterminado es 10 segundos.",
+    "password_show_txt": "mostrar contraseña"
 }

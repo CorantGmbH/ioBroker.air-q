@@ -39,5 +39,6 @@
     "so2_txt": "Zwavelgolf (SO<sub>2</sub>)",
     "temperature_txt": "Temperatuur",
     "voc_txt": "Vervuilde organisch materiaal (VOC)",
-    "polling_hint_txt": "Tip: Overweeg een pollingfrequentie van 5 seconden of meer te gebruiken; de standaardwaarde is 10 seconden."
+    "polling_hint_txt": "Tip: Overweeg een pollingfrequentie van 5 seconden of meer te gebruiken; de standaardwaarde is 10 seconden.",
+    "password_show_txt": "laat wachtwoord zien"
 }

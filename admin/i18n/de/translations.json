@@ -39,5 +39,6 @@
     "so2_txt": "Schwefeldioxid (SO<sub>2</sub>)",
     "temperature_txt": "Temperatur",
     "voc_txt": "Flüchtige organische Verbindungen (VOC)",
-    "polling_hint_txt": "Hinweis: Erwägen Sie die Verwendung einer Abfragehäufigkeit von 5 Sekunden oder mehr, der Standardwert liegt bei 10 Sekunden."
+    "polling_hint_txt": "Hinweis: Erwägen Sie die Verwendung einer Abfragehäufigkeit von 5 Sekunden oder mehr, der Standardwert liegt bei 10 Sekunden.",
+    "password_show_txt": "Passwort anzeigen"
 }
