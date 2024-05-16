@@ -13,6 +13,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -22,16 +26,19 @@ var import_bonjour_service = __toESM(require("bonjour-service"));
 var dns = __toESM(require("dns"));
 var import_decryptAES256 = require("./decryptAES256");
 class AirQ extends utils.Adapter {
+  _service;
+  _ip = "";
+  _sensorArray = [];
+  _id = "";
+  _password = "";
+  _deviceName = "";
+  _stateInterval;
+  _timeout;
   constructor(options = {}) {
     super({
       ...options,
       name: "air-q"
     });
-    this._ip = "";
-    this._sensorArray = [];
-    this._id = "";
-    this._password = "";
-    this._deviceName = "";
     import_axios.default.defaults.timeout = 4e3;
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
@@ -151,11 +158,12 @@ class AirQ extends utils.Adapter {
           findAirQ.stop();
           this.setState("info.connection", { val: true, ack: true });
           resolve(service);
+          this.log.info("Air-Q connected.");
         }
       });
       this._timeout = this.setTimeout(() => {
         findAirQ.stop();
-        reject(new Error("AirQ not found in network"));
+        reject(new Error("Air-Q not found in network"));
       }, 5e4);
     });
   }
@@ -169,6 +177,7 @@ class AirQ extends utils.Adapter {
         const serial = sensorsData.SN;
         const shortID = serial.slice(0, 5);
         this.setState("info.connection", { val: true, ack: true });
+        this.log.info("Air-Q connected.");
         return shortID;
       }
     } catch (error) {
@@ -231,7 +240,8 @@ class AirQ extends utils.Adapter {
         });
       });
     } catch (error) {
-      throw error;
+      this.log.error("Cannot seem to find IP address: " + error);
+      this.stop();
     }
   }
   async getDataFromAirQ() {
@@ -243,7 +253,7 @@ class AirQ extends utils.Adapter {
         const sensorsData = decryptedData;
         return sensorsData;
       } else {
-        throw new Error("DecryptedData is undefined or not an object. Make sure your credentials are correct and you have no typos.");
+        throw new Error("Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.");
       }
     } catch (error) {
       this.log.error("Error while getting data from AirQ: " + error + ". Check if the device is in the correct network and reachable.");
@@ -259,7 +269,7 @@ class AirQ extends utils.Adapter {
         const sensorsData = decryptedData;
         return sensorsData;
       } else {
-        throw new Error("Decrypted data is undefined or not an object. Make sure your credentials are correct and you have no typos.");
+        throw new Error("Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.");
       }
     } catch (error) {
       this.log.error("Error while getting average data from AirQ: " + error + ". Check if the device is in the correct network and reachable.");
@@ -276,7 +286,7 @@ class AirQ extends utils.Adapter {
         const sensors = this.checkParticulates(sensorsData.sensors);
         return sensors;
       } else {
-        throw new Error("Decrypted data is undefined or not an object. Make sure your credentials are correct and you have no typos.");
+        throw new Error("Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.");
       }
     } catch (error) {
       this.log.error("Error while getting sensors from device: " + error);

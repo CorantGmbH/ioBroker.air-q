@@ -154,12 +154,13 @@ class AirQ extends utils.Adapter {
 					findAirQ.stop();
 					this.setState('info.connection', { val: true, ack: true });
 					resolve(service);
+					this.log.info('Air-Q connected.');
 				}
 			});
 
 			this._timeout= this.setTimeout(() => {
 				findAirQ.stop();
-				reject(new Error('AirQ not found in network'));
+				reject(new Error('Air-Q not found in network'));
 			}, 50000);
 		});
 	}
@@ -174,7 +175,9 @@ class AirQ extends utils.Adapter {
 				const serial = sensorsData.SN;
 				const shortID = serial.slice(0,5);
 				this.setState('info.connection', { val: true, ack: true });
+				this.log.info('Air-Q connected.');
 				return shortID;
+
 			}
 		}
 		catch(error){
@@ -239,7 +242,8 @@ class AirQ extends utils.Adapter {
 				});
 			});
 		}catch(error){
-			throw error;
+			this.log.error('Cannot seem to find IP address: ' + error);
+			this.stop();
 		}
 	}
 
@@ -252,7 +256,7 @@ class AirQ extends utils.Adapter {
 				const sensorsData = decryptedData as Sensors;
 				return sensorsData;
 			} else {
-				throw new Error('DecryptedData is undefined or not an object. Make sure your credentials are correct and you have no typos.');
+				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch(error){
 			this.log.error('Error while getting data from AirQ: ' + error +  '. Check if the device is in the correct network and reachable.');
@@ -269,7 +273,7 @@ class AirQ extends utils.Adapter {
 				const sensorsData = decryptedData as Sensors;
 				return sensorsData;
 			} else {
-				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and you have no typos.');
+				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch (error) {
 			this.log.error('Error while getting average data from AirQ: ' + error +  '. Check if the device is in the correct network and reachable.');
@@ -287,7 +291,7 @@ class AirQ extends utils.Adapter {
 				const sensors = this.checkParticulates(sensorsData.sensors);
 				return sensors;
 			} else {
-				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and you have no typos.');
+				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch (error) {
 			this.log.error('Error while getting sensors from device: ' + error);

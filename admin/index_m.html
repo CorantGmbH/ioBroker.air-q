@@ -46,6 +46,7 @@
 				togglePassword();
 				onChange();
 			});
+			hidePassword();
 			disableIPInput();
 			onChange(false);
 			if (M) M.updateTextFields();
@@ -60,6 +61,11 @@
 				$("#searchOptionIp").addClass("disabled", true);
 				$("#searchOptionId").removeClass("disabled");
 			}
+		}
+
+		function hidePassword() {
+			$("#password").attr("type", "password");
+			$("#showPassword").prop("checked", false);
 		}
 
 		function togglePassword() {
