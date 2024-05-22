@@ -27,7 +27,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	private onUnload(): void {
-		this.log.info('AirQ adapter stopped...');
+		this.log.info('air-q adapter stopped...');
 		this.clearInterval(this._stateInterval);
 		this.clearTimeout(this._timeout);
 	}
@@ -154,13 +154,13 @@ class AirQ extends utils.Adapter {
 					findAirQ.stop();
 					this.setState('info.connection', { val: true, ack: true });
 					resolve(service);
-					this.log.info('Air-Q connected.');
+					this.log.info('Air-q connected.');
 				}
 			});
 
 			this._timeout= this.setTimeout(() => {
 				findAirQ.stop();
-				reject(new Error('Air-Q not found in network'));
+				reject(new Error('Air-q not found in network'));
 			}, 50000);
 		});
 	}
@@ -175,7 +175,7 @@ class AirQ extends utils.Adapter {
 				const serial = sensorsData.SN;
 				const shortID = serial.slice(0,5);
 				this.setState('info.connection', { val: true, ack: true });
-				this.log.info('Air-Q connected.');
+				this.log.info('Air-q connected.');
 				return shortID;
 
 			}
@@ -259,7 +259,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch(error){
-			this.log.error('Error while getting data from AirQ: ' + error +  '. Check if the device is in the correct network and reachable.');
+			this.log.error('Error while getting data from air-q: ' + error +  '. Check if the device is in the correct network and reachable.');
 			this.stop();
 		}
 	}
@@ -276,7 +276,7 @@ class AirQ extends utils.Adapter {
 				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch (error) {
-			this.log.error('Error while getting average data from AirQ: ' + error +  '. Check if the device is in the correct network and reachable.');
+			this.log.error('Error while getting average data from air-q: ' + error +  '. Check if the device is in the correct network and reachable.');
 			this.stop();
 		}
 	}
@@ -340,7 +340,7 @@ class AirQ extends utils.Adapter {
 			this.setStateAsync('sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('sensors.performance', { val: data.performance / 10, ack: true });
 		}catch(error){
-			this.log.error('Error while setting data from AirQ: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
+			this.log.error('Error while setting data from air-q: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
 		}
 	}
 
@@ -359,7 +359,7 @@ class AirQ extends utils.Adapter {
 			this.setStateAsync('sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('sensors.performance', { val: data.performance / 10, ack: true });
 		}catch(error){
-			this.log.error('Error while setting average data from AirQ: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
+			this.log.error('Error while setting average data from air-q: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
 		}
 	}
 
