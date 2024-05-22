@@ -39,5 +39,6 @@
     "so2_txt": "Dwutlenek węgla (SO<sub>2</sub>)",
     "temperature_txt": "Temperatura",
     "voc_txt": "Wybuchowe składniki organiczne (VOC)",
-    "polling_hint_txt": "Wskazówka: rozważ użycie częstotliwości odpytywania wynoszącej 5 sekund lub więcej, wartość domyślna wynosi 10 sekund."
+    "polling_hint_txt": "Wskazówka: rozważ użycie częstotliwości odpytywania wynoszącej 5 sekund lub więcej, wartość domyślna wynosi 10 sekund.",
+    "password_show_txt": "Pokaż hasło"
 }

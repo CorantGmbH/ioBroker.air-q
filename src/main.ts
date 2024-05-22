@@ -27,7 +27,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	private onUnload(): void {
-		this.log.info('AirQ adapter stopped...');
+		this.log.info('air-Q adapter stopped...');
 		this.clearInterval(this._stateInterval);
 		this.clearTimeout(this._timeout);
 	}
@@ -71,21 +71,26 @@ class AirQ extends utils.Adapter {
 			});
 
 			this.sensorArray = await this.getSensorsInDevice();
-			for (const element of this.sensorArray) {
-				await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
-					type: 'state',
-					common: {
-						name: element,
-						type: 'number',
-						role: this.setRole(element),
-						unit: this.getUnit(element),
-						read: true,
-						write: false,
-					},
-					native: {},
-				});
+			try{
+				for (const element of this.sensorArray) {
+					await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
+						type: 'state',
+						common: {
+							name: element,
+							type: 'number',
+							role: this.setRole(element),
+							unit: this.getUnit(element),
+							read: true,
+							write: false,
+						},
+						native: {},
+					});
 
+				}
+			}catch(error){
+				this.log.error('Error while iterating through the sensors: ' + error + '. Possible reasons might be false credentials or your ioBroker system is not connected to the same network as the air-Q device. Please check again.');
 			}
+
 			this.extendObject('sensors', { common: { name: this.deviceName } });
 
 			this._stateInterval = this.setInterval(async () => {
@@ -131,12 +136,11 @@ class AirQ extends utils.Adapter {
 
 	private isValidIP(ip: string): void {
 		const ip4Address = /^(\d{1,3}\.){3}\d{1,3}$/;
-		try{
-			if(ip4Address.test(ip)){
-				this.ip = this.config.deviceIP;
-			}
-		}catch(error){
-			throw 'Invalid IP:' + error;
+		const valid = ip4Address.test(ip);
+		if (valid){
+			this.ip = this.config.deviceIP;
+		}else{
+			throw new Error('IP is not valid. Please check your IP address.');
 		}
 	}
 
@@ -150,12 +154,13 @@ class AirQ extends utils.Adapter {
 					findAirQ.stop();
 					this.setState('info.connection', { val: true, ack: true });
 					resolve(service);
+					this.log.info('air-Q connected.');
 				}
 			});
 
 			this._timeout= this.setTimeout(() => {
 				findAirQ.stop();
-				reject(new Error('AirQ not found in network'));
+				reject(new Error('air-Q not found in network'));
 			}, 50000);
 		});
 	}
@@ -170,9 +175,9 @@ class AirQ extends utils.Adapter {
 				const serial = sensorsData.SN;
 				const shortID = serial.slice(0,5);
 				this.setState('info.connection', { val: true, ack: true });
+				this.log.info('air-Q connected.');
 				return shortID;
-			} else {
-				throw new Error('DecryptedData is undefined or not an object');
+
 			}
 		}
 		catch(error){
@@ -237,7 +242,8 @@ class AirQ extends utils.Adapter {
 				});
 			});
 		}catch(error){
-			throw error;
+			this.log.error('Cannot seem to find IP address: ' + error);
+			this.stop();
 		}
 	}
 
@@ -250,10 +256,11 @@ class AirQ extends utils.Adapter {
 				const sensorsData = decryptedData as Sensors;
 				return sensorsData;
 			} else {
-				throw new Error('DecryptedData is undefined or not an object');
+				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch(error){
-			this.log.error('Error while getting data from AirQ: ' + error);
+			this.log.error('Error while getting data from air-Q: ' + error +  '. Check if the device is in the correct network and reachable.');
+			this.stop();
 		}
 	}
 
@@ -266,10 +273,11 @@ class AirQ extends utils.Adapter {
 				const sensorsData = decryptedData as Sensors;
 				return sensorsData;
 			} else {
-				throw new Error('DecryptedData is undefined or not an object');
+				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch (error) {
-			this.log.error('Error while getting average data from AirQ: ' + error);
+			this.log.error('Error while getting average data from air-Q: ' + error +  '. Check if the device is in the correct network and reachable.');
+			this.stop();
 		}
 	}
 
@@ -283,10 +291,11 @@ class AirQ extends utils.Adapter {
 				const sensors = this.checkParticulates(sensorsData.sensors);
 				return sensors;
 			} else {
-				throw new Error('DecryptedData is undefined or not an object');
+				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch (error) {
 			this.log.error('Error while getting sensors from device: ' + error);
+			this.stop();
 		}
 	}
 
@@ -331,7 +340,7 @@ class AirQ extends utils.Adapter {
 			this.setStateAsync('sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('sensors.performance', { val: data.performance / 10, ack: true });
 		}catch(error){
-			this.log.error('Error while setting data from AirQ: ' + error);
+			this.log.error('Error while setting data from air-Q: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
 		}
 	}
 
@@ -350,7 +359,7 @@ class AirQ extends utils.Adapter {
 			this.setStateAsync('sensors.health', { val: data.health / 10, ack: true });
 			this.setStateAsync('sensors.performance', { val: data.performance / 10, ack: true });
 		}catch(error){
-			this.log.error('Error while setting average data from AirQ: ' + error);
+			this.log.error('Error while setting average data from air-Q: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
 		}
 	}
 
