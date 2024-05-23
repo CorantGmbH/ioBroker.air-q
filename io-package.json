@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.2",
+        "version": "1.0.3",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -55,6 +55,19 @@
                 "pl": "Dodano jednostki dla każdej wartości czujnika\nAktualizacje w plikach konfiguracyjnych",
                 "uk": "Додано одиниці для кожного значення датчика\nОновлення в конфігураційних файлах",
                 "zh-cn": "为每个传感器值添加单位\n配置文件内的更新"
+            },
+            "1.0.3": {
+                "en": "Added a checkbox for showing and hiding the password in the instance configuration\nEdited the error messages to be more helpful\nAdded logging information when the air-Q device is actually connected",
+                "de": "Ein Kontrollkästchen zum Anzeigen und Ausblenden des Passworts in der Instanzkonfiguration hinzugefügt\nDie Fehlermeldungen wurden bearbeitet, um hilfreicher zu sein\nProtokollierungsinformationen hinzugefügt, wenn das Air-Q-Gerät tatsächlich angeschlossen ist",
+                "ru": "Добавлен флажок для отображения и скрытия пароля в конфигурации экземпляра.\nОтредактированы сообщения об ошибках, чтобы они были более полезными.\nДобавлена ​​информация о регистрации фактического подключения устройства air-Q.",
+                "pt": "Adicionada uma caixa de seleção para mostrar e ocultar a senha na configuração da instância\nEditei as mensagens de erro para serem mais úteis\nAdicionadas informações de registro quando o dispositivo air-Q está realmente conectado",
+                "nl": "Er is een selectievakje toegevoegd voor het weergeven en verbergen van het wachtwoord in de exemplaarconfiguratie\nDe foutmeldingen bewerkt om nuttiger te zijn\nLogboekinformatie toegevoegd wanneer het air-Q-apparaat daadwerkelijk is aangesloten",
+                "fr": "Ajout d'une case à cocher pour afficher et masquer le mot de passe dans la configuration de l'instance\nModification des messages d'erreur pour être plus utiles\nAjout d'informations de journalisation lorsque l'appareil air-Q est réellement connecté",
+                "it": "Aggiunta una casella di controllo per mostrare e nascondere la password nella configurazione dell'istanza\nModificati i messaggi di errore per essere più utili\nAggiunte informazioni di registrazione quando il dispositivo air-Q è effettivamente connesso",
+                "es": "Se agregó una casilla de verificación para mostrar y ocultar la contraseña en la configuración de la instancia.\nEdité los mensajes de error para que sean más útiles.\nSe agregó información de registro cuando el dispositivo air-Q está realmente conectado",
+                "pl": "Dodano pole wyboru umożliwiające pokazywanie i ukrywanie hasła w konfiguracji instancji\nZmodyfikowano komunikaty o błędach, aby były bardziej pomocne\nDodano rejestrowanie informacji o rzeczywistym podłączeniu urządzenia air-Q",
+                "uk": "Додано прапорець для показу та приховування пароля в конфігурації екземпляра\nВідредаговано повідомлення про помилки, щоб бути більш корисними\nДодано інформацію про журнал під час підключення пристрою air-Q",
+                "zh-cn": "添加了用于在实例配置中显示和隐藏密码的复选框\n编辑错误消息以提供更多帮助\n添加了air-Q设备实际连接时的日志信息"
             }
         },
         "title": "air-Q",
