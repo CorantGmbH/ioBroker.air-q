@@ -112,7 +112,6 @@
           "type": "free"
         },
         "platform": "Javascript/Node.js",
-        "main": "build/main.js",
         "icon": "air-q.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/CorantGmbH/ioBroker.air-q/main/admin/air-q.png",
