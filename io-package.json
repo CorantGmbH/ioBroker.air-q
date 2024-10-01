@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.3",
+        "version": "1.0.4",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -68,6 +68,19 @@
                 "pl": "Dodano pole wyboru umożliwiające pokazywanie i ukrywanie hasła w konfiguracji instancji\nZmodyfikowano komunikaty o błędach, aby były bardziej pomocne\nDodano rejestrowanie informacji o rzeczywistym podłączeniu urządzenia air-Q",
                 "uk": "Додано прапорець для показу та приховування пароля в конфігурації екземпляра\nВідредаговано повідомлення про помилки, щоб бути більш корисними\nДодано інформацію про журнал під час підключення пристрою air-Q",
                 "zh-cn": "添加了用于在实例配置中显示和隐藏密码的复选框\n编辑错误消息以提供更多帮助\n添加了air-Q设备实际连接时的日志信息"
+            },
+            "1.0.4": {
+              "en": "Updated various dependencies",
+              "de": "Verschiedene Abhängigkeiten aktualisiert",
+              "ru": "Обновлены различные зависимости",
+              "pt": "Várias dependências atualizadas",
+              "nl": "Verschillende afhankelijkheden bijgewerkt",
+              "fr": "Mise à jour de diverses dépendances",
+              "it": "Aggiornate varie dipendenze",
+              "es": "Se actualizaron varias dependencias",
+              "pl": "Zaktualizowano różne zależności",
+              "uk": "Оновлено різні залежності",
+              "zh-cn": "更新了各種依賴項"
             }
         },
         "titleLang": {
