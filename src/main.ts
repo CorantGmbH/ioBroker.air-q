@@ -375,16 +375,20 @@ class AirQ extends utils.Adapter {
 		return name.replace(this.FORBIDDEN_CHARS, '_');
 	}
 
-	private clearSensors(): void {
-		this.getStatesOf('sensors', async (err, states) => {
-			if (states) {
+	private async clearSensors(): Promise<void> {
+		try {
+			const states = await this.getStatesOfAsync('sensors');
+			if (states && states.length > 0) {
 				for (const state of states) {
-					this.delObject(state._id);
+					await this.delObjectAsync(state._id);
+					this.log.debug(`Deleted sensor state: ${state._id}`);
 				}
-			}else{
-				this.log.error('Error while clearing sensors: ' + err);
+			} else {
+				this.log.debug('No sensor states to clear.');
 			}
-		});
+		} catch (err) {
+			this.log.error('Error while clearing sensors: ' + err);
+		}
 	}
 
 	set service(value: any) {
