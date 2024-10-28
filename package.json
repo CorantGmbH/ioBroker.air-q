@@ -24,7 +24,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.2.1",
+    "@iobroker/adapter-core": "^3.2.2",
     "bonjour-service": "^1.2.1",
     "crypto-js": "^4.2.0"
   },
