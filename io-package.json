@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.4",
+        "version": "1.0.5",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -81,6 +81,19 @@
               "pl": "Zaktualizowano różne zależności",
               "uk": "Оновлено різні залежності",
               "zh-cn": "更新了各種依賴項"
+            },
+            "1.0.5": {
+                "en": "Fix sensors dropping custom configuration after a restart and bump dependency version",
+                "de": "Behebung des Verlusts der benutzerdefinierten Konfiguration der Sensoren nach einem Neustart und Aktualisierung der Abhängigkeitsversion",
+                "ru": "Исправление сброса пользовательской конфигурации датчиков после перезапуска и обновление версии зависимости",
+                "pt": "Correção para sensores que perdem configuração personalizada após reiniciar e atualização da versão de dependência",
+                "nl": "Oplossing voor sensoren die hun aangepaste configuratie verliezen na een herstart en verhoging van de afhankelijkheidsversie",
+                "fr": "Correction des capteurs perdant leur configuration personnalisée après un redémarrage et mise à jour de la version de dépendance",
+                "it": "Correzione dei sensori che perdono la configurazione personalizzata dopo un riavvio e aggiornamento della versione di dipendenza",
+                "es": "Corrección para que los sensores no pierdan su configuración personalizada tras un reinicio y actualización de la versión de dependencia",
+                "pl": "Naprawa problemu z utratą niestandardowej konfiguracji czujników po ponownym uruchomieniu oraz aktualizacja wersji zależności",
+                "uk": "Виправлено скидання користувацької конфігурації датчиків після перезапуску та оновлення версії залежності",
+                "zh-cn": "修复传感器在重启后丢失自定义配置的问题并更新依赖项版本"
             }
         },
         "titleLang": {
