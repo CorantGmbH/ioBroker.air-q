@@ -34,6 +34,7 @@ class AirQ extends utils.Adapter {
   _deviceName = "";
   _stateInterval;
   _timeout;
+  _specialSensors = ["health", "performance"];
   constructor(options = {}) {
     super({
       ...options,
@@ -50,7 +51,6 @@ class AirQ extends utils.Adapter {
   }
   async onReady() {
     if (this.config.password) {
-      this.clearSensors();
       this.setState("info.connection", { val: false, ack: true });
       try {
         this.password = this.config.password;
@@ -83,6 +83,7 @@ class AirQ extends utils.Adapter {
         native: {}
       });
       this.sensorArray = await this.getSensorsInDevice();
+      this.clearObsoleteSensors();
       try {
         for (const element of this.sensorArray) {
           await this.setObjectNotExistsAsync(this.replaceInvalidChars(`sensors.${element}`), {
@@ -360,16 +361,34 @@ class AirQ extends utils.Adapter {
   replaceInvalidChars(name) {
     return name.replace(this.FORBIDDEN_CHARS, "_");
   }
-  clearSensors() {
-    this.getStatesOf("sensors", async (err, states) => {
-      if (states) {
-        for (const state of states) {
-          this.delObject(state._id);
+  async clearObsoleteSensors() {
+    try {
+      const existingStates = await this.getStatesOfAsync("sensors");
+      this.log.debug(`Existing states retrieved: ${existingStates ? existingStates.length : 0}`);
+      if (existingStates && existingStates.length > 0) {
+        this.log.silly(`existingStates: ${JSON.stringify(existingStates, null, 2)}`);
+        const existingSensorIds = existingStates.map(
+          (state) => state._id.replace(`${this.namespace}.sensors.`, "")
+        );
+        this.log.silly(`existingSensorIds: ${JSON.stringify(existingSensorIds)}`);
+        const validSensors = this.sensorArray.concat(this._specialSensors);
+        this.log.silly(`Valid sensors (sensorArray + specialSensors): ${JSON.stringify(validSensors)}`);
+        const obsoleteSensors = existingSensorIds.filter(
+          (id) => !validSensors.includes(id)
+        );
+        this.log.silly(`obsoleteSensors: ${JSON.stringify(obsoleteSensors)}`);
+        this.log.silly(`Current sensorArray: ${JSON.stringify(this.sensorArray)}`);
+        for (const sensorId of obsoleteSensors) {
+          const fullId = `sensors.${sensorId}`;
+          await this.delObjectAsync(fullId);
+          this.log.info(`Deleted obsolete sensor: ${fullId}`);
         }
       } else {
-        this.log.error("Error while clearing sensors: " + err);
+        this.log.debug("No existing sensor states found.");
       }
-    });
+    } catch (err) {
+      this.log.error("Error while clearing obsolete sensors: " + err);
+    }
   }
   set service(value) {
     this._service = value;
