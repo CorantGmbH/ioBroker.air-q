@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.5",
+        "version": "1.0.6",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -94,6 +94,19 @@
                 "pl": "Naprawa problemu z utratą niestandardowej konfiguracji czujników po ponownym uruchomieniu oraz aktualizacja wersji zależności",
                 "uk": "Виправлено скидання користувацької конфігурації датчиків після перезапуску та оновлення версії залежності",
                 "zh-cn": "修复传感器在重启后丢失自定义配置的问题并更新依赖项版本"
+            },
+            "1.0.6": {
+                "en": "Add optional night mode support: adapter can now skip polling when device WiFi is disabled during night hours (respects device configuration, auto-converts UTC to local time)",
+                "de": "Optionale Nachtmodus-Unterstützung hinzugefügt: Adapter kann jetzt Polling überspringen, wenn Gerät-WLAN während der Nachtstunden deaktiviert ist (respektiert Gerätekonfiguration, konvertiert UTC automatisch in Lokalzeit)",
+                "ru": "Добавлена опциональная поддержка ночного режима: адаптер теперь может пропускать опрос, когда WiFi устройства отключен в ночные часы (учитывает конфигурацию устройства, автоматически конвертирует UTC в местное время)",
+                "pt": "Suporte opcional ao modo noturno adicionado: o adaptador agora pode ignorar polling quando o WiFi do dispositivo está desativado durante as horas noturnas (respeita a configuração do dispositivo, converte UTC para hora local automaticamente)",
+                "nl": "Optionele nachtmodus-ondersteuning toegevoegd: adapter kan nu polling overslaan wanneer WiFi van apparaat is uitgeschakeld tijdens nachtelijke uren (respecteert apparaatconfiguratie, converteert UTC automatisch naar lokale tijd)",
+                "fr": "Prise en charge optionnelle du mode nuit ajoutée : l'adaptateur peut désormais ignorer le sondage lorsque le WiFi de l'appareil est désactivé pendant les heures de nuit (respecte la configuration de l'appareil, convertit automatiquement l'UTC en heure locale)",
+                "it": "Aggiunto supporto opzionale per la modalità notturna: l'adattatore ora può saltare il polling quando il WiFi del dispositivo è disabilitato durante le ore notturne (rispetta la configurazione del dispositivo, converte automaticamente UTC in ora locale)",
+                "es": "Soporte opcional para modo nocturno añadido: el adaptador ahora puede omitir el polling cuando el WiFi del dispositivo está deshabilitado durante las horas nocturnas (respeta la configuración del dispositivo, convierte UTC a hora local automáticamente)",
+                "pl": "Dodano opcjonalne wsparcie trybu nocnego: adapter może teraz pomijać odpytywanie, gdy WiFi urządzenia jest wyłączone w godzinach nocnych (przestrzega konfiguracji urządzenia, automatycznie konwertuje UTC na czas lokalny)",
+                "uk": "Додано опціональну підтримку нічного режиму: адаптер тепер може пропускати опитування, коли WiFi пристрою вимкнено в нічні години (враховує конфігурацію пристрою, автоматично конвертує UTC у місцевий час)",
+                "zh-cn": "添加可选的夜间模式支持：适配器现在可以在夜间设备WiFi禁用时跳过轮询（遵循设备配置，自动将UTC转换为本地时间）"
             }
         },
         "titleLang": {

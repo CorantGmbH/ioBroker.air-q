@@ -11,6 +11,7 @@ declare global {
 			rawData: boolean;
 			connectViaIP:boolean;
 			deviceIP: string;
+			respectNightMode: boolean;
 		}
 	}
 }

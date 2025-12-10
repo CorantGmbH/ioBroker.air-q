@@ -4,6 +4,13 @@ import bonjour, { BrowserConfig } from 'bonjour-service';
 import * as dns from 'dns';
 import { decrypt } from './decryptAES256';
 
+interface NightModeConfig {
+	Activated: boolean;        // Is night mode turned on?
+	StartDay: string;          // UTC time when day starts, e.g., "05:00"
+	StartNight: string;        // UTC time when night starts, e.g., "21:00"
+	WifiNightOff: boolean;     // Does the device turn off WiFi at night?
+}
+
 class AirQ extends utils.Adapter {
 
 	private _service: any;
@@ -15,6 +22,9 @@ class AirQ extends utils.Adapter {
 	private _stateInterval: any;
 	private _timeout: any;
 	private readonly _specialSensors: string[] = ['health', 'performance'];
+	private _nightModeConfig: NightModeConfig | null = null;
+	private _lastNightModeCheck: number = 0;
+	private readonly _nightModeRefreshInterval: number = 3600000; // 1 hour in milliseconds
 
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
@@ -45,6 +55,15 @@ class AirQ extends utils.Adapter {
 			}catch(error){
 				this.log.error(error);
 			}
+
+			// Fetch night mode configuration if feature is enabled
+			if (this.config.respectNightMode) {
+				this.log.info('Fetching night mode configuration from device');
+				await this.fetchAndCacheNightMode();
+			} else {
+				this.log.info('Night mode is being ignored (respectNightMode setting disabled)');
+			}
+
 			await this.setObjectNotExistsAsync(`sensors.health`, {
 				type: 'state',
 				common: {
@@ -318,6 +337,17 @@ class AirQ extends utils.Adapter {
 
 	private async setStates(): Promise<void> {
 		try{
+			// Check if we should skip this poll due to night mode
+			if (this.isInNightMode()) {
+				// We're in night mode and WiFi is off, so skip this poll
+				this.log.debug('Skipping poll - device is in night mode with WiFi disabled');
+				return;  // Exit early, don't try to connect
+			}
+
+			// If we're not in night mode, check if we should refresh the config
+			await this.refreshNightModeIfNeeded();
+
+			// Continue with normal polling
 			this.getRetrievalType() === 'data'
 				? await this.setSensorData()
 				: await this.setSensorAverageData();
@@ -369,6 +399,130 @@ class AirQ extends utils.Adapter {
 			return true;
 		}else{
 			return false;
+		}
+	}
+
+	/**
+	 * Creates a Date object for today at the specified UTC time
+	 * The Date object will automatically represent the time in local timezone
+	 * 
+	 * @param utcTimeStr - Time in UTC format "HH:MM"
+	 * @returns Date object in local timezone
+	 */
+	private createUTCTimeToday(utcTimeStr: string): Date {
+		const [hours, minutes] = utcTimeStr.split(':').map(num => parseInt(num, 10));
+
+		// Create a date with today's date at the specified UTC time
+		const date = new Date();
+		date.setUTCHours(hours, minutes, 0, 0);
+
+		return date;
+	}
+
+	/**
+	 * Checks if the current time falls within the night mode period
+	 * Returns true if we should skip polling (because WiFi is off)
+	 */
+	private isInNightMode(): boolean {
+		// First, check if the user wants us to respect night mode at all
+		if (!this.config.respectNightMode) {
+			return false;  // User disabled this feature, so never skip
+		}
+
+		// Check if we have night mode config loaded
+		if (!this._nightModeConfig) {
+			return false;  // No config yet, so don't skip
+		}
+
+		// Extract the settings from the config
+		const { Activated, StartNight, StartDay, WifiNightOff } = this._nightModeConfig;
+
+		// Check if night mode is actually active and WiFi turns off
+		if (!Activated || !WifiNightOff) {
+			return false;  // Night mode not active or WiFi stays on
+		}
+
+		// Get current time
+		const now = new Date();
+
+		// Create Date objects for night start and day start (in UTC)
+		const nightStart = this.createUTCTimeToday(StartNight);
+		const dayStart = this.createUTCTimeToday(StartDay);
+
+		this.log.debug(
+			`WiFi is off due to night mode between ${nightStart.toLocaleTimeString()} and ${dayStart.toLocaleTimeString()} today`
+		);
+
+		// Both dates are set to today, so we compare just the times
+		if (nightStart < dayStart) {
+			// Night period is within the same day (e.g., 02:00 to 06:00)
+			return now >= nightStart && now <= dayStart;
+		} else {
+			// Night period crosses midnight (e.g., 22:00 to 06:00)
+			// We're in night mode if it's either before day start (< 06:00) OR after night start (>= 22:00)
+			return now <= dayStart || now >= nightStart;
+		}
+		// Note: I use >= and <= above to avoid a rounding error when the device has not
+		// come back from the night mode yet, but ioBroker already polls it
+	}
+
+	/**
+	 * Fetches the night mode configuration from the device and caches it
+	 */
+	private async fetchAndCacheNightMode(): Promise<void> {
+		try {
+			// Make HTTP request to get device configuration
+			const response = await axios.get(`http://${this.ip}/config`, { responseType: 'json' });
+
+			// Get the encrypted content
+			const data = response.data.content;
+
+			// Decrypt the data using our password
+			const decryptedData = decrypt(data, this.password) as any;
+
+			// Check if the decrypted data contains NightMode information
+			if (decryptedData && decryptedData.NightMode) {
+				// Store the night mode configuration
+				this._nightModeConfig = decryptedData.NightMode as NightModeConfig;
+
+				// Remember when we fetched this
+				this._lastNightModeCheck = Date.now();
+
+				// Log what we found
+				this.log.info(
+					`Night mode config cached: Activated=${this._nightModeConfig.Activated}, ` +
+					`StartNight=${this._nightModeConfig.StartNight} UTC, ` +
+					`StartDay=${this._nightModeConfig.StartDay} UTC, ` +
+					`WifiNightOff=${this._nightModeConfig.WifiNightOff}`
+				);
+			} else {
+				// Device doesn't have NightMode data (maybe older firmware?)
+				this.log.debug('No NightMode configuration found in device config');
+			}
+		} catch (error) {
+			// If we can't fetch the config, just log a warning and continue
+			// (This might happen if the device is currently in night mode!)
+			this.log.warn(`Could not fetch night mode config: ${error}`);
+		}
+	}
+
+	/**
+	 * Checks if it's time to refresh the night mode config and does so if needed
+	 */
+	private async refreshNightModeIfNeeded(): Promise<void> {
+		// Only refresh if we're NOT currently in night mode
+		// (because if we are, the device might not respond)
+		if (this.isInNightMode()) {
+			return;  // Skip refresh during night mode
+		}
+
+		// Check if enough time has passed since last check
+		const timeSinceLastCheck = Date.now() - this._lastNightModeCheck;
+
+		if (timeSinceLastCheck > this._nightModeRefreshInterval) {
+			// It's been more than an hour, let's refresh
+			this.log.debug('Refreshing night mode configuration');
+			await this.fetchAndCacheNightMode();
 		}
 	}
 

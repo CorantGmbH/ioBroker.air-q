@@ -59,6 +59,10 @@ Please make sure you enter the correct IP/ID and password.
 
 ### Optional
 
+- **Respect device night mode**. Default: `on`. When your air-Q device has night mode enabled with WiFi disabled during the night hours, the adapter can automatically skip polling attempts during those hours. This eliminates unnecessary connection errors in your logs. ⚠️ If you change your device's night mode settings (start/end times, enable/disable), you have two options:
+    1. (Recommended): Restart the adapter to immediately load the new configuration
+    2. (Automatic): Wait up to 1 hour for the adapter to automatically refresh the configuration (only works outside of night mode hours)
+
 - **Clip negative values**. Default: `off`. For baseline calibration purposes, certain sensor values may briefly become negative. You can safely clip such values to 0.
 
 - **Poll data every x seconds**. Default: `10`. You can configure how often the data should be polled by entering the number in seconds.
@@ -76,6 +80,9 @@ The data will be retrieved and shown in the objects-tab according to your config
 ***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
 
 ## Changelog <a id="change" />
+
+### 1.0.6
+* The adapter can automatically respect your air-Q device's night mode configuration
 
 ### 1.0.5
 * Fixed sensors dropping custom configuration after a restart

@@ -23,6 +23,7 @@
 			if (!settings) return;
 			if (!settings.retrievalType) { settings.retrievalType = "average"; }
 			if (!settings.retrievalRate) { settings.retrievalRate = 10; } 
+            if (settings.respectNightMode === undefined) { settings.respectNightMode = true; }
 			
 
 			$(".value").each(function() {
@@ -149,6 +150,13 @@
 					<div for="access_data" class="translate">retrieval_txt</div>
 				</h6>
 			</div>
+
+            <div class="row" style="padding: 4px">
+                <div class="input-field col s12 m6">
+                    <input type="checkbox" class="value" id="respectNightMode" name="respectNightMode" />
+                    <span for="respectNightMode" class="translate">respect_night_mode_txt</span>
+                </div>
+            </div>
 
 			<div class="row" style="padding: 4px">
 				<div class="input-field col s12 m6">
