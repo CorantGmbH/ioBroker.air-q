@@ -405,7 +405,7 @@ class AirQ extends utils.Adapter {
 	/**
 	 * Creates a Date object for today at the specified UTC time
 	 * The Date object will automatically represent the time in local timezone
-	 * 
+	 *
 	 * @param utcTimeStr - Time in UTC format "HH:MM"
 	 * @returns Date object in local timezone
 	 */
