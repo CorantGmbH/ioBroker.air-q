@@ -53,7 +53,7 @@ For more information visit the ioBroker CLI documentation under https://github.c
 
 To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
 
-![Screenshot 2024-02-13 103001](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/ec878783-af56-490d-af66-43c53c27df20)
+<img width="1263" height="953" alt="2025-12-10T17:57:57,025532652+01:00" src="https://github.com/user-attachments/assets/93ff4c76-bdf5-4336-bb5a-1a0aa844ec0d" />
 
 Please make sure you enter the correct IP/ID and password.
 
