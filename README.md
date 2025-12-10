@@ -27,13 +27,18 @@ This ioBroker Adapter is used in connection with our [air-Q device](https://www.
 
 ## Getting started <a id="start" />
 
-You should be able to find the adapter through the admin interface.
+### Install the adapter and add an instance
+
+In your admin interface, navigate to `Adapters` in the side bar and search for `air-q` in `Filter by name`. Select `+` (`Add instance`) in the `⋮` (`Info`) menu of the adapter.
+
+This will automatically open the instance settings.
 
 Otherwise you're welcome to use the ioBroker command line interface through the console. Simply direct to your ioBroker root folder and add the adapter via
 ```
 iobroker add air-q
 ```
-This installs the adapter (if it isn't installed already) and starts an instance. 
+This installs the adapter (if it isn't installed already) and adds an instance. You still have to configure this instance, as described below.
+
 In case you only want to install the adapter without creating an instance yet, use the following command:
 
 ```
@@ -42,16 +47,27 @@ iobroker install air-q
 
 For more information visit the ioBroker CLI documentation under https://github.com/ioBroker/ioBroker/wiki/Console-commands. 
 
+## Configuration
+
+### Required
+
 To configure your instance you simply select whether you want to connect it through the IP or the short-ID of your device.
 
 ![Screenshot 2024-02-13 103001](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/ec878783-af56-490d-af66-43c53c27df20)
 
-Please make sure you enter the correct IP/ID and password. 
-Then you can also choose how the data should be retrieved. You can clip negative values if you don't need them, with the exception of temperature, of course. You can set up how often the data should be polled by typing in the number in seconds. And lastly you can choose between realtime data or average data. 
+Please make sure you enter the correct IP/ID and password.
 
-![Screenshot 2024-02-13 104813](https://github.com/CorantGmbH/ioBroker.air-q/assets/107550719/429c57ab-933f-4930-a02b-30da7b5df180)
+### Optional
+
+- **Clip negative values**. Default: `off`. For baseline calibration purposes, certain sensor values may briefly become negative. You can safely clip such values to 0.
+
+- **Poll data every x seconds**. Default: `10`. You can configure how often the data should be polled by entering the number in seconds.
+
+- **Retrieve data type**. Default: `Average data`. In its default configuration, air-Q averages the stream of sensor values. This adapter allows to switch between polling the averaged and the raw data from the device. To poll noisy sensor readings from the device, select `Realtime data` from the drop-down menu.
 
 Now you should be all set up and good to go!
+
+## Sensors are objects
 
 The data will be retrieved and shown in the objects-tab according to your configuration, when the device is found. Of course, depending on the device you own, there might be more sensors shown. 
 
