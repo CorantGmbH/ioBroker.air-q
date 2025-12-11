@@ -3,6 +3,7 @@ import axios from 'axios';
 import bonjour, { BrowserConfig } from 'bonjour-service';
 import * as dns from 'dns';
 import { decrypt } from './decryptAES256';
+import type { DataRoute } from './lib/adapter-config';
 
 interface NightModeConfig {
 	Activated: boolean;        // Is night mode turned on?
@@ -267,37 +268,21 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private async getDataFromAirQ(): Promise<any> {
+	private async getDataFromAirQ(route: DataRoute): Promise<DeviceDataResponse | undefined> {
 		try {
-			const response = await axios.get(`http://${this.ip}/data`, { responseType: 'json' });
+			const response = await axios.get(`http://${this.ip}/${route}`, { responseType: 'json' });
 			const data = response.data.content;
 			const decryptedData = decrypt(data, this.password) as unknown;
 			if (decryptedData && typeof decryptedData === 'object') {
-				const sensorsData = decryptedData as Sensors;
-				return sensorsData;
+				const deviceData = decryptedData as DeviceDataResponse;
+				return deviceData;
 			} else {
 				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
 			}
 		} catch(error){
 			this.log.error('Error while getting data from air-Q: ' + error +  '. Check if the device is in the correct network and reachable.');
 			this.stop();
-		}
-	}
-
-	private async getAverageDataFromAirQ(): Promise<any> {
-		try {
-			const response = await axios.get(`http://${this.ip}/average`, { responseType: 'json' });
-			const data = response.data.content;
-			const decryptedData = decrypt(data, this.password) as unknown;
-			if (decryptedData && typeof decryptedData === 'object') {
-				const sensorsData = decryptedData as Sensors;
-				return sensorsData;
-			} else {
-				throw new Error('Decrypted data is undefined or not an object. Make sure your credentials are correct and have no typos.');
-			}
-		} catch (error) {
-			this.log.error('Error while getting average data from air-Q: ' + error +  '. Check if the device is in the correct network and reachable.');
-			this.stop();
+			return undefined;
 		}
 	}
 
@@ -331,7 +316,7 @@ class AirQ extends utils.Adapter {
 		}
 	}
 
-	private getRetrievalType(): string {
+	private getRetrievalType(): DataRoute {
 		return this.config.retrievalType;
 	}
 
@@ -348,49 +333,42 @@ class AirQ extends utils.Adapter {
 			await this.refreshNightModeIfNeeded();
 
 			// Continue with normal polling
-			this.getRetrievalType() === 'data'
-				? await this.setSensorData()
-				: await this.setSensorAverageData();
+			const data = await this.getDataFromAirQ(this.getRetrievalType());
+			if (!data) {
+				this.log.error('No data returned from getDataFromAirQ()');
+				return;
+			}
+			this.log.silly(`Received from device: ${JSON.stringify(data, null, 2)}`)
+			// Assign polled values to sensors
+			await this.setSensors(data);
 		}catch(error){
 			this.log.error('Error while setting states: ' + error);
 		}
 	}
 
-	private async setSensorData(): Promise<void> {
+	private async setSensors(data: DeviceDataResponse): Promise<void> {
 		try{
-			const data = await this.getDataFromAirQ();
 			for (const element of this.sensorArray) {
-				if(this.config.rawData){
+				let value: number | null = null;
+				if (!data[element]) {
+					const statusMsg = data.Status?.[element]
+						? ` Status: ${data.Status[element]}`
+						: '';
+					this.log.warn(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+				} else if(this.config.clipNegativeValues){
 					const isNegative = this.checkNegativeValues(data, element);
-					const cappedValue= isNegative? 0 : data[element][0];
-					await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: cappedValue, ack: true});
+					value = isNegative? 0 : data[element][0];
 				}else{
-					await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: data[element][0], ack: true });
+					value = data[element][0];
 				}
+				await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: value, ack: true});
 			}
-			this.setStateAsync('sensors.health', { val: data.health / 10, ack: true });
-			this.setStateAsync('sensors.performance', { val: data.performance / 10, ack: true });
+			for (const element of this._specialSensors) {
+				const value = data[element] / 10
+				await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: value, ack: true});
+			}
 		}catch(error){
 			this.log.error('Error while setting data from air-Q: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
-		}
-	}
-
-	private async setSensorAverageData(): Promise<void> {
-		try{
-			const data = await this.getAverageDataFromAirQ();
-			for (const element of this.sensorArray){
-				if(this.config.rawData){
-					const isNegative = this.checkNegativeValues(data, element);
-					const cappedValue= isNegative? 0 : data[element][0];
-					await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: cappedValue, ack: true});
-				}else{
-					await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: data[element][0], ack: true });
-				}
-			}
-			this.setStateAsync('sensors.health', { val: data.health / 10, ack: true });
-			this.setStateAsync('sensors.performance', { val: data.performance / 10, ack: true });
-		}catch(error){
-			this.log.error('Error while setting average data from air-Q: ' + error + '. Is one of the sensors not readable or in warm-up phase?');
 		}
 	}
 

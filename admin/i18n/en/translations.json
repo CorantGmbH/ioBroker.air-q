@@ -5,6 +5,7 @@
     "ch2o_txt": "Formaldehyde (CH<sub>2</sub>O)",
     "ch4_txt": "Methane (CH<sub>4</sub>)",
     "cl2_txt": "Chlorine (Cl<sub>2</sub>)",
+    "clip_negative_values_txt": "Clip negative values",
     "co2_txt": "Carbon dioxide (CO<sub>2</sub>)",
     "co_txt": "Carbon monoxide (CO)",
     "connect_ip_hint_txt": "(In case MDNS does not work in your network)",
@@ -20,6 +21,7 @@
     "no2_txt": "Nitrogen dioxide (NO<sub>2</sub>)",
     "noise_txt": "Noise",
     "o3_txt": "Ozone (O<sub>3</sub>)",
+    "password_show_txt": "show password",
     "password_txt": "Device password",
     "performance_txt": "Performance index",
     "pm_txt": "Particulate matter (PM1, PM2.5, PM10)",
@@ -28,7 +30,7 @@
     "pressure_rel_txt": "Relative pressure",
     "pressure_txt": "Pressure",
     "radon_txt": "Radon",
-    "raw_data_txt": "Clip negative values",
+    "respect_night_mode_txt": "Respect device night mode (skip polling when WiFi is off)",
     "retrieval_rate_txt": "Poll data every x seconds",
     "retrieval_txt": "Data retrieval",
     "retrieval_type_average_txt": "Average data",
@@ -39,6 +41,5 @@
     "shortId_txt": "Short ID (first 5 digits of the serial number)",
     "so2_txt": "Sulfur dioxide (SO<sub>2</sub>)",
     "temperature_txt": "Temperature",
-    "voc_txt": "Volatile organic compounds (VOC)",
-    "password_show_txt": "show password"
+    "voc_txt": "Volatile organic compounds (VOC)"
 }

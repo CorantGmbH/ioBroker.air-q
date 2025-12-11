@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.6",
+        "version": "1.0.7",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -70,17 +70,17 @@
                 "zh-cn": "添加了用于在实例配置中显示和隐藏密码的复选框\n编辑错误消息以提供更多帮助\n添加了air-Q设备实际连接时的日志信息"
             },
             "1.0.4": {
-              "en": "Updated various dependencies",
-              "de": "Verschiedene Abhängigkeiten aktualisiert",
-              "ru": "Обновлены различные зависимости",
-              "pt": "Várias dependências atualizadas",
-              "nl": "Verschillende afhankelijkheden bijgewerkt",
-              "fr": "Mise à jour de diverses dépendances",
-              "it": "Aggiornate varie dipendenze",
-              "es": "Se actualizaron varias dependencias",
-              "pl": "Zaktualizowano różne zależności",
-              "uk": "Оновлено різні залежності",
-              "zh-cn": "更新了各種依賴項"
+                "en": "Updated various dependencies",
+                "de": "Verschiedene Abhängigkeiten aktualisiert",
+                "ru": "Обновлены различные зависимости",
+                "pt": "Várias dependências atualizadas",
+                "nl": "Verschillende afhankelijkheden bijgewerkt",
+                "fr": "Mise à jour de diverses dépendances",
+                "it": "Aggiornate varie dipendenze",
+                "es": "Se actualizaron varias dependencias",
+                "pl": "Zaktualizowano różne zależności",
+                "uk": "Оновлено різні залежності",
+                "zh-cn": "更新了各種依賴項"
             },
             "1.0.5": {
                 "en": "Fix sensors dropping custom configuration after a restart and bump dependency version",
@@ -107,6 +107,19 @@
                 "pl": "Dodano opcjonalne wsparcie trybu nocnego: adapter może teraz pomijać odpytywanie, gdy WiFi urządzenia jest wyłączone w godzinach nocnych (przestrzega konfiguracji urządzenia, automatycznie konwertuje UTC na czas lokalny)",
                 "uk": "Додано опціональну підтримку нічного режиму: адаптер тепер може пропускати опитування, коли WiFi пристрою вимкнено в нічні години (враховує конфігурацію пристрою, автоматично конвертує UTC у місцевий час)",
                 "zh-cn": "添加可选的夜间模式支持：适配器现在可以在夜间设备WiFi禁用时跳过轮询（遵循设备配置，自动将UTC转换为本地时间）"
+            },
+            "1.0.7": {
+                "en": "Refactor redundant methods, fix missing sensor handling and wrong translations",
+                "de": "Redundante Methoden refakturiert, Behandlung fehlender Sensoren und falsche Übersetzungen korrigiert",
+                "ru": "Рефакторинг избыточных методов, исправлена обработка отсутствующих датчиков и ошибки перевода",
+                "pt": "Refatoração de métodos redundantes, correção no tratamento de sensores ausentes e traduções incorretas",
+                "nl": "Redundante methoden gerefactored, verwerking van ontbrekende sensoren en verkeerde vertalingen gecorrigeerd",
+                "fr": "Refactorisation des méthodes redondantes, correction de la gestion des capteurs manquants et des traductions erronées",
+                "it": "Rifattorizzazione metodi ridondanti, correzione gestione sensori mancanti e traduzioni errate",
+                "es": "Refactorización de métodos redundantes, corrección del manejo de sensores faltantes y traducciones incorrectas",
+                "pl": "Refaktoryzacja nadmiarowych metod, naprawiono obsługę brakujących czujników i błędne tłumaczenia",
+                "uk": "Рефакторинг надлишкових методів, виправлено обробку відсутніх датчиків та помилки перекладу",
+                "zh-cn": "重构冗余方法，修复缺失传感器的处理和错误的翻译"
             }
         },
         "titleLang": {
@@ -146,8 +159,8 @@
             "air-Q"
         ],
         "licenseInformation": {
-          "license": "MIT",
-          "type": "free"
+            "license": "MIT",
+            "type": "free"
         },
         "platform": "Javascript/Node.js",
         "icon": "air-q.png",

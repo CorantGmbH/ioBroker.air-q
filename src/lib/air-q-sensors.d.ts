@@ -30,5 +30,11 @@ declare global {
 		sound_max: number;
 	}
 	type Unit = '°C' | 'ppm' | 'ppb' | 'mg/m³' | 'µg/m³' | 'Bq/m³' | '%'| 'db(A)'| 'g/m³' | 'µm' | 'hPa';
+
+	// Status can be "OK" or object with error messages
+	type SensorStatus = 'OK' | Record<string, string>;
+
+	// Complete device response structure
+	type DeviceDataResponse = Sensors & {Status: SensorStatus}
 }
 export {};
