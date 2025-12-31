@@ -135,7 +135,7 @@ The data will be retrieved and shown in the objects-tab according to your config
 
 MIT License
 
-Copyright (c) 2024 Corant GmbH
+Copyright (c) 2024-2026 Corant GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
