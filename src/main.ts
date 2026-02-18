@@ -124,6 +124,8 @@ class AirQ extends utils.Adapter {
 		switch (element) {
 			case 'temperature':
 				return 'value.temperature';
+			case 'fahrenheit':
+				return 'value.temperature';
 			case 'dewpt':
 				return 'value.temperature';
 			case 'humidity':
@@ -244,6 +246,25 @@ class AirQ extends utils.Adapter {
 			['pm1_sps30',      'µg/m³'],
 			['pm2_5_sps30',    'µg/m³'],
 			['pm10_sps30',     'µg/m³'],
+			['c2h4o',          'µg/m³'],
+			['ash3',           'µg/m³'],
+			['br2',            'µg/m³'],
+			['ch4s',           'µg/m³'],
+			['clo2',           'µg/m³'],
+			['cs2',            'µg/m³'],
+			['c2h4',           'µg/m³'],
+			['f2',             'µg/m³'],
+			['hcl',            'µg/m³'],
+			['hcn',            'µg/m³'],
+			['hf',             'µg/m³'],
+			['h2o2',           'µg/m³'],
+			['mold',           '%'],
+			['ph3',            'µg/m³'],
+			['r32',            '%'],
+			['r454b',          '%'],
+			['r454c',          '%'],
+			['sih4',           'µg/m³'],
+			['fahrenheit',     '°F'],
 		]);
 		return sensorUnitMap.get(sensorName) as Unit;
 	}
@@ -370,7 +391,7 @@ class AirQ extends utils.Adapter {
 	}
 
 	private checkNegativeValues(data:Sensors, element:string): boolean {
-		if(data[element][0]< 0 && element !== 'temperature'){
+		if(data[element][0]< 0 && element !== 'temperature' && element !== 'fahrenheit'){
 			return true;
 		}else{
 			return false;

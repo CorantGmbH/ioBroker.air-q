@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.0.7",
+        "version": "1.1.0",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -107,6 +107,19 @@
                 "pl": "Dodano opcjonalne wsparcie trybu nocnego: adapter może teraz pomijać odpytywanie, gdy WiFi urządzenia jest wyłączone w godzinach nocnych (przestrzega konfiguracji urządzenia, automatycznie konwertuje UTC na czas lokalny)",
                 "uk": "Додано опціональну підтримку нічного режиму: адаптер тепер може пропускати опитування, коли WiFi пристрою вимкнено в нічні години (враховує конфігурацію пристрою, автоматично конвертує UTC у місцевий час)",
                 "zh-cn": "添加可选的夜间模式支持：适配器现在可以在夜间设备WiFi禁用时跳过轮询（遵循设备配置，自动将UTC转换为本地时间）"
+            },
+            "1.1.0": {
+                "en": "Add support for 19 new sensors including mold protection, refrigerants, and various gas sensors",
+                "de": "Unterstützung für 19 neue Sensoren hinzugefügt, darunter Schimmelschutz, Kältemittel und verschiedene Gassensoren",
+                "ru": "Добавлена поддержка 19 новых датчиков, включая защиту от плесени, хладагенты и различные газовые датчики",
+                "pt": "Adicionado suporte para 19 novos sensores, incluindo proteção contra mofo, refrigerantes e vários sensores de gás",
+                "nl": "Ondersteuning voor 19 nieuwe sensoren toegevoegd, waaronder schimmelbescherming, koelmiddelen en diverse gassensoren",
+                "fr": "Ajout de la prise en charge de 19 nouveaux capteurs, dont la protection contre la moisissure, les réfrigérants et divers capteurs de gaz",
+                "it": "Aggiunto supporto per 19 nuovi sensori tra cui protezione dalla muffa, refrigeranti e vari sensori di gas",
+                "es": "Añadido soporte para 19 nuevos sensores, incluyendo protección contra moho, refrigerantes y varios sensores de gas",
+                "pl": "Dodano obsługę 19 nowych czujników, w tym ochrony przed pleśnią, czynników chłodniczych i różnych czujników gazów",
+                "uk": "Додано підтримку 19 нових датчиків, включаючи захист від цвілі, холодоагенти та різні газові датчики",
+                "zh-cn": "新增19个传感器支持，包括防霉保护、制冷剂和各种气体传感器"
             },
             "1.0.7": {
                 "en": "Refactor redundant methods, fix missing sensor handling and wrong translations",

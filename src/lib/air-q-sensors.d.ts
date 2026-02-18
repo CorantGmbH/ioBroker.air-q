@@ -28,8 +28,27 @@ declare global {
 		pressure_rel: number;
 		sound: number;
 		sound_max: number;
+		c2h4o: number;
+		ash3: number;
+		br2: number;
+		ch4s: number;
+		clo2: number;
+		cs2: number;
+		c2h4: number;
+		f2: number;
+		hcl: number;
+		hcn: number;
+		hf: number;
+		h2o2: number;
+		mold: number;
+		ph3: number;
+		r32: number;
+		r454b: number;
+		r454c: number;
+		sih4: number;
+		fahrenheit: number;
 	}
-	type Unit = '°C' | 'ppm' | 'ppb' | 'mg/m³' | 'µg/m³' | 'Bq/m³' | '%'| 'db(A)'| 'g/m³' | 'µm' | 'hPa';
+	type Unit = '°C' | '°F' | 'ppm' | 'ppb' | 'mg/m³' | 'µg/m³' | 'Bq/m³' | '%'| 'db(A)'| 'g/m³' | 'µm' | 'hPa';
 
 	// Status can be "OK" or object with error messages
 	type SensorStatus = 'OK' | Record<string, string>;
