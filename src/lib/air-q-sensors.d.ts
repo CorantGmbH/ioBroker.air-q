@@ -47,6 +47,7 @@ declare global {
 		r454c: number;
 		sih4: number;
 		fahrenheit: number;
+		occupancy: number;
 	}
 	type Unit = '°C' | '°F' | 'ppm' | 'ppb' | 'mg/m³' | 'µg/m³' | 'Bq/m³' | '%'| 'db(A)'| 'g/m³' | 'µm' | 'hPa';
 

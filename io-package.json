@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "tier": 2,
         "news": {
             "0.0.1": {
@@ -107,6 +107,19 @@
                 "pl": "Dodano opcjonalne wsparcie trybu nocnego: adapter może teraz pomijać odpytywanie, gdy WiFi urządzenia jest wyłączone w godzinach nocnych (przestrzega konfiguracji urządzenia, automatycznie konwertuje UTC na czas lokalny)",
                 "uk": "Додано опціональну підтримку нічного режиму: адаптер тепер може пропускати опитування, коли WiFi пристрою вимкнено в нічні години (враховує конфігурацію пристрою, автоматично конвертує UTC у місцевий час)",
                 "zh-cn": "添加可选的夜间模式支持：适配器现在可以在夜间设备WiFi禁用时跳过轮询（遵循设备配置，自动将UTC转换为本地时间）"
+            },
+            "1.2.0": {
+                "en": "Add support for occupancy sensor",
+                "de": "Unterstützung für Belegungssensor hinzugefügt",
+                "ru": "Добавлена поддержка датчика занятости",
+                "pt": "Adicionado suporte para sensor de ocupação",
+                "nl": "Ondersteuning voor bezettingssensor toegevoegd",
+                "fr": "Ajout de la prise en charge du capteur d'occupation",
+                "it": "Aggiunto supporto per il sensore di occupazione",
+                "es": "Añadido soporte para sensor de ocupación",
+                "pl": "Dodano obsługę czujnika zajętości",
+                "uk": "Додано підтримку датчика зайнятості",
+                "zh-cn": "新增占用传感器支持"
             },
             "1.1.0": {
                 "en": "Add support for 19 new sensors including mold protection, refrigerants, and various gas sensors",
