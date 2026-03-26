@@ -1,9 +1,22 @@
 {
     "common": {
         "name": "air-q",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "tier": 2,
         "news": {
+            "1.2.0": {
+                "en": "Add network discovery via mDNS scan, migrate admin UI to jsonConfig, fix ioBroker.discovery integration",
+                "de": "Netzwerkerkennung über mDNS-Scan hinzugefügt, Admin-Oberfläche auf jsonConfig migriert, ioBroker.discovery-Integration korrigiert",
+                "ru": "Добавлено сетевое обнаружение через mDNS, админ-интерфейс перенесён на jsonConfig, исправлена интеграция с ioBroker.discovery",
+                "pt": "Adicionada descoberta de rede via mDNS, interface admin migrada para jsonConfig, integração ioBroker.discovery corrigida",
+                "nl": "Netwerkdetectie via mDNS toegevoegd, admin-interface gemigreerd naar jsonConfig, ioBroker.discovery-integratie gerepareerd",
+                "fr": "Découverte réseau via mDNS ajoutée, interface admin migrée vers jsonConfig, intégration ioBroker.discovery corrigée",
+                "it": "Aggiunta scoperta rete tramite mDNS, interfaccia admin migrata a jsonConfig, integrazione ioBroker.discovery corretta",
+                "es": "Descubrimiento de red vía mDNS añadido, interfaz admin migrada a jsonConfig, integración ioBroker.discovery corregida",
+                "pl": "Dodano wykrywanie sieci przez mDNS, interfejs admin przeniesiony na jsonConfig, naprawiono integrację ioBroker.discovery",
+                "uk": "Додано виявлення мережі через mDNS, інтерфейс адміністратора перенесено на jsonConfig, виправлено інтеграцію ioBroker.discovery",
+                "zh-cn": "添加通过mDNS扫描进行网络发现，管理界面迁移到jsonConfig，修复ioBroker.discovery集成"
+            },
             "0.0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
@@ -186,8 +199,9 @@
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
+        "messagebox": true,
         "adminUI": {
-            "config": "materialize"
+            "config": "json"
         },
         "eraseOnUpload": true,
         "dependencies": [
@@ -208,7 +222,14 @@
         "password"
     ],
     "native": {
-        "password": ""
+        "password": "",
+        "shortId": "",
+        "deviceIP": "",
+        "connectViaIP": false,
+        "retrievalRate": 10,
+        "retrievalType": "average",
+        "clipNegativeValues": false,
+        "respectNightMode": true
     },
     "objects": [],
     "instanceObjects": [

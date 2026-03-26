@@ -1,0 +1,146 @@
+{
+    i18n: true,
+    type: "tabs",
+    items: {
+        // =====================================================================
+        // Tab 1: Connection — how to find and authenticate with the air-Q device
+        // =====================================================================
+        connectionTab: {
+            type: "panel",
+            label: "access_data_txt",
+            items: {
+                // --- Network scan hint (always visible, even during scan) ---
+                _scanNote: {
+                    type: "staticText",
+                    text: "scan_note_txt",
+                    style: { color: "#999", fontStyle: "italic", marginBottom: 4 },
+                    xs: 12,
+                },
+
+                // --- Network scan ---
+                _deviceSelect: {
+                    type: "selectSendTo",
+                    label: "scan_network_txt",
+                    help: "scan_select_hint_txt",
+                    command: "discoverDevices",
+                    jsonData: "{}",
+                    disabled: "!_alive",
+                    // Use comma operator (not semicolons) because the framework
+                    // wraps this as "return <calculateFunc>". Semicolons would
+                    // create unreachable code after the first return.
+                    onChange: {
+                        calculateFunc: "(data.connectViaIP = data._deviceSelect ? true : data.connectViaIP, data.shortId = ((data._deviceSelect || '').match(/\\(([a-f0-9]{5})/) || [])[1] || data.shortId, data.deviceIP = ((data._deviceSelect || '').match(/(\\d+\\.\\d+\\.\\d+\\.\\d+)/) || [])[1] || data.deviceIP, data._deviceSelect)",
+                        alsoDependsOn: ["shortId", "deviceIP", "connectViaIP"],
+                    },
+                    xs: 12,
+                    sm: 12,
+                    md: 8,
+                    lg: 6,
+                },
+
+                // --- Connection mode ---
+                connectViaIP: {
+                    type: "checkbox",
+                    label: "search_device_ip_txt",
+                    help: "connect_ip_hint_txt",
+                    default: false,
+                    xs: 12,
+                    sm: 12,
+                    md: 6,
+                },
+
+                // --- Device IP (only relevant when connectViaIP is checked) ---
+                deviceIP: {
+                    type: "text",
+                    label: "ip_txt",
+                    maxLength: 15,
+                    xs: 12,
+                    sm: 6,
+                    md: 3,
+                },
+
+                // --- Short ID (used for mDNS lookup when connectViaIP is false) ---
+                shortId: {
+                    type: "text",
+                    label: "shortId_txt",
+                    maxLength: 5,
+                    xs: 12,
+                    sm: 6,
+                    md: 3,
+                },
+
+                // --- Device password ---
+                password: {
+                    type: "password",
+                    label: "password_txt",
+                    visible: true,
+                    xs: 12,
+                    sm: 6,
+                    md: 6,
+                },
+            },
+        },
+
+        // =====================================================================
+        // Tab 2: Data retrieval — how and when to poll the device
+        // =====================================================================
+        retrievalTab: {
+            type: "panel",
+            label: "retrieval_txt",
+            items: {
+                respectNightMode: {
+                    type: "checkbox",
+                    label: "respect_night_mode_txt",
+                    default: true,
+                    xs: 12,
+                },
+
+                clipNegativeValues: {
+                    type: "checkbox",
+                    label: "clip_negative_values_txt",
+                    default: false,
+                    xs: 12,
+                },
+
+                retrievalRate: {
+                    type: "number",
+                    label: "retrieval_rate_txt",
+                    min: 2,
+                    max: 3600,
+                    step: 1,
+                    default: 10,
+                    xs: 12,
+                    sm: 6,
+                    md: 3,
+                },
+
+                retrievalType: {
+                    type: "select",
+                    label: "retrieval_type_txt",
+                    options: [
+                        { label: "retrieval_type_data_txt", value: "data" },
+                        { label: "retrieval_type_average_txt", value: "average" },
+                    ],
+                    default: "average",
+                    xs: 12,
+                    sm: 6,
+                    md: 3,
+                },
+
+                _pollWarning: {
+                    type: "staticText",
+                    text: "poll_warning_txt",
+                    style: { color: "#b71c1c", marginTop: 8 },
+                    xs: 12,
+                },
+
+                _pollHint: {
+                    type: "staticText",
+                    text: "polling_hint_txt",
+                    style: { color: "#666", fontStyle: "italic" },
+                    xs: 12,
+                },
+            },
+        },
+    },
+}

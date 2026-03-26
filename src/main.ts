@@ -3,7 +3,8 @@ import axios from 'axios';
 import bonjour, { BrowserConfig } from 'bonjour-service';
 import * as dns from 'dns';
 import { decrypt } from './decryptAES256';
-import type { DataRoute } from './lib/adapter-config';
+import type { DataRoute, DiscoveredDevice } from './lib/adapter-config';
+import { tryParseAirQService } from './discovery';
 
 interface NightModeConfig {
 	Activated: boolean;        // Is night mode turned on?
@@ -36,12 +37,58 @@ class AirQ extends utils.Adapter {
 		axios.defaults.timeout = 4000;
 		this.on('ready', this.onReady.bind(this));
 		this.on('unload', this.onUnload.bind(this));
+		this.on('message', this.onMessage.bind(this));
 	}
 
 	private onUnload(): void {
 		this.log.info('air-Q adapter stopped...');
 		this.clearInterval(this._stateInterval);
 		this.clearTimeout(this._timeout);
+	}
+
+	/**
+	 * Called when the admin UI (or another adapter) sends a message via sendTo().
+	 *
+	 * This is the ioBroker way for the admin config page to talk to the running
+	 * adapter. For example, the "Scan Network" button in the admin UI sends:
+	 *   sendTo('air-q.0', 'discoverDevices', {}, callback)
+	 *
+	 * The adapter receives that here, runs the mDNS scan, and sends back the
+	 * list of found devices via the callback.
+	 */
+	private async onMessage(obj: ioBroker.Message): Promise<void> {
+		if (!obj || !obj.command) {
+			return;
+		}
+
+		switch (obj.command) {
+			case 'discoverDevices': {
+				this.log.info('Received discoverDevices request from admin UI');
+				try {
+					const devices = await this.discoverAllAirQDevices();
+					if (obj.callback) {
+						// Return as array of {label, value} for jsonConfig's selectSendTo.
+						// We set value = label so the device name is displayed in the
+						// closed dropdown. The onChange handler extracts shortId and IP
+						// from the parenthetical pattern using regex.
+						const options = devices.map(d => {
+							const text = `${d.name || d.shortId + '_air-q'} (${d.shortId} — ${d.address})`;
+							return { label: text, value: text };
+						});
+						this.sendTo(obj.from, obj.command, options, obj.callback);
+					}
+				} catch (error) {
+					this.log.error(`Discovery failed: ${error}`);
+					if (obj.callback) {
+						this.sendTo(obj.from, obj.command, [], obj.callback);
+					}
+				}
+				break;
+			}
+			default:
+				this.log.warn(`Received unknown command: ${obj.command}`);
+				break;
+		}
 	}
 
 	private async onReady(): Promise<void> {
@@ -185,6 +232,54 @@ class AirQ extends utils.Adapter {
 				findAirQ.stop();
 				reject(new Error('air-Q not found in network'));
 			}, 50000);
+		});
+	}
+
+	/**
+	 * Scans the local network for ALL air-Q devices using mDNS (Bonjour).
+	 *
+	 * How it works:
+	 * - Every air-Q device advertises itself as an HTTP service (_http._tcp)
+	 *   via mDNS/Bonjour on the local network.
+	 * - Each device includes TXT record properties, notably:
+	 *     device: "air-q"       — identifies it as an air-Q device
+	 *     devicename: "My AirQ" — human-readable name
+	 *     id: "ABCDE12345"      — unique device ID (first 5 chars = shortId)
+	 * - This method browses for all _http._tcp services, filters by
+	 *   the TXT property `device === "air-q"`, and collects the results.
+	 *
+	 * Unlike findAirQInNetwork() which searches for ONE known device,
+	 * this method discovers ALL air-Q devices — useful for the admin UI
+	 * "Scan Network" feature and ioBroker.discovery integration.
+	 *
+	 * @param timeoutMs - How long to scan, in milliseconds (default: 10000)
+	 * @returns Array of discovered devices (may be empty if none found)
+	 */
+	public discoverAllAirQDevices(timeoutMs: number = 10000): Promise<DiscoveredDevice[]> {
+		return new Promise((resolve) => {
+			const devices: DiscoveredDevice[] = [];
+			const instance = new bonjour();
+			const config: BrowserConfig = { type: 'http' };
+
+			// Start browsing for HTTP services on the local network.
+			// The callback fires once for each service found.
+			const browser = instance.find(config, (service) => {
+				const device = tryParseAirQService(service);
+				if (device) {
+					devices.push(device);
+					this.log.debug(`Discovery found air-Q device: ${device.name} (${device.id}) at ${device.address}`);
+				}
+			});
+
+			// After the timeout, stop browsing and return whatever we found.
+			// We use setTimeout (not this.setTimeout) because this method may
+			// be called from onMessage before the adapter is fully running.
+			setTimeout(() => {
+				browser.stop();
+				instance.destroy();
+				this.log.info(`Discovery complete: found ${devices.length} air-Q device(s)`);
+				resolve(devices);
+			}, timeoutMs);
 		});
 	}
 
