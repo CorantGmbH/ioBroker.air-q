@@ -209,7 +209,14 @@
         "password"
     ],
     "native": {
-        "password": ""
+        "password": "",
+        "shortId": "",
+        "deviceIP": "",
+        "connectViaIP": false,
+        "retrievalRate": 10,
+        "retrievalType": "average",
+        "clipNegativeValues": false,
+        "respectNightMode": true
     },
     "objects": [],
     "instanceObjects": [
