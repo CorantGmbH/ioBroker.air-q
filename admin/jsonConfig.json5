@@ -29,7 +29,7 @@
                     // wraps this as "return <calculateFunc>". Semicolons would
                     // create unreachable code after the first return.
                     onChange: {
-                        calculateFunc: "(data.shortId = ((data._deviceSelect || '').match(/\\(([a-f0-9]{5})/) || [])[1] || data.shortId, data.deviceIP = ((data._deviceSelect || '').match(/(\\d+\\.\\d+\\.\\d+\\.\\d+)/) || [])[1] || data.deviceIP, data.connectViaIP = data._deviceSelect ? true : data.connectViaIP)",
+                        calculateFunc: "(data.connectViaIP = data._deviceSelect ? true : data.connectViaIP, data.shortId = ((data._deviceSelect || '').match(/\\(([a-f0-9]{5})/) || [])[1] || data.shortId, data.deviceIP = ((data._deviceSelect || '').match(/(\\d+\\.\\d+\\.\\d+\\.\\d+)/) || [])[1] || data.deviceIP, data._deviceSelect)",
                         alsoDependsOn: ["shortId", "deviceIP", "connectViaIP"],
                     },
                     xs: 12,
