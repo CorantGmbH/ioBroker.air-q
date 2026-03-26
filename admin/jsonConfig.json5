@@ -88,6 +88,8 @@
                     xs: 12,
                     sm: 6,
                     md: 6,
+                    lg: 6,
+                    xl: 6,
                 },
             },
         },
@@ -104,6 +106,10 @@
                     label: "respect_night_mode_txt",
                     default: true,
                     xs: 12,
+                    sm: 12,
+                    md: 12,
+                    lg: 12,
+                    xl: 12,
                 },
 
                 clipNegativeValues: {
@@ -111,6 +117,10 @@
                     label: "clip_negative_values_txt",
                     default: false,
                     xs: 12,
+                    sm: 12,
+                    md: 12,
+                    lg: 12,
+                    xl: 12,
                 },
 
                 retrievalRate: {
@@ -123,6 +133,8 @@
                     xs: 12,
                     sm: 6,
                     md: 3,
+                    lg: 3,
+                    xl: 3,
                 },
 
                 retrievalType: {
@@ -136,6 +148,8 @@
                     xs: 12,
                     sm: 6,
                     md: 3,
+                    lg: 3,
+                    xl: 3,
                 },
 
                 _pollWarning: {
@@ -143,6 +157,10 @@
                     text: "poll_warning_txt",
                     style: { color: "#b71c1c", marginTop: 8 },
                     xs: 12,
+                    sm: 12,
+                    md: 12,
+                    lg: 12,
+                    xl: 12,
                 },
 
                 _pollHint: {
@@ -150,6 +168,10 @@
                     text: "polling_hint_txt",
                     style: { color: "#666", fontStyle: "italic" },
                     xs: 12,
+                    sm: 12,
+                    md: 12,
+                    lg: 12,
+                    xl: 12,
                 },
             },
         },
