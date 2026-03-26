@@ -14,7 +14,7 @@
     "clo2_txt": "Dioxyde de chlore (ClO<sub>2</sub>)",
     "co2_txt": "Dioxyde de carbone (CO<sub>2</sub>)",
     "co_txt": "Monoxyde de carbone (CO)",
-    "connect_ip_hint_txt": "(Au cas où MDNS ne fonctionnerait pas sur votre réseau)",
+    "connect_ip_hint_txt": "Utilisez ceci si le scan ci-dessus n'a trouvé aucun appareil. Certains routeurs bloquent le trafic mDNS. Vous pouvez trouver l'IP dans l'app air-Q ou dans la liste des appareils de votre routeur.",
     "cs2_txt": "Disulfure de carbone (CS<sub>2</sub>)",
     "dewpt_txt": "Point de rosée",
     "f2_txt": "Fluor (F<sub>2</sub>)",
@@ -65,5 +65,5 @@
     "so2_txt": "Dioxyde de soufre (SO<sub>2</sub>)",
     "temperature_txt": "Température",
     "voc_txt": "Composés organiques volatils (VOC)",
-    "scan_note_txt": "Recherche d'appareils air-Q sur votre réseau. Une liste déroulante apparaîtra sous peu (~10 secondes)."
+    "scan_note_txt": "Recherche d'appareils air-Q sur votre réseau via mDNS. Une liste déroulante apparaîtra sous peu (~10 secondes). Si aucun appareil n'est trouvé, votre routeur bloque peut-être le mDNS — utilisez 'Connexion par IP' ci-dessous."
 }
