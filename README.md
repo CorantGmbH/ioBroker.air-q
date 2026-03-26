@@ -49,6 +49,8 @@ For more information visit the ioBroker CLI documentation under https://github.c
 
 ## Configuration
 
+![Configuration](docs/screenshot-config.png)
+
 ### Finding your air-Q device
 
 The adapter can automatically discover air-Q devices on your local network using mDNS (Bonjour). When you open the instance settings, the **Scan network** dropdown will search for devices (~10 seconds) and list all found air-Q devices by name. Select your device and the Short ID and IP address will be filled in automatically.
