@@ -14,36 +14,26 @@
                 // onMessage('discoverDevices') handler. The adapter runs a
                 // 10-second mDNS scan and returns found devices as
                 // [{label, value}] pairs. The user picks one.
+                //
+                // The value format is "name (shortId — address)" — same as
+                // the label, so it displays the device name in the closed
+                // dropdown. The calculateFunc extracts shortId and address
+                // from within the parentheses.
                 _deviceSelect: {
                     type: "selectSendTo",
                     label: "scan_network_txt",
+                    help: "scan_select_hint_txt",
                     command: "discoverDevices",
                     jsonData: "{}",
                     disabled: "!_alive",
-                    // When the user picks a device, the value is "shortId|address".
-                    // The onChange handler splits it and populates the config fields.
                     onChange: {
-                        calculateFunc: "data.shortId = (data._deviceSelect || '').split('|')[0] || data.shortId; data.deviceIP = (data._deviceSelect || '').split('|')[1] || data.deviceIP; data.connectViaIP = data._deviceSelect ? true : data.connectViaIP",
+                        calculateFunc: "data.shortId = ((data._deviceSelect || '').match(/\\(([a-f0-9]{5})/) || [])[1] || data.shortId; data.deviceIP = ((data._deviceSelect || '').match(/(\\d+\\.\\d+\\.\\d+\\.\\d+)/) || [])[1] || data.deviceIP; data.connectViaIP = data._deviceSelect ? true : data.connectViaIP",
                         alsoDependsOn: ["shortId", "deviceIP", "connectViaIP"],
                     },
                     xs: 12,
                     sm: 12,
                     md: 8,
                     lg: 6,
-                },
-
-                _scanHint: {
-                    type: "staticText",
-                    text: "scan_select_hint_txt",
-                    hidden: "_alive",
-                    style: { color: "#999", fontStyle: "italic" },
-                    xs: 12,
-                },
-
-                // --- Divider ---
-                _divider1: {
-                    type: "divider",
-                    xs: 12,
                 },
 
                 // --- Connection mode ---

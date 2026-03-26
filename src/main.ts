@@ -68,13 +68,13 @@ class AirQ extends utils.Adapter {
 					const devices = await this.discoverAllAirQDevices();
 					if (obj.callback) {
 						// Return as array of {label, value} for jsonConfig's selectSendTo.
-						// The value uses "shortId|address" format — it's displayed in
-						// the closed dropdown, so it must be human-readable. The pipe
-						// separator lets the onChange handler split and populate fields.
-						const options = devices.map(d => ({
-							label: `${d.name || d.shortId + '_air-q'} (${d.shortId} — ${d.address})`,
-							value: `${d.shortId}|${d.address}`,
-						}));
+						// We set value = label so the device name is displayed in the
+						// closed dropdown. The onChange handler extracts shortId and IP
+						// from the parenthetical pattern using regex.
+						const options = devices.map(d => {
+							const text = `${d.name || d.shortId + '_air-q'} (${d.shortId} — ${d.address})`;
+							return { label: text, value: text };
+						});
 						this.sendTo(obj.from, obj.command, options, obj.callback);
 					}
 				} catch (error) {
