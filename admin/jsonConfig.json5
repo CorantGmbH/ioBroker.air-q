@@ -23,7 +23,7 @@
                     // When the user picks a device, the value is "shortId|address".
                     // The onChange handler splits it and populates the config fields.
                     onChange: {
-                        calculateFunc: "var parts = (data._deviceSelect || '').split('|'); if (parts.length === 2) { data.shortId = parts[0]; data.deviceIP = parts[1]; data.connectViaIP = true; }",
+                        calculateFunc: "data.shortId = (data._deviceSelect || '').split('|')[0] || data.shortId; data.deviceIP = (data._deviceSelect || '').split('|')[1] || data.deviceIP; data.connectViaIP = data._deviceSelect ? true : data.connectViaIP",
                         alsoDependsOn: ["shortId", "deviceIP", "connectViaIP"],
                     },
                     xs: 12,
