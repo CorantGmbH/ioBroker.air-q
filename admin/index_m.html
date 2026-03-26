@@ -77,6 +77,88 @@
 			}
 		}
 
+		/**
+		 * Sends a "discoverDevices" message to the running adapter instance.
+		 * The adapter performs a 10-second mDNS scan and returns all air-Q
+		 * devices it finds. We then display them in a list below the button.
+		 */
+		function scanNetwork() {
+			// Disable the button and show a "scanning" message
+			$("#scanBtn").prop("disabled", true);
+			$("#scanResults").empty();
+			$("#scanStatusText").text(translateWord("scan_running_txt"));
+			$("#scanStatus").show();
+
+			// sendTo talks to the adapter's onMessage handler.
+			// Parameters: adapter.instance, command, payload, callback
+			sendTo(adapter + "." + instance, "discoverDevices", {}, function (result) {
+				$("#scanBtn").prop("disabled", false);
+				$("#scanStatus").hide();
+				var container = $("#scanResults");
+				container.empty();
+
+				if (!result || !result.devices || result.devices.length === 0) {
+					container.append(
+						'<li class="collection-item">' +
+							'<span class="translate">' + translateWord("scan_no_devices_txt") + '</span>' +
+						'</li>'
+					);
+					return;
+				}
+
+				// Show hint that devices are clickable
+				container.append(
+					'<li class="collection-item grey lighten-3">' +
+						'<i>' + translateWord("scan_select_hint_txt") + '</i>' +
+					'</li>'
+				);
+
+				// Add each found device as a clickable list item
+				for (var i = 0; i < result.devices.length; i++) {
+					var dev = result.devices[i];
+					var li = $(
+						'<li class="collection-item clickable-device" style="cursor:pointer">' +
+							'<b>' + escapeHtml(dev.name || dev.shortId + "_air-q") + '</b>' +
+							'<br/><small>ID: ' + escapeHtml(dev.shortId) + ' &mdash; IP: ' + escapeHtml(dev.address) + '</small>' +
+						'</li>'
+					);
+					// Closure to capture dev for the click handler
+					(function(device) {
+						li.on("click", function() {
+							// Fill in both shortId and deviceIP fields
+							$("#shortId").val(device.shortId).trigger("change");
+							$("#deviceIP").val(device.address).trigger("change");
+							// Flash the row green briefly to confirm selection
+							$(this).css("background-color", "#c8e6c9");
+							setTimeout(function() {
+								li.css("background-color", "");
+							}, 800);
+							if (M) M.updateTextFields();
+						});
+					})(dev);
+					container.append(li);
+				}
+			});
+		}
+
+		/** Simple HTML escaping to prevent XSS from device names */
+		function escapeHtml(str) {
+			if (!str) return "";
+			return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+		}
+
+		/**
+		 * Returns a translated string for the current language.
+		 * Falls back to English if the current language is not available.
+		 */
+		function translateWord(key) {
+			if (systemDictionary && systemDictionary[key]) {
+				var lang = systemLang || "en";
+				return systemDictionary[key][lang] || systemDictionary[key]["en"] || key;
+			}
+			return key;
+		}
+
 		function save(callback) {
 			var obj = {};
 			$(".value").each(function() {
@@ -115,6 +197,29 @@
 <body>
 	<div class="m adapter-container" id="root">
 		<div class="row">
+
+			<!-- Network discovery section -->
+			<div class="row" style="padding: 4px">
+				<div class="col s12">
+					<a class="btn waves-effect waves-light" id="scanBtn" onclick="scanNetwork()">
+						<i class="material-icons left">wifi_find</i>
+						<span class="translate">scan_network_txt</span>
+					</a>
+					<span id="scanStatus" style="display:none; margin-left: 1em; vertical-align: middle;">
+						<div class="preloader-wrapper small active" style="width:20px;height:20px;vertical-align:middle">
+							<div class="spinner-layer spinner-blue-only">
+								<div class="circle-clipper left"><div class="circle"></div></div>
+								<div class="gap-patch"><div class="circle"></div></div>
+								<div class="circle-clipper right"><div class="circle"></div></div>
+							</div>
+						</div>
+						<span id="scanStatusText"></span>
+					</span>
+				</div>
+				<div class="col s12" style="margin-top: 8px">
+					<ul class="collection" id="scanResults" style="border: none; margin: 0"></ul>
+				</div>
+			</div>
 
 			<div class="row" style="padding: 4px">
 				<h6 class="title" style="background-color: #174475; font-size: 1.2rem; border-radius: 4px">

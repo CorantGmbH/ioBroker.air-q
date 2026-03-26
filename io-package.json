@@ -186,8 +186,9 @@
         "compact": true,
         "connectionType": "local",
         "dataSource": "poll",
+        "messagebox": true,
         "adminUI": {
-            "config": "materialize"
+            "config": "json"
         },
         "eraseOnUpload": true,
         "dependencies": [
