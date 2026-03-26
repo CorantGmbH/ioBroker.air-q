@@ -57,12 +57,13 @@
     "scan_network_txt": "Netwerk scannen",
     "scan_no_devices_txt": "Geen air-Q apparaten gevonden",
     "scan_running_txt": "Zoeken naar air-Q apparaten...",
-    "scan_select_hint_txt": "Klik op een apparaat om het te gebruiken",
+    "scan_select_hint_txt": "Selecteer een apparaat uit de lijst",
     "search_device_ip_txt": "Zoek apparaat via IP",
     "sensor_exposure_txt": "Welke sensoren moeten door ioBroker worden verwerkt (als in air-Q apparaat)?",
     "shortId_txt": "Kort ID (de eerste 5 cijfers van het serienummer)",
     "sih4_txt": "Silaan (SiH<sub>4</sub>)",
     "so2_txt": "Zwavelgolf (SO<sub>2</sub>)",
     "temperature_txt": "Temperatuur",
-    "voc_txt": "Vervuilde organisch materiaal (VOC)"
+    "voc_txt": "Vervuilde organisch materiaal (VOC)",
+    "scan_note_txt": "De netwerkscan duurt ongeveer 10 seconden"
 }

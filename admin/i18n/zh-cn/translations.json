@@ -57,12 +57,13 @@
     "scan_network_txt": "扫描网络",
     "scan_no_devices_txt": "未找到air-Q设备",
     "scan_running_txt": "正在搜索air-Q设备...",
-    "scan_select_hint_txt": "点击设备以使用它",
+    "scan_select_hint_txt": "从下拉列表中选择设备",
     "search_device_ip_txt": "通过IP搜索设备",
     "sensor_exposure_txt": "哪些传感器应该被ioBroker处理（如果在air-Q设备中）？",
     "shortId_txt": "短ID（序列号的前5位）",
     "sih4_txt": "硅烷 (SiH<sub>4</sub>)",
     "so2_txt": "硫化氢（SO<sub>2</sub>）",
     "temperature_txt": "温度",
-    "voc_txt": "挥发性有机物（VOC）"
+    "voc_txt": "挥发性有机物（VOC）",
+    "scan_note_txt": "网络扫描大约需要10秒"
 }

@@ -57,12 +57,13 @@
     "scan_network_txt": "Escanear red",
     "scan_no_devices_txt": "No se encontraron dispositivos air-Q",
     "scan_running_txt": "Buscando dispositivos air-Q...",
-    "scan_select_hint_txt": "Haga clic en un dispositivo para usarlo",
+    "scan_select_hint_txt": "Seleccione un dispositivo de la lista",
     "search_device_ip_txt": "Buscar dispositivo vía IP",
     "sensor_exposure_txt": "¿Qué sensores deben ser procesados en ioBroker (si en el dispositivo air-Q)?",
     "shortId_txt": "ID corto (los 5 primeros dígitos del número de serie)",
     "sih4_txt": "Silano (SiH<sub>4</sub>)",
     "so2_txt": "Dióxido de azufre (SO<sub>2</sub>)",
     "temperature_txt": "Temperatura",
-    "voc_txt": "Compuestos orgánicos volátiles (VOC)"
+    "voc_txt": "Compuestos orgánicos volátiles (VOC)",
+    "scan_note_txt": "El escaneo de red tarda unos 10 segundos"
 }

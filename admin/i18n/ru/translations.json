@@ -57,12 +57,13 @@
     "scan_network_txt": "Сканировать сеть",
     "scan_no_devices_txt": "Устройства air-Q не найдены",
     "scan_running_txt": "Поиск устройств air-Q...",
-    "scan_select_hint_txt": "Нажмите на устройство, чтобы использовать его",
+    "scan_select_hint_txt": "Выберите устройство из списка",
     "search_device_ip_txt": "Поиск устройства по IP",
     "sensor_exposure_txt": "Какие данные датчиков должны быть обработаны ioBroker (если ecть в вашем air-Q)?",
     "shortId_txt": "Короткий ID (первые 5 цифр номера прибора)",
     "sih4_txt": "Силан (SiH<sub>4</sub>)",
     "so2_txt": "Диоксид серы (SO<sub>2</sub>)",
     "temperature_txt": "Температура",
-    "voc_txt": "Летучие органические соединения (VOC)"
+    "voc_txt": "Летучие органические соединения (VOC)",
+    "scan_note_txt": "Сканирование сети занимает около 10 секунд"
 }

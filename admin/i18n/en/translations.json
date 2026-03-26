@@ -57,12 +57,13 @@
     "scan_network_txt": "Scan network",
     "scan_no_devices_txt": "No air-Q devices found",
     "scan_running_txt": "Scanning for air-Q devices...",
-    "scan_select_hint_txt": "Click a device to use it",
+    "scan_select_hint_txt": "Select a device from the dropdown to use it",
     "search_device_ip_txt": "Connect with IP",
     "sensor_exposure_txt": "Which sensors valuesshould be processed ioBroker (if in air-Q device)?",
     "shortId_txt": "Short ID (first 5 digits of the serial number)",
     "sih4_txt": "Silane (SiH<sub>4</sub>)",
     "so2_txt": "Sulfur dioxide (SO<sub>2</sub>)",
     "temperature_txt": "Temperature",
-    "voc_txt": "Volatile organic compounds (VOC)"
+    "voc_txt": "Volatile organic compounds (VOC)",
+    "scan_note_txt": "The network scan takes about 10 seconds"
 }

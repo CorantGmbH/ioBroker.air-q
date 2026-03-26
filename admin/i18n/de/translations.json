@@ -57,12 +57,13 @@
     "scan_network_txt": "Netzwerk scannen",
     "scan_no_devices_txt": "Keine air-Q Geräte gefunden",
     "scan_running_txt": "Suche nach air-Q Geräten...",
-    "scan_select_hint_txt": "Klicken Sie auf ein Gerät um es auszuwählen",
+    "scan_select_hint_txt": "Wählen Sie ein Gerät aus der Liste aus",
     "search_device_ip_txt": "Mit IP verbinden",
     "sensor_exposure_txt": "Welche Sensordaten sollen von ioBroker verarbeitet werden (wenn im air-Q verbaut)?",
     "shortId_txt": "Kurz-ID (erste 5 Zeichen der Seriennummer)",
     "sih4_txt": "Silan (SiH<sub>4</sub>)",
     "so2_txt": "Schwefeldioxid (SO<sub>2</sub>)",
     "temperature_txt": "Temperatur",
-    "voc_txt": "Flüchtige organische Verbindungen (VOC)"
+    "voc_txt": "Flüchtige organische Verbindungen (VOC)",
+    "scan_note_txt": "Der Netzwerkscan dauert ca. 10 Sekunden"
 }

@@ -9,16 +9,15 @@
             type: "panel",
             label: "access_data_txt",
             items: {
+                // --- Network scan hint (always visible, even during scan) ---
+                _scanNote: {
+                    type: "staticText",
+                    text: "scan_note_txt",
+                    style: { color: "#999", fontStyle: "italic", marginBottom: 4 },
+                    xs: 12,
+                },
+
                 // --- Network scan ---
-                // selectSendTo creates a dropdown that calls the adapter's
-                // onMessage('discoverDevices') handler. The adapter runs a
-                // 10-second mDNS scan and returns found devices as
-                // [{label, value}] pairs. The user picks one.
-                //
-                // The value format is "name (shortId — address)" — same as
-                // the label, so it displays the device name in the closed
-                // dropdown. The calculateFunc extracts shortId and address
-                // from within the parentheses.
                 _deviceSelect: {
                     type: "selectSendTo",
                     label: "scan_network_txt",
@@ -27,7 +26,7 @@
                     jsonData: "{}",
                     disabled: "!_alive",
                     onChange: {
-                        calculateFunc: "data.shortId = ((data._deviceSelect || '').match(/\\(([a-f0-9]{5})/) || [])[1] || data.shortId; data.deviceIP = ((data._deviceSelect || '').match(/(\\d+\\.\\d+\\.\\d+\\.\\d+)/) || [])[1] || data.deviceIP; data.connectViaIP = data._deviceSelect ? true : data.connectViaIP",
+                        calculateFunc: "data.shortId = ((data._deviceSelect || '').match(/\\(([a-f0-9]{5})/) || [])[1] || data.shortId; data.deviceIP = ((data._deviceSelect || '').match(/(\\d+\\.\\d+\\.\\d+\\.\\d+)/) || [])[1] || data.deviceIP; data.connectViaIP = data._deviceSelect ? true : data.connectViaIP;",
                         alsoDependsOn: ["shortId", "deviceIP", "connectViaIP"],
                     },
                     xs: 12,

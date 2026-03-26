@@ -57,12 +57,13 @@
     "scan_network_txt": "Сканувати мережу",
     "scan_no_devices_txt": "Пристрої air-Q не знайдено",
     "scan_running_txt": "Пошук пристроїв air-Q...",
-    "scan_select_hint_txt": "Натисніть на пристрій, щоб використовувати його",
+    "scan_select_hint_txt": "Виберіть пристрій зі списку",
     "search_device_ip_txt": "Пошук пристрою через IP",
     "sensor_exposure_txt": "Значення яких датчиків має обробляти ioBroker (якщо в пристрої air-Q)?",
     "shortId_txt": "Короткий ідентифікатор (перші 5 цифр серійного номера)",
     "sih4_txt": "Силан (SiH<sub>4</sub>)",
     "so2_txt": "Діоксид сірки (SO<sub>2</sub>)",
     "temperature_txt": "Температура",
-    "voc_txt": "Летючі органічні сполуки (VOC)"
+    "voc_txt": "Летючі органічні сполуки (VOC)",
+    "scan_note_txt": "Сканування мережі займає близько 10 секунд"
 }
