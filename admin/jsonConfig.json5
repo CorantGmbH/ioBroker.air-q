@@ -15,6 +15,10 @@
                     text: "scan_note_txt",
                     style: { color: "#999", fontStyle: "italic", marginBottom: 4 },
                     xs: 12,
+                    sm: 12,
+                    md: 12,
+                    lg: 12,
+                    xl: 12,
                 },
 
                 // --- Network scan ---
@@ -36,6 +40,7 @@
                     sm: 12,
                     md: 8,
                     lg: 6,
+                    xl: 6,
                 },
 
                 // --- Connection mode ---
@@ -47,6 +52,8 @@
                     xs: 12,
                     sm: 12,
                     md: 6,
+                    lg: 6,
+                    xl: 6,
                 },
 
                 // --- Device IP (only relevant when connectViaIP is checked) ---
@@ -57,6 +64,8 @@
                     xs: 12,
                     sm: 6,
                     md: 3,
+                    lg: 3,
+                    xl: 3,
                 },
 
                 // --- Short ID (used for mDNS lookup when connectViaIP is false) ---
@@ -67,6 +76,8 @@
                     xs: 12,
                     sm: 6,
                     md: 3,
+                    lg: 3,
+                    xl: 3,
                 },
 
                 // --- Device password ---
