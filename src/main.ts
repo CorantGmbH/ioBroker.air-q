@@ -27,6 +27,7 @@ class AirQ extends utils.Adapter {
 	private _nightModeConfig: NightModeConfig | null = null;
 	private _lastNightModeCheck: number = 0;
 	private readonly _nightModeRefreshInterval: number = 3600000; // 1 hour in milliseconds
+	private _warnedSensors: Set<string> = new Set();
 
 
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
@@ -467,13 +468,25 @@ class AirQ extends utils.Adapter {
 					const statusMsg = data.Status?.[element]
 						? ` Status: ${data.Status[element]}`
 						: '';
-					this.log.warn(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+					// Warn once per sensor, then downgrade to debug to avoid log spam
+					if (!this._warnedSensors.has(element)) {
+						this.log.warn(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+						this._warnedSensors.add(element);
+					} else {
+						this.log.debug(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+					}
 				} else if(this.config.clipNegativeValues){
 					const isNegative = this.checkNegativeValues(data, element);
 					value = isNegative? 0 : data[element][0];
 				}else{
 					value = data[element][0];
 				}
+
+				// If a previously missing sensor recovers, allow re-warning on future failures
+				if (data[element] && this._warnedSensors.has(element)) {
+					this._warnedSensors.delete(element);
+				}
+
 				await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: value, ack: true});
 			}
 			for (const element of this._specialSensors) {

@@ -40,6 +40,7 @@ class AirQ extends utils.Adapter {
   _lastNightModeCheck = 0;
   _nightModeRefreshInterval = 36e5;
   // 1 hour in milliseconds
+  _warnedSensors = /* @__PURE__ */ new Set();
   constructor(options = {}) {
     super({
       ...options,
@@ -427,12 +428,20 @@ class AirQ extends utils.Adapter {
         let value = null;
         if (!data[element]) {
           const statusMsg = ((_a = data.Status) == null ? void 0 : _a[element]) ? ` Status: ${data.Status[element]}` : "";
-          this.log.warn(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+          if (!this._warnedSensors.has(element)) {
+            this.log.warn(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+            this._warnedSensors.add(element);
+          } else {
+            this.log.debug(`Sensor '${element}' not found in device response - skipping.${statusMsg}`);
+          }
         } else if (this.config.clipNegativeValues) {
           const isNegative = this.checkNegativeValues(data, element);
           value = isNegative ? 0 : data[element][0];
         } else {
           value = data[element][0];
+        }
+        if (data[element] && this._warnedSensors.has(element)) {
+          this._warnedSensors.delete(element);
         }
         await this.setStateAsync(this.replaceInvalidChars(`sensors.${element}`), { val: value, ack: true });
       }
