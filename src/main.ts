@@ -1,7 +1,7 @@
 import * as utils from '@iobroker/adapter-core';
 import axios from 'axios';
 import bonjour, { BrowserConfig } from 'bonjour-service';
-import * as dns from 'dns';
+import * as dns from 'node:dns';
 import { decrypt } from './decryptAES256';
 import type { DataRoute, DiscoveredDevice } from './lib/adapter-config';
 import { tryParseAirQService } from './discovery';
