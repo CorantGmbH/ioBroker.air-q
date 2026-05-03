@@ -148,6 +148,7 @@ The data will be retrieved and shown in the objects-tab according to your config
 
 * (Katharina K.) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
 
 ## License <a id="license"/>
 
