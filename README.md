@@ -88,7 +88,10 @@ The data will be retrieved and shown in the objects-tab according to your config
 
 ***For now we have all sensors for the air-Q Pro included. Optional sensors will be included in a future patch.***
 
-## Changelog <a id="change" />
+## Changelog
+
+### **WORK IN PROGRESS**
+- (iobroker-bot) Adapter requires node.js >= 22 now. <a id="change" />
 
 ### 1.2.0
 * **Network discovery**: air-Q devices on the local network are now automatically discovered via mDNS. Select a device from the dropdown and the Short ID and IP are filled in automatically.
